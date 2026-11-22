@@ -1,4 +1,4 @@
-const APPV="0.4";
+const APPV="0.5";
 /* ===== utili ===== */
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const d=n=>1+Math.floor(Math.random()*n);
@@ -575,7 +575,7 @@ function compagno(){const g=pk(["D","C","C","B"]),m=pk(["D","C","C","B"]);const 
 
 /* ===== viste ===== */
 const tabsVis=()=>TABS.concat(TABS_END).filter(([k])=>k!=="crea"||!S.pg.nome||ui.tab==="crea");
-const mapMarks=()=>[...(S.nasc||[]).map(n=>({zona:n.zona,txt:"▣ "+n.nome,cls:""})),...L.pda.filter(j=>j.tipo==="lavoro"&&["offerto","accettato"].includes(j.stato||"offerto")&&j.luogo).map(j=>({zona:j.luogo,txt:"✦ "+j.titolo,cls:"job"})),...L.png.filter(p=>p.luogo&&!p.con&&p.stato!=="morto"&&p.imp).map(p=>({zona:p.luogo,txt:"● "+p.nome,cls:"png"}))];
+const mapMarks=()=>[...(S.nasc||[]).map(n=>({zona:n.zona,txt:"▣ "+n.nome,cls:""})),...L.pda.filter(j=>j.tipo==="lavoro"&&["offerto","accettato"].includes(j.stato||"offerto")&&j.luogo).map(j=>({zona:j.luogo,txt:"✦ "+j.titolo,cls:"job"})),...L.png.filter(p=>p.luogo&&!p.con&&p.stato!=="morto"&&p.imp).map(p=>({zona:p.luogo,txt:"● "+p.nome,cls:"png"})),...(typeof xMarks==="function"?xMarks():[])];
 const TABS_END=[["sistema","Sistema"]];
 const TABS=[["scheda","Scheda"],["dadi","Dadi"],["gruppo","Gruppo"],["storie","Storie"],["zaino","Zaino"],["pda","Rete"],["registro","Registro"],["mappa","Zona"],["crea","Creazione"]];
 const pips=(k,v,max,act,hot)=>`<div class="pips">${Array.from({length:max},(_,i)=>`<button class="pip ${i<v?"on":""} ${hot&&i<v&&i>=hot-1?"hot":""}" data-a="${act}" data-k="${k}" data-v="${i+1}" aria-label="${k} ${i+1}"></button>`).join("")}</div>`;
