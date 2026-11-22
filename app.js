@@ -56,7 +56,7 @@ scorte:{cibo:0,acqua:0,comb:0},cap:{addosso:8,zaino:24},
 clock:{data:"2012-10-15",ora:"07:30",meteo:"",luogo:"Cordone"},emiss:0,allerta:0,tensione:5,lastBuy:null,corpo:[],eff:[],amb:{fuori:true},nasc:[],artUso:{}};
 let db=null,conn="loading",S=clone(DEF),ARM=[];
 const L={inv:[],pda:[],tiri:[],solo:[],diario:[],png:[]};
-const ui={tab:(location.hash.slice(1)==='salute'?'scheda':location.hash.slice(1))||"scheda",roll:null,acat:"armi",arar:"tutte",pdaTab:"rete",solo:[],dr:{a:"agilita",s:"tiro",p:0,m:0,tr:true}};
+const ui={tab:"scheda",roll:null,acat:"armi",arar:"tutte",pdaTab:"rete",solo:[],dr:{a:"agilita",s:"tiro",p:0,m:0,tr:true}};
 let saveT=null,dirty=false;
 const LS={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 function save(){dirty=true;clearTimeout(saveT);saveT=setTimeout(async()=>{const snap=clone(S);if(db){try{await db.doc("stato/main").set(snap);}catch(e){toast("Non salvato: riprovo alla prossima modifica.");}}else LS.set("pda.stato",snap);dirty=false;},450);render();}
@@ -577,7 +577,7 @@ function compagno(){const g=pk(["D","C","C","B"]),m=pk(["D","C","C","B"]);const 
 const tabsVis=()=>TABS.concat(TABS_END).filter(([k])=>k!=="crea"||!S.pg.nome||ui.tab==="crea");
 const mapMarks=()=>[...(S.nasc||[]).map(n=>({zona:n.zona,txt:"▣ "+n.nome,cls:""})),...L.pda.filter(j=>j.tipo==="lavoro"&&["offerto","accettato"].includes(j.stato||"offerto")&&j.luogo).map(j=>({zona:j.luogo,txt:"✦ "+j.titolo,cls:"job"})),...L.png.filter(p=>p.luogo&&!p.con&&p.stato!=="morto"&&p.imp).map(p=>({zona:p.luogo,txt:"● "+p.nome,cls:"png"}))];
 const TABS_END=[["sistema","Sistema"]];
-const TABS=[["scheda","Scheda"],["dadi","Dadi"],["gruppo","Gruppo"],["storie","Storie"],["zaino","Zaino"],["armeria","Armeria"],["pda","Rete"],["oracolo","Oracolo"],["registro","Registro"],["mappa","Zona"],["crea","Creazione"]];
+const TABS=[["scheda","Scheda"],["dadi","Dadi"],["gruppo","Gruppo"],["storie","Storie"],["zaino","Zaino"],["pda","Rete"],["registro","Registro"],["mappa","Zona"],["crea","Creazione"]];
 const pips=(k,v,max,act,hot)=>`<div class="pips">${Array.from({length:max},(_,i)=>`<button class="pip ${i<v?"on":""} ${hot&&i<v&&i>=hot-1?"hot":""}" data-a="${act}" data-k="${k}" data-v="${i+1}" aria-label="${k} ${i+1}"></button>`).join("")}</div>`;
 const sel=(f,opts,cur)=>`<select data-f="${f}">${opts.map(([v,n])=>`<option value="${esc(v)}" ${String(cur)===String(v)?"selected":""}>${esc(n)}</option>`).join("")}</select>`;
 const GOPT=[["A","A · d12"],["B","B · d10"],["C","C · d8"],["D","D · d6"]];
@@ -1188,7 +1188,10 @@ let pqT;document.addEventListener("input",e=>{const el=e.target;if(el.dataset&&e
 document.addEventListener("input",e=>{const el=e.target;if(el.dataset.cr!=null&&el.tagName==="INPUT"){crSet(el.dataset.cr,el.value);crSave(false);}});
 document.addEventListener("change",e=>{const el=e.target;if(el.dataset.cr!=null){crSet(el.dataset.cr,el.value);crSave();}});
 
-const V={scheda:()=>vScheda()+`<div id="salute" class="sezsal"><h2 class="seztit">Salute</h2></div>`+vSalute(),dadi:vDadi,salute:vSalute,gruppo:vGruppo,storie:vStorie,sistema:vSistema,zaino:vZaino,armeria:vArmeria,pda:vPda,oracolo:vOracolo,registro:vRegistro,mappa:vMappa,crea:vCrea};
+const SUBH={armeria:["zaino","zsub"],oracolo:["storie","ssub"]};
+function subBar(k,o){const c=ui[k]||o[0][0];return `<div class="chips subbar">${o.map(([v,n])=>`<button class="chip" data-a="sub" data-k="${k}" data-v="${v}" aria-pressed="${c===v}">${n}</button>`).join("")}</div>`;}
+function hashTab(h){if(h==="salute")return"scheda";if(SUBH[h]){ui[SUBH[h][1]]=h;return SUBH[h][0];}return h||"scheda";}
+const V={scheda:()=>vScheda()+`<div id="salute" class="sezsal"><h2 class="seztit">Salute</h2></div>`+vSalute(),dadi:vDadi,salute:vSalute,gruppo:vGruppo,storie:()=>subBar("ssub",[["storie","Storie"],["oracolo","Oracolo"]])+(ui.ssub==="oracolo"?vOracolo():vStorie()),sistema:vSistema,zaino:()=>subBar("zsub",[["zaino","Zaino"],["armeria","Compra · Armeria"]])+(ui.zsub==="armeria"?vArmeria():vZaino()),armeria:vArmeria,pda:vPda,oracolo:vOracolo,registro:vRegistro,mappa:vMappa,crea:vCrea};
 function render(){try{effTick();}catch(_){}try{watch();}catch(_){}document.documentElement.dataset.em=String(Math.min(6,+S.emiss||0));
   if(!V[ui.tab])ui.tab="scheda";
   const unread=L.pda.filter(j=>j.tipo==="lavoro"&&(j.stato||"offerto")==="offerto").length;
@@ -1228,6 +1231,7 @@ document.addEventListener("click",e=>{
     case"llmtest":{ui.llmMsg="…";render();llmCall("Rispondi solo: «ricevuto, stalker».",[{r:"io",t:"prova"}],30).then(t=>{ui.llmMsg="Funziona: "+t;render();},e=>{ui.llmMsg="Errore: "+e.message;render();});break;}
     case"exfile":{const ok=dlFile(`pda-zona-${S.clock.data}-${(S.clock.ora||"").replace(":","")}.json`,backupTxt());if(!ok||db){ui.bk=true;location.hash="scheda";toast("Qui i file non si scaricano: copia dalla Scheda.");}break;}
     case"impTxt":{try{const o=JSON.parse(ui.impTxt||document.querySelector('[data-dr="impTxt"]').value);importAll(o);ui.impTxt="";}catch(e){toast("Testo non valido: "+e.message);}break;}
+    case"sub":ui[k]=b.dataset.v;render();window.scrollTo({top:0});break;
     case"newgame":if(!ui.ngSure){ui.ngSure=true;render();}else{ui.ngSure=false;importAll({stato:clone(DEF)});location.hash="crea";}break;
     case"big":LS.set("pda.big",!LS.get("pda.big"));render();break;
     case"dayeat":{const n=+S.giorni||0;S.giorni=0;eatDay(n||1,true);break;}
@@ -1347,7 +1351,8 @@ document.addEventListener("change",e=>{const el=e.target;
   if(el.dataset.u){let v=el.value;if(el.type==="number")v=v===""?0:+v;upd(el.dataset.c||"inv",el.dataset.u,{[el.dataset.k]:v});}
 });
 document.addEventListener("toggle",e=>{const el=e.target;if(el.dataset&&el.dataset.acc){ui.aopen=ui.aopen||{};ui.aopen[el.dataset.acc]=el.open;}},true);
-window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h==="salute"){ui.tab="scheda";render();setTimeout(()=>document.getElementById("salute")?.scrollIntoView({behavior:"smooth"}),30);return;}ui.tab=h||"scheda";render();window.scrollTo({top:0});});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h==="salute"){ui.tab="scheda";render();setTimeout(()=>document.getElementById("salute")?.scrollIntoView({behavior:"smooth"}),30);return;}ui.tab=hashTab(h);render();window.scrollTo({top:0});});
+ui.tab=hashTab(location.hash.slice(1));
 
 /* ===== avvio ===== */
 fetch("armeria.json").then(r=>r.json()).then(a=>{ARM=a;render();}).catch(()=>{});
