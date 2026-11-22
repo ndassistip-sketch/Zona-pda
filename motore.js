@@ -30,7 +30,8 @@ function evCond(c,ctx){if(!c)return true;const E=evS();
   if(c.traccia){for(const k in c.traccia){const v=+S.tr[k]||0,[a,b]=c.traccia[k];if(v<a||v>b)return false;}}
   return true;}
 function evOk(e,ctx){const E=evS();const v=E.visti[e.id];if(v){if(e.ripeti==="mai"||e.ripeti==null&&e.unico)return false;const cd=(e.ripeti&&+e.ripeti)||24;if(-minTo(v.last)<cd*60)return false;}return evCond(e.se,ctx);}
-function evTrama(ctx={}){if(S.ev&&S.ev.fine)return null;return EVD.list.filter(e=>e.trama&&!e.solo_seguito&&!evS().visti[e.id]&&evCond(e.se,ctx)).sort((a,b)=>(a.ordine||0)-(b.ordine||0))[0]||null;}
+const tramaOn=()=>{const o=(S.opz||{}).trama;return o!=null?!!o:/sokolov/i.test(S.pg.sopr||"");};
+function evTrama(ctx={}){if(!tramaOn()||S.ev&&S.ev.fine)return null;return EVD.list.filter(e=>e.trama&&!e.solo_seguito&&!evS().visti[e.id]&&evCond(e.se,ctx)).sort((a,b)=>(a.ordine||0)-(b.ordine||0))[0]||null;}
 function evPick(ctx={}){const tr=evTrama(ctx);if(tr)return tr;const t=+S.tensione||5;const cand=EVD.list.filter(e=>!e.trama&&!e.solo_seguito&&evOk(e,ctx));if(!cand.length)return null;
   const w=e=>(e.peso||10)*(e.tono==="guaio"?(t>=7?1.6:t<=3?.6:1):e.tono==="calmo"?(t>=7?.5:t<=3?1.5:1):1);
   let tot=cand.reduce((a,e)=>a+w(e),0),r=Math.random()*tot;for(const e of cand){r-=w(e);if(r<=0)return e;}return cand[0];}
@@ -87,7 +88,7 @@ function evBox(){const v=ui.ev;if(!v)return "";const e=EVD.byId[v.id];if(!e){ui.
     :`<p class="small"><b>${esc(v.scelta)}</b>${v.tiro?` — ${esc(v.tiro)}`:""}</p><p class="evtx">${esc(v.esito)}</p>${v.log&&v.log.length?`<p class="small muted">${esc(v.log.join(" · "))}</p>`:""}<button class="btn" data-a="evx">Continua</button>`}</div>`;}
 function vStorie(){const E=evS();const nv=EVD.list.filter(e=>!e.trama).length;const fl=Object.keys(E.flag);const atto=E.flag.atto3?3:E.flag.atto2?2:1;const AT=(EVD.atti||[])[atto-1]||{};const tappe=EVD.list.filter(e=>e.trama&&E.visti[e.id]).length;
   return `<div class="grid"><section class="pane"><h2>La Zona viva</h2>
-    ${E.fine?`<div class="fine"><h3>${esc(E.fine.t)}</h3><p>${esc(E.fine.testo)}</p><p class="small muted">${esc(dataIt(E.fine.quando.slice(0,10)))}</p><button class="btn g s" data-x="gopart">Il diario della partita</button></div>`:`<p class="atto"><b>Atto ${atto}${AT.titolo?" — "+esc(AT.titolo):""}</b><br><span class="small">${esc(AT.spunto||"")}</span><br><span class="small muted">Tappe della storia vissute: ${tappe}</span></p>`}
+    ${!tramaOn()?"":E.fine?`<div class="fine"><h3>${esc(E.fine.t)}</h3><p>${esc(E.fine.testo)}</p><p class="small muted">${esc(dataIt(E.fine.quando.slice(0,10)))}</p><button class="btn g s" data-x="gopart">Il diario della partita</button></div>`:`<p class="atto"><b>Atto ${atto}${AT.titolo?" — "+esc(AT.titolo):""}</b><br><span class="small">${esc(AT.spunto||"")}</span><br><span class="small muted">Tappe della storia vissute: ${tappe}</span></p>`}
     <p class="small muted" style="margin-top:0">Il PDA racconta la Zona da solo: ${nv} storie caricate. Quando fai passare il tempo, a volte succede qualcosa; puoi anche chiederlo tu.</p>
     <button class="btn" data-a="evgo" style="width:100%">Cosa succede qui?</button>
     <div class="row" style="gap:6px;margin-top:10px"><span class="lbl" style="margin:0">Il regista</span>${Object.keys(AUTO).map(k=>`<button class="chip" data-a="evauto" data-k="${k}" aria-pressed="${E.auto===k}">${k}</button>`).join("")}</div>

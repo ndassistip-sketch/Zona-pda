@@ -154,7 +154,7 @@ Object.assign(XA,{
  xmok:()=>{if(S.xMat)S.xMat.visto=1;},
  xbar:()=>xBarFai(),xct:b=>xCtrlFai(b.dataset.k),
  xcasa:()=>{notte({dove:"base",ore:8});},xtro:b=>{upd("inv",b.dataset.k,{dove:"deposito",nota:"trofeo appeso a casa"});toast("Appeso sopra la branda.");},
- xmus:()=>xMusica(),xbozza:()=>xBozza(),
+ xtrama:b=>{xOpz().trama=b.dataset.k==="1";},xmus:()=>xMusica(),xbozza:()=>xBozza(),
  xeco:b=>{xOpz().eco=b.dataset.k;},xmorte:b=>{xOpz().morte=b.dataset.k;},xtema:()=>{xOpz().tema=xOpz().tema?"":"notte";xTema();},
  xcampo:()=>{location.hash="salute";setTimeout(()=>document.querySelector(".nottebox,#salute")?.scrollIntoView({behavior:"smooth"}),80);},
 });
@@ -167,6 +167,7 @@ function xGruppoTop(){const cl=xClienti();const pan=cl.filter(p=>gPau(p)>=5);if(
 function xSistemaPane(){const o=xOpz();return `<section class="pane"><h2>Difficoltà e aspetto</h2>
   <div class="lbl">Economia</div><div class="chips">${[["facile","Facile (−15%)"],["normale","Normale"],["dura","Dura (+25%)"]].map(([k,n])=>`<button class="chip" data-x="xeco" data-k="${k}" aria-pressed="${o.eco===k}">${n}</button>`).join("")}</div>
   <div class="lbl">Morte</div><div class="chips">${[["normale","Come da regole"],["clemente","Clemente: un colpo mortale diventa «morente»"]].map(([k,n])=>`<button class="chip" data-x="xmorte" data-k="${k}" aria-pressed="${o.morte===k}">${n}</button>`).join("")}</div>
+  <div class="lbl">Trama in tre atti</div><div class="chips"><button class="chip" data-x="xtrama" data-k="1" aria-pressed="${tramaOn()}">Accesa</button><button class="chip" data-x="xtrama" data-k="0" aria-pressed="${!tramaOn()}">Spenta: solo storie casuali</button></div><p class="small muted" style="margin:2px 0 6px">La trama è scritta per Sokolov: con un altro personaggio resta spenta, così non ti rovini la storia.</p>
   <div class="lbl">Schermo</div><div class="chips"><button class="chip" data-x="xtema" aria-pressed="${o.tema==="notte"}">Tema notte</button></div>
   <p class="small muted">Quante storie escono si regola in Storie («Il regista»). Caratteri più grandi: il bottone A+ in alto.</p></section>`;}
 
