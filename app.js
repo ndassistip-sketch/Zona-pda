@@ -1,4 +1,4 @@
-const APPV="0.2";
+const APPV="0.3";
 /* ===== utili ===== */
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const d=n=>1+Math.floor(Math.random()*n);
@@ -53,7 +53,7 @@ const SEGR=["ha venduto un compagno","ha un artefatto nascosto","è ricercato fu
 const DEF={pg:{nome:"",sopr:"",chi:"",att:{forza:"C",agilita:"C",intelletto:"C",empatia:"C"},sf:"D",sk:{},spec:"",note:""},
 tr:{ferite:0,fatica:0,nervi:0,freddo:0,fame:0,sete:0,rad:0},pe:0,fortuna:true,rubli:0,nomeRep:0,rap:{},
 scorte:{cibo:0,acqua:0,comb:0},cap:{addosso:8,zaino:24},
-clock:{data:"2012-10-15",ora:"07:30",meteo:"",luogo:"Cordone"},emiss:0,allerta:0,tensione:5,lastBuy:null,corpo:[],eff:[],amb:{fuori:true},nasc:[],artUso:{}};
+clock:{data:"2012-10-15",ora:"07:30",meteo:"",luogo:"Cordone"},emiss:0,allerta:0,tensione:5,lastBuy:null,corpo:[],eff:[],amb:{fuori:true},nasc:[],artUso:{},scontro:null,viaggio:null,anom:null,bestia:{}};
 let db=null,conn="loading",S=clone(DEF),ARM=[];
 const L={inv:[],pda:[],tiri:[],solo:[],diario:[],png:[]};
 const ui={tab:"scheda",roll:null,acat:"armi",arar:"tutte",pdaTab:"rete",solo:[],dr:{a:"agilita",s:"tiro",p:0,m:0,tr:true}};
@@ -270,7 +270,7 @@ async function importAll(o){if(!o||!o.stato)throw new Error("Non è un salvatagg
   else{cols.forEach(c=>{L[c]=(o[c]||[]).map(x=>({...x,id:x.id||uid()}));LS.set("pda."+c,L[c]);});}
   S=deep(clone(DEF),o.stato);save();toast("Partita caricata.");}
 function vSistema(){const online=navigator.onLine;const inst=window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches;
-  return `<div class="grid"><section class="pane"><h2>Partita</h2>
+  return `<div class="grid">${gmPane()}<section class="pane"><h2>Partita</h2>
     <p class="small muted" style="margin-top:0">${db?"Sei nel PDA dentro claude.ai: si salva nel database dell'artifact, e il GM (Claude) lo legge.":"Sei nell'app: si salva in questo browser, anche offline."}</p>
     <div class="row" style="gap:6px"><button class="btn" data-a="exfile">Salva su file</button><label class="btn g" style="display:inline-flex;align-items:center">Carica da file<input type="file" accept=".json,application/json" data-imp="1" hidden></label></div>
     <details style="margin-top:10px"><summary class="small">Incolla una copia di sicurezza (dal PDA di claude.ai o da un file)</summary><textarea data-dr="impTxt" style="min-height:90px;margin-top:6px" placeholder='{"stato":…}'>${esc(ui.impTxt||"")}</textarea><button class="btn g s" data-a="impTxt" style="margin-top:6px">Carica questo testo</button></details>
@@ -1014,7 +1014,8 @@ function vPersone(){ui.aopen=ui.aopen||{};const q=(ui.pq||"").toLowerCase().trim
     ${body||`<p class="empty">${L.png.length?"Nessuno corrisponde.":"Nessuno ancora."}</p>`}
     <datalist id="fazl">${["compagno","cliente","amico","nemico","Dovere","Libertà","bandito","mercenario","scienziato","militare","mercante","Barman","stalker libero","novellino"].map(f=>`<option value="${f}">`).join("")}</datalist>
     <div class="row" style="margin-top:8px"><input data-dr="pn" value="${esc(ui.pn||"")}" placeholder="nome" style="flex:1 1 10em"><input data-dr="pf" value="${esc(ui.pf||"")}" list="fazl" placeholder="fazione" style="flex:1 1 8em"><button class="btn" data-a="padd">Aggiungi</button></div></section>`;}
-function vRegistro(){const ds=L.diario.slice().sort((a,b)=>b.ts-a.ts);const sw=`<div class="chips" style="grid-column:1/-1;margin:0"><button class="chip" data-a="rv" data-k="" aria-pressed="${!ui.rv}">Persone e diario</button><button class="chip" data-a="rv" data-k="crono" aria-pressed="${ui.rv==="crono"}">Cronologia</button></div>`;
+function vRegistro(){const ds=L.diario.slice().sort((a,b)=>b.ts-a.ts);const sw=`<div class="chips" style="grid-column:1/-1;margin:0"><button class="chip" data-a="rv" data-k="" aria-pressed="${!ui.rv}">Persone e diario</button><button class="chip" data-a="rv" data-k="crono" aria-pressed="${ui.rv==="crono"}">Cronologia</button><button class="chip" data-a="rv" data-k="best" aria-pressed="${ui.rv==="best"}">Bestiario</button></div>`;
+  if(ui.rv==="best")return `<div class="grid">${sw}${vBestia()}</div>`;
   if(ui.rv==="crono")return `<div class="grid">${sw}<div style="grid-column:1/-1">${vCrono()}</div></div>`;
   return `<div class="grid">${sw}${vPersone()}
   <section class="pane"><h2>Diario</h2><textarea data-dr="dt" placeholder="Cosa è successo">${esc(ui.dt||"")}</textarea><button class="btn" data-a="dadd" style="margin:6px 0 10px">Scrivi</button>
@@ -1022,13 +1023,13 @@ function vRegistro(){const ds=L.diario.slice().sort((a,b)=>b.ts-a.ts);const sw=`
 
 function vMappa(){const q=S.clock.luogo;const dests=ZONE.map(z=>z[0]).filter(z=>z!==q&&!/Sotterranei/.test(z));const dest=dests.includes(ui.dest)?ui.dest:(ui.dest=nbr(q)[0]||dests[0]);
   const p=q&&path(q,dest);let tot=[0,0,0];if(p)p.slice(1).forEach((z,i)=>{const e=edge(p[i],z);tot[0]+=e[2];tot[1]+=e[3];tot[2]=Math.max(tot[2],perOf(z));});const k=ui.notteV?2:1;
-  return `<section><h2>La Zona</h2><div id="mapslot"></div>
+  return `<section><h2>La Zona</h2>${viaggioHtml()}${anomHtml()}<div id="mapslot"></div>
   <div class="grid" style="margin-top:14px"><section class="pane"><h3>Viaggio da ${esc(q||"—")}</h3>
     <div class="row"><select data-dr="dest" style="width:auto">${dests.map(z=>`<option ${z===dest?"selected":""}>${esc(z)}</option>`).join("")}</select><label class="row small"><input type="checkbox" data-dr="notteV" ${ui.notteV?"checked":""} style="width:auto;min-height:0"> di notte o con clienti lenti</label></div>
     ${p?`<ol class="small" style="padding-left:1.2em">${p.slice(1).map((z,i)=>{const e=edge(p[i],z);return `<li><b>${esc(z)}</b> · ${e[2]} km · ${e[3]*k} h · pericolo ${perOf(z)} · <span class="muted">${esc(e[4])}</span></li>`;}).join("")}</ol>
     <p><b class="num">${tot[0]} km · ${tot[1]*k} h · ${p.length-1} tapp${p.length>2?"e":"a"}</b> · il punto peggiore: pericolo ${tot[2]}${p.length-1>=3?` · <span class="warn">dalla terza tappa +1 Fatica</span>`:""}</p>
-    <div class="row"><button class="btn" data-a="tappe">Tira le tappe</button><button class="btn g" data-a="arriva">Arrivato: segna e fai passare il tempo</button></div>`:`<p class="empty">Segna prima dove sei.</p>`}
-    <p class="small muted">Le tappe finiscono nell'Oracolo. Se qualcosa vi ferma per strada, non premere «Arrivato»: sposta il tempo a mano.</p></section>
+    <div class="row"><button class="btn" data-x="vgo" ${S.viaggio?"disabled":""}>Parti, tappa per tappa</button><button class="btn g" data-a="tappe">Tira solo le tappe</button><button class="btn g" data-a="arriva">Arrivato di colpo</button></div>`:`<p class="empty">Segna prima dove sei.</p>`}
+    <p class="small muted">«Parti» ti porta tratto per tratto: a ogni tratto passa il tempo, si tira cosa succede e decidi tu. Alla fine tutto va nell'Oracolo.</p><button class="btn g s" data-x="anstart" ${S.anom?"disabled":""}>Campo di anomalie qui</button></section>
   <section class="pane"><h3>Dove sei</h3><ul class="items">${ZONE.map(([n,pp])=>`<li><div class="row" style="justify-content:space-between"><span><b>${n}</b> <span class="small muted">pericolo ${"●".repeat(pp)}${"○".repeat(5-pp)}</span></span><button class="btn ${q===n?"":"g"} s" data-a="qui" data-k="${esc(n)}">${q===n?"Sei qui":"Segna qui"}</button></div>${SERV[n]?`<div class="small muted">${esc(SERV[n])}</div>`:""}</li>`).join("")}</ul></section>${nascHtml()}</div></section>`;}
 
 
@@ -1191,7 +1192,7 @@ document.addEventListener("change",e=>{const el=e.target;if(el.dataset.cr!=null)
 const SUBH={armeria:["zaino","zsub"],oracolo:["storie","ssub"]};
 function subBar(k,o){const c=ui[k]||o[0][0];return `<div class="chips subbar">${o.map(([v,n])=>`<button class="chip" data-a="sub" data-k="${k}" data-v="${v}" aria-pressed="${c===v}">${n}</button>`).join("")}</div>`;}
 function hashTab(h){if(h==="salute")return"scheda";if(SUBH[h]){ui[SUBH[h][1]]=h;return SUBH[h][0];}return h||"scheda";}
-const V={scheda:()=>vScheda()+`<div id="salute" class="sezsal"><h2 class="seztit">Salute</h2></div>`+vSalute(),dadi:vDadi,salute:vSalute,gruppo:vGruppo,storie:()=>subBar("ssub",[["storie","Storie"],["oracolo","Oracolo"]])+(ui.ssub==="oracolo"?vOracolo():vStorie()),sistema:vSistema,zaino:()=>subBar("zsub",[["zaino","Zaino"],["armeria","Compra · Armeria"]])+(ui.zsub==="armeria"?vArmeria():vZaino()),armeria:vArmeria,pda:vPda,oracolo:vOracolo,registro:vRegistro,mappa:vMappa,crea:vCrea};
+const V={scheda:()=>vScheda()+`<div id="salute" class="sezsal"><h2 class="seztit">Salute</h2></div>`+vSalute(),dadi:()=>subBar("dsub",[["dadi","Dadi"],["scontro","Scontro"+(S.scontro?" ●":"")]])+(ui.dsub==="scontro"?vScontro():vDadi()),salute:vSalute,gruppo:vGruppo,storie:()=>subBar("ssub",[["storie","Storie"],["oracolo","Oracolo"]])+(ui.ssub==="oracolo"?vOracolo():vStorie()),sistema:vSistema,zaino:()=>subBar("zsub",[["zaino","Zaino"],["armeria","Compra · Armeria"]])+(ui.zsub==="armeria"?vArmeria():vZaino()),armeria:vArmeria,pda:vPda,oracolo:vOracolo,registro:vRegistro,mappa:vMappa,crea:vCrea};
 function render(){try{effTick();}catch(_){}try{watch();}catch(_){}document.documentElement.dataset.em=String(Math.min(6,+S.emiss||0));
   if(!V[ui.tab])ui.tab="scheda";
   const unread=L.pda.filter(j=>j.tipo==="lavoro"&&(j.stato||"offerto")==="offerto").length;
@@ -1201,7 +1202,7 @@ function render(){try{effTick();}catch(_){}try{watch();}catch(_){}document.docum
   document.getElementById("bar").innerHTML=`<span>${esc(c.luogo||"—")}</span><span class="tm num">${esc(c.ora||"")}</span><span class="num">${esc(dataIt(c.data))}</span><span class="muted">${esc(c.meteo||STAG(month()))}</span><span class="muted small">alba ${lu[0]} · buio ${lu[1]} · ${lu[2]}/${lu[3]} °C</span><span class="sp"></span>
     <span class="row" style="gap:4px"><button class="btn g s" data-a="adv" data-v="15">+15′</button><button class="btn g s" data-a="adv" data-v="60">+1 h</button><button class="btn g s" data-a="adv" data-v="1440">+1 g</button></span><b class="num">${fmtR(S.rubli)}</b><button class="btn g s" data-a="snd" title="suoni del PDA">${SND.on?"suono sì":"suono no"}</button>${stripHtml()}`;
   const ae=document.activeElement;const keep=ae&&(ae.dataset.f||ae.dataset.dr||ae.dataset.u)?{f:ae.dataset.f,dr:ae.dataset.dr,u:ae.dataset.u,k:ae.dataset.k,s:ae.selectionStart}:null;
-  document.getElementById("view").innerHTML=conn==="loading"?`<p class="empty">Accensione…</p>`:dayBanner()+(typeof evBox==="function"?evBox():"")+V[ui.tab]();
+  document.getElementById("view").innerHTML=conn==="loading"?`<p class="empty">Accensione…</p>`:dayBanner()+scBanner()+(typeof evBox==="function"?evBox():"")+V[ui.tab]();
   if(keep){const q=keep.f?`[data-f="${keep.f}"]`:keep.dr?`[data-dr="${keep.dr}"]`:`[data-u="${keep.u}"][data-k="${keep.k}"]`;const el=document.querySelector(q);if(el&&el!==document.body){el.focus();try{if(keep.s!=null&&el.setSelectionRange)el.setSelectionRange(keep.s,keep.s);}catch(e){}}}
   document.querySelector(".screen").classList.toggle("map",ui.tab==="mappa");
   if(ui.tab==="mappa"){const slot=document.getElementById("mapslot");const put=()=>{if(window.Map3D&&slot&&slot.isConnected){slot.appendChild(window.Map3D.el);window.Map3D.setQui(S.clock.luogo);try{window.Map3D.setMarks&&window.Map3D.setMarks(mapMarks());}catch(_){}window.Map3D.wake&&window.Map3D.wake();}};

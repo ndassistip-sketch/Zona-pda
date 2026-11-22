@@ -184,6 +184,15 @@ html.big .dev{zoom:1.15}
 @media(max-width:600px){.dev{border-radius:16px;padding:10px 8px 12px}.inv{grid-template-columns:1fr 1fr 1fr}.inv .nm{grid-column:1/-1}.trk{grid-template-columns:6.5em 1fr auto}.pip{width:22px;height:22px}.brand small{display:none}}
 @media(prefers-reduced-motion:reduce){.led.blink{animation:none}}
 .subbar{margin:0 0 12px;gap:6px}.subbar .chip{font-size:1rem;padding:8px 16px}
+.scgrid{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}@media(max-width:760px){.scgrid{grid-template-columns:1fr}}
+.scord{list-style:none;padding:0}.sce{display:flex;gap:10px;align-items:center;padding:6px 8px;border-radius:8px;border-left:4px solid transparent}.sce .ini{min-width:2ch;font-weight:700;opacity:.7}.sce>span:nth-child(2){flex:1}
+.sce.noi{border-left-color:#4f6b3a}.sce.loro{border-left-color:#8a3b2a}.sce.cur{background:rgba(0,0,0,.09);outline:2px solid #b8861b}.sce.giu{opacity:.5}
+.tag{display:inline-block;font-size:.72rem;padding:1px 6px;border-radius:6px;background:rgba(0,0,0,.12);margin-left:4px}.tag.warn{background:#8a3b2a;color:#fff}
+.sclog{list-style:none;padding:0;max-height:22em;overflow:auto;margin:6px 0 0}.sclog li{padding:4px 0;border-bottom:1px dashed rgba(0,0,0,.15)}
+.btn.big2{font-size:1.05rem;padding:10px 18px}.scban{display:flex;align-items:center;gap:10px;padding:8px 12px}.scban .btn{margin-left:auto}
+.vgsteps{display:flex;flex-wrap:wrap;gap:4px;list-style:none;padding:0;margin:4px 0}.vgsteps li{padding:3px 9px;border-radius:12px;background:rgba(0,0,0,.08);font-size:.85rem}.vgsteps li.ok{opacity:.5;text-decoration:line-through}.vgsteps li.cur{background:#2a2f22;color:#e8edd8}
+.vgpane,.anpane{margin-bottom:14px;border:2px solid #b8861b}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15em,1fr));gap:8px}.bcard{padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.06)}.bcard.lock{opacity:.45}.bcard .small{margin-top:3px}
 </style>
 </head>
 <body>
@@ -207,6 +216,7 @@ html.big .dev{zoom:1.15}
   <nav class="keys" id="keys" aria-label="Sezioni"></nav>
   <div class="screen"><svg class="tref" viewBox="-50 -50 100 100" aria-hidden="true"><circle r="7" fill="currentColor"/><g fill="currentColor"><path d="M0 0 L-25 -43.3 A50 50 0 0 1 25 -43.3Z"/><path d="M0 0 L50 0 A50 50 0 0 1 25 43.3Z"/><path d="M0 0 L-25 43.3 A50 50 0 0 1 -50 0Z"/></g><circle r="12" fill="var(--lcd)"/><circle r="7" fill="currentColor"/></svg><div class="bar" id="bar"></div><main class="view" id="view"><p class="empty">Accensione…</p></main></div>
 </div>
-<script src="motore.js"></script><script src="llm.js"></script><script src="app.js"></script>
+<script src="motore.js"></script><script src="llm.js"></script><script src="scontro.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
