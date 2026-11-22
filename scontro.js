@@ -49,7 +49,7 @@ const sgLog=(arr,t)=>{arr.unshift(t);if(arr.length>40)arr.length=40;};
 
 /* ---------- SCONTRO ---------- */
 function scNew(){const z=S.clock.luogo||"Cordone";const mut=ui.scMut!=null?!!ui.scMut:false;const lst=zNem(z,mut);const k=lst.includes(ui.scK)?ui.scK:lst[0];return {z,mut,k};}
-function scStart(k,mut,opt={}){const T=mut?MUT[k]:NEMU[k];if(!T)return;const n=Math.max(1,+opt.n||+ui.scN||between(T.q));const ent=[];
+function scStart(k,mut,opt={}){const T=mut?MUT[k]:NEMU[k];if(!T)return;try{const st=clone(S);st.scontro=null;LS.set("pda.scsnap",{stato:st,inv:clone(L.inv),png:clone(L.png),tiri:clone(L.tiri),solo:clone(L.solo),quando:S.clock.ora});}catch(_){}const n=Math.max(1,+opt.n||+ui.scN||between(T.q));const ent=[];
   ent.push({id:"pg",n:S.pg.nome?`${S.pg.nome}${S.pg.sopr?` «${S.pg.sopr}»`:""}`:"Tu",lato:"noi",pg:1,cop:0,stato:"ok"});
   gruppo().forEach(p=>{const dd=((p.nota||"").match(/Dado ([A-D])/)||[])[1]||"C";ent.push({id:"png:"+p.id,pid:p.id,n:p.nome,lato:"noi",d:dd,D:2,P:3,raff:1,t:2,dmg:+p.fer||0,stato:(+p.fer||0)>=3?"fuori":"ok",cop:0});});
   const pd=mut?{P:T.P,D:T.D}:ammoPD(T.mun);
@@ -166,7 +166,7 @@ function vScontro(){const C=S.scontro;
     <div class="row" style="margin-top:10px"><button class="btn big2" data-x="scend">Fine del mio turno ▸</button></div>
     <p class="small muted">Cure, droghe e granate: usale dalla Salute o dallo Zaino, poi «Fine del mio turno». I tiri finiscono anche in Dadi.</p>`:`<p class="empty">…</p>`}
     <h3 style="margin-top:12px">Cosa succede</h3><ul class="sclog small">${C.log.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>
-    ${C.fine?"":`<button class="btn g s" data-x="scabort" style="margin-top:6px">Interrompi (fuga, tregua, resa)</button>`}</section></div>`;}
+    <div class="row" style="gap:6px;margin-top:6px">${C.fine?"":`<button class="btn g s" data-x="scabort">Interrompi (fuga, tregua, resa)</button>`}${LS.get("pda.scsnap")?`<button class="btn g s" data-x="scundo">${ui.scUndoSure?"Sicuro? Torna a prima dello scontro":"Annulla tutto lo scontro"}</button>`:""}</div></section></div>`;}
 
 /* ---------- ANOMALIE ---------- */
 const ANOM=[["Trampolino",2,"g","ti schiaccia e ti scaraventa: a terra, l'oggetto in mano vola via"],["Vortice",4,"torace","ti risucchia: critico al torace"],["Bruciatore",2,"torace","getto di fuoco: vestiti in fiamme"],["Elettro",2,"torace","scarica: soppressione, l'elettronica rischia"],["Punch",1,"g","pozza acida: +2 Radiazioni, la roba a contatto si usura"],["Gas",1,"testa","nube velenosa: +1 Fatica"]];
@@ -263,6 +263,7 @@ const XA={
  scmut:b=>{ui.scMut=b.dataset.v==="1";ui.scK="";},scgo:()=>{const z=S.clock.luogo||"Cordone";const mut=!!ui.scMut;const k=ui.scK&&(mut?MUT:NEMU)[ui.scK]?ui.scK:zNem(z,mut)[0];scStart(k,mut);},
  scrand:()=>{const z=S.clock.luogo||"Cordone";const mut=d(2)===1;scStart(pk(zNem(z,mut)),mut,{n:0,dist:pk(["media","lunga","media","corta"]),cop:d(3)-1,sorp:""});},
  scshoot:()=>pgShoot(),scmelee:()=>pgMelee(),screl:()=>pgReload(),scq:b=>pgQuick(b.dataset.k),scend:()=>pgEnd(),scclose:()=>scClose(),scloot:b=>scLoot(b.dataset.k),
+ scundo:async()=>{if(!ui.scUndoSure){ui.scUndoSure=1;return;}ui.scUndoSure=0;const sn=LS.get("pda.scsnap");if(!sn)return;await importAll({stato:sn.stato,inv:sn.inv,png:sn.png,tiri:sn.tiri,solo:sn.solo,pda:clone(L.pda),diario:clone(L.diario)});LS.set("pda.scsnap",null);ui.lastLoot=null;toast("Scontro annullato: tutto come prima.");render();},
  scabort:()=>{const C=S.scontro;if(!C)return;C.fine=true;sgLog(C.log,"Interrotto: fuga, tregua o resa. Decidi tu, o chiedi all'Oracolo.");},
  gopart:()=>{ui.rv="partita";location.hash="registro";},goscontro:()=>{ui.dsub="scontro";location.hash="dadi";},gomappa:()=>{location.hash="mappa";},
  anp:b=>anPass(b.dataset.k),ans:()=>anSearch(),ant:()=>anTake(),anc:()=>anClose(),anstart:()=>anStart(S.clock.luogo),
