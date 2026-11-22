@@ -1,7 +1,7 @@
 /* ===== Motore delle storie: eventi a condizioni, regista, seguiti ===== */
 const EVP=["eventi/cordone.json","eventi/strada.json"];
 const EVD={list:[],byId:{},ok:false};
-async function evLoad(){try{const r=await fetch("eventi/trama.dat");if(r.ok){const t=(await r.text()).trim().split("").reverse().join("");const j=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))));(j.eventi||[]).forEach(e=>{e.trama=true;e._pack="trama";EVD.list.push(e);EVD.byId[e.id]=e;});EVD.atti=j.atti||[];}}catch(_){}
+async function evLoad(){try{const r=await fetch("eventi/trama.txt");if(r.ok){const t=(await r.text()).trim().split("").reverse().join("");const j=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))));(j.eventi||[]).forEach(e=>{e.trama=true;e._pack="trama";EVD.list.push(e);EVD.byId[e.id]=e;});EVD.atti=j.atti||[];}}catch(_){}
   for(const p of EVP){try{const r=await fetch(p);if(!r.ok)continue;const a=await r.json();(a.eventi||a).forEach(e=>{e._pack=p;EVD.list.push(e);EVD.byId[e.id]=e;});}catch(_){}}EVD.ok=true;try{render();}catch(_){}}
 evLoad();
 const evS=()=>{S.ev=S.ev||{};S.ev.flag=S.ev.flag||{};S.ev.visti=S.ev.visti||{};S.ev.coda=S.ev.coda||[];if(!S.ev.auto)S.ev.auto="normale";return S.ev;};
