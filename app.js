@@ -1,4 +1,4 @@
-const APPV="0.3";
+const APPV="0.4";
 /* ===== utili ===== */
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const d=n=>1+Math.floor(Math.random()*n);
@@ -919,7 +919,7 @@ function slots(){const s={addosso:0,zaino:0};L.inv.forEach(x=>{const w=x.dove===
 function wearRow(x){const t=x.tipo||"altro",m=wMax(x),s=+x.segni||0,st=wStato(x);const p=armOf(x.nome)?.p;
   return `<div class="row small" style="grid-column:1/-1;gap:6px"><select data-u="${x.id}" data-k="tipo" style="width:auto;min-height:32px;padding:2px 6px">${[["altro","oggetto"],["arma","arma"],["armatura","armatura"]].map(([v,n])=>`<option value="${v}" ${t===v?"selected":""}>${n}</option>`).join("")}</select>
   ${t==="armatura"?`<label class="row" style="gap:4px">classe <input type="number" min="0" max="6" data-u="${x.id}" data-k="classe" value="${+x.classe||0}" style="width:4em;min-height:32px;padding:2px 6px"></label>`:""}
-  ${m?`<span class="lbl" style="margin:0">usura</span>${pips(x.id,s,m,"wear",wSoglia(x)+1)}<b class="${st==="ok"?"":"warn"}">${st}</b>${p&&st!=="ok"?`<span class="muted">tecnico: ${st==="rotto"?fmtR(p*.5):fmtR(p*.15)+"–"+fmtR(p*.3)}</span>`:""}`:t==="armatura"?`<span class="muted">classe 0: niente usura</span>`:""}</div>`;}
+  ${m?`<span class="lbl" style="margin:0">usura</span>${pips(x.id,s,m,"wear",wSoglia(x)+1)}<b class="${st==="ok"?"":"warn"}">${st}</b>${p&&st!=="ok"?`<span class="muted">tecnico: ${st==="rotto"?fmtR(Math.round(p*.5/50)*50):fmtR(Math.round(p*.15/50)*50)+"–"+fmtR(Math.round(p*.3/50)*50)}</span>`:""}`:t==="armatura"?`<span class="muted">classe 0: niente usura</span>`:""}${fixRow(x)}</div>`;}
 function vZaino(){const s=slots();ui.aopen=ui.aopen||{};const q=(ui.zq||"").toLowerCase().trim();const ord=ui.zord||"ts";
   const P=x=>armOf(x.nome)?.p||0,W=x=>(+x.slot||0)*(+x.qta||1),SR={rotto:0,usurato:1,ok:2};
   const sorter={ts:(a,b)=>(a.ts||0)-(b.ts||0),nome:(a,b)=>(a.nome||"").localeCompare(b.nome||""),peso:(a,b)=>W(b)-W(a),prezzo:(a,b)=>P(b)-P(a),stato:(a,b)=>(SR[zMeta(a).st]??2)-(SR[zMeta(b).st]??2)}[ord];
@@ -942,13 +942,13 @@ const ACAT=[["armi","Armi"],["munizioni","Munizioni"],["armature","Armature"],["
 const AGRP=[["mischia","Mischia"],["pistole","Pistole"],["mitra","Mitra"],["pompa","Canna liscia"],["assalto","Fucili d'assalto"],["precisione","Precisione"],["mitragliatrici","Mitragliatrici"],["granate","Granate"]];
 function vArmeria(){const r=+S.rubli||0;ui.aopen=ui.aopen||{};const rf=x=>ui.arar==="tutte"||x.r===ui.arar;
   const row=x=>`<li class="arow">${ico(x.n,"ico big")}<div><div class="row" style="gap:6px"><b>${esc(x.n)}</b><span class="rar ${x.r}">${x.r}</span></div><div class="small">${esc(x.s)}</div><div class="small muted">${x.sc?"nelle scorte":x.slot?fs(x.slot)+" slot":"indossato o 0 slot"}</div></div>
-    <div class="row" style="flex-wrap:nowrap"><b class="num">${fmtR(x.p)}</b><button class="btn s" data-a="buy" data-k="${ARM.indexOf(x)}" ${x.p>r?"disabled":""}>Compra</button></div></li>`;
+    <div class="row" style="flex-wrap:nowrap;flex-direction:column;align-items:flex-end;gap:2px">${(()=>{const pp=prezzo(x),vq=vendeQui(x);return `<span class="row" style="flex-wrap:nowrap"><b class="num">${fmtR(pp)}</b>${pp!==x.p?`<s class="small muted num">${fmtR(x.p)}</s>`:""}<button class="btn s" data-a="buy" data-k="${ARM.indexOf(x)}" ${pp>r||!vq.ok?"disabled":""}>Compra</button></span>${vq.ok?"":`<span class="small muted">${esc(vq.why)}</span>`}`;})()}</div></li>`;
   const box=(id,title,items,inner)=>{const n=items.length;return `<details class="acc" data-acc="${id}" ${ui.aopen[id]?"open":""}><summary><span>${title}</span><span class="small muted num">${n} ${n===1?"voce":"voci"}</span></summary>${inner??(n?`<ul class="items">${items.map(row).join("")}</ul>`:`<p class="empty">Niente con questa rarità.</p>`)}</details>`;};
   const cats=ACAT.map(([k,nm])=>{const it=ARM.filter(x=>x.c===k&&rf(x));
     if(k==="armi"){const grp=AGRP.map(([g,gn])=>box("armi."+g,gn,it.filter(x=>x.g===g))).join("");const altre=it.filter(x=>!AGRP.some(([g])=>g===x.g));
       return box("armi",nm,it,`<div class="sub">${grp}${altre.length?box("armi.altro","Altre",altre):""}</div>`);}
     return box(k,nm,it);}).join("");
-  return `<section><div class="row" style="justify-content:space-between"><h2>Armeria</h2><span class="big num" style="font-size:24px">${fmtR(r)}</span></div>
+  return `<section><div class="row" style="justify-content:space-between"><h2>Armeria</h2><span class="big num" style="font-size:24px">${fmtR(r)}</span></div>${mercHead()}
     <p class="small muted">C comune, NC non comune (Rapporto 3+), R raro (Rapporto 8+ o nord), MR molto raro (non si compra: bottino o favori). Il mercante del Cordone non va oltre P3 e classe 2.</p>
     ${S.lastBuy?`<p class="small">Comprato <b>${esc(S.lastBuy.n)}</b> per ${fmtR(S.lastBuy.p)}. <button class="btn g s" data-a="bundo">Annulla</button></p>`:""}
     <div class="row" style="margin-bottom:8px"><span class="row small"><span class="lbl" style="margin:0">Icone</span><button class="chip" data-a="icom" data-k="dis" aria-pressed="${icoMode()==="dis"}">disegnate</button><button class="chip" data-a="icom" data-k="foto" aria-pressed="${icoMode()==="foto"}">foto</button></span><label class="row small"><span class="lbl" style="margin:0">Rarità</span><select data-dr="arar" style="width:auto">${[["tutte","Tutte"],["C","C · comune"],["NC","NC · non comune"],["R","R · raro"],["MR","MR · molto raro"]].map(([v,t])=>`<option value="${v}" ${ui.arar===v?"selected":""}>${t}</option>`).join("")}</select></label>
@@ -1014,7 +1014,8 @@ function vPersone(){ui.aopen=ui.aopen||{};const q=(ui.pq||"").toLowerCase().trim
     ${body||`<p class="empty">${L.png.length?"Nessuno corrisponde.":"Nessuno ancora."}</p>`}
     <datalist id="fazl">${["compagno","cliente","amico","nemico","Dovere","Libertà","bandito","mercenario","scienziato","militare","mercante","Barman","stalker libero","novellino"].map(f=>`<option value="${f}">`).join("")}</datalist>
     <div class="row" style="margin-top:8px"><input data-dr="pn" value="${esc(ui.pn||"")}" placeholder="nome" style="flex:1 1 10em"><input data-dr="pf" value="${esc(ui.pf||"")}" list="fazl" placeholder="fazione" style="flex:1 1 8em"><button class="btn" data-a="padd">Aggiungi</button></div></section>`;}
-function vRegistro(){const ds=L.diario.slice().sort((a,b)=>b.ts-a.ts);const sw=`<div class="chips" style="grid-column:1/-1;margin:0"><button class="chip" data-a="rv" data-k="" aria-pressed="${!ui.rv}">Persone e diario</button><button class="chip" data-a="rv" data-k="crono" aria-pressed="${ui.rv==="crono"}">Cronologia</button><button class="chip" data-a="rv" data-k="best" aria-pressed="${ui.rv==="best"}">Bestiario</button></div>`;
+function vRegistro(){const ds=L.diario.slice().sort((a,b)=>b.ts-a.ts);const sw=`<div class="chips" style="grid-column:1/-1;margin:0"><button class="chip" data-a="rv" data-k="" aria-pressed="${!ui.rv}">Persone e diario</button><button class="chip" data-a="rv" data-k="crono" aria-pressed="${ui.rv==="crono"}">Cronologia</button><button class="chip" data-a="rv" data-k="best" aria-pressed="${ui.rv==="best"}">Bestiario</button><button class="chip" data-a="rv" data-k="partita" aria-pressed="${ui.rv==="partita"}">La partita</button></div>`;
+  if(ui.rv==="partita")return `<div class="grid">${sw}${vPartita()}</div>`;
   if(ui.rv==="best")return `<div class="grid">${sw}${vBestia()}</div>`;
   if(ui.rv==="crono")return `<div class="grid">${sw}<div style="grid-column:1/-1">${vCrono()}</div></div>`;
   return `<div class="grid">${sw}${vPersone()}
@@ -1248,7 +1249,7 @@ document.addEventListener("click",e=>{
     case"sell":ui.sell=k;ui.sellPct=40;ui.sellRoll="";render();window.scrollTo({top:0});break;
     case"sellx":ui.sell=null;render();break;
     case"sellroll":{const spec=/Contrattare/.test(S.pg.spec||"");const g=grades("empatia","persuasione",spec?1:0);const v=[d(DIE[g[0]]),g[1]?d(DIE[g[1]]):0];const sc=succ(v[0])+(g[1]?succ(v[1]):0);ui.sellPct=sc>=2?50:sc===1?40:30;ui.sellRoll=`trattato (Empatia ${g[0]} + Persuasione ${g[1]||"—"}${spec?", Contrattare":""}: ${v.filter(Boolean).join(", ")} = ${sc}) → ${ui.sellPct}%`;add("tiri",{testo:"Contrattare la vendita: "+ui.sellRoll,succ:sc,data:S.clock.data,ora:S.clock.ora});sfx("dice");render();break;}
-    case"sellok":{const y=L.inv.find(z=>z.id===ui.sell);if(!y)break;const p=sellPrice(y,ui.sellPct||40);if(!p)break;S.rubli=(+S.rubli||0)+p;if(!ammoOf(y)&&(+y.qta||1)>1)upd("inv",y.id,{qta:(+y.qta)-1});else del("inv",y.id);soloPush("Vendita",[esc(`${y.nome} a ${MERC[S.clock.luogo]}: ${fmtR(p)}.`)]);ui.sell=null;sfx("cash");save();break;}
+    case"sellok":{const y=L.inv.find(z=>z.id===ui.sell);if(!y)break;const p=sellPrice(y,ui.sellPct||40);if(!p)break;const cs=cassa();if(cs.n<p){toast(`Oggi ${MERC[S.clock.luogo]} ha in cassa solo ${fmtR(cs.n)}. Torna domani o vendi altrove.`);break;}cs.n-=p;S.rubli=(+S.rubli||0)+p;if(!ammoOf(y)&&(+y.qta||1)>1)upd("inv",y.id,{qta:(+y.qta)-1});else del("inv",y.id);soloPush("Vendita",[esc(`${y.nome} a ${MERC[S.clock.luogo]}: ${fmtR(p)}.`)]);ui.sell=null;sfx("cash");save();break;}
     case"rcan":ui.can=k;render();break;
     case"rlisten":radioAscolta();break;
     case"rpile":{const R=L.inv.find(y=>mine2(y)&&armOf(y.nome)?.n==="Ricevitore radio");const P=have("Pile");if(R&&P){useItem(P);upd("inv",R.id,{carica:10});toast("Pile nuove.");}break;}
@@ -1313,7 +1314,7 @@ document.addEventListener("click",e=>{
     case"idel":del("inv",k);break;
     case"wear":{const it=L.inv.find(x=>x.id===k);if(!it)break;const ns=(+it.segni===v?v-1:v);upd("inv",k,{segni:ns,stato:wStato({...it,segni:ns})});break;}
     case"accall":ui.aopen={};render();break;case"acat":ui.acat=k;render();break;case"ag":ui.ag=k;render();break;case"arar":ui.arar=k;render();break;
-    case"buy":{const x=ARM[+k];if(!x||x.p>(+S.rubli||0))break;S.rubli=(+S.rubli||0)-x.p;
+    case"buy":{const x0=ARM[+k];if(!x0||!vendeQui(x0).ok||prezzo(x0)>(+S.rubli||0))break;const x={...x0,p:prezzo(x0)};S.rubli=(+S.rubli||0)-x.p;
       if(x.sc){S.scorte[x.sc]=(+S.scorte[x.sc]||0)+1;S.lastBuy={n:x.n,p:x.p,sc:x.sc};save();}
       else add("inv",{nome:x.n,qta:1,slot:x.slot,dove:x.w?"indossato":"zaino",stato:"ok",nota:x.s,tipo:tipoOf(x),classe:classeOf(x.n),segni:0}).then(id=>{S.lastBuy={n:x.n,p:x.p,inv:id};save();});
       toast(`Comprato: ${x.n}.`);break;}

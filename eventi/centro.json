@@ -1,0 +1,463 @@
+{
+"pacchetto": "Centro: Bar, Yantar, Magazzini",
+"eventi": [
+{
+"id": "bar-arena",
+"titolo": "L'Arena",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Bar e Rostok",
+"ore": [
+17,
+23
+]
+},
+"testo": [
+"Dal capannone dell'Arena arrivano urla e spari. Un tizio col cappello da cosacco ti prende per il braccio: «Tu! Hai la faccia giusta. Duemila per entrare, diecimila se esci vivo.»"
+],
+"scelte": [
+{
+"t": "Scommettere su un combattente (1.000 ₽)",
+"se": {
+"rubli": 1000
+},
+"tiro": "intelletto",
+"ok": {
+"testo": "Scegli quello col fucile vecchio e lo sguardo stanco. Vince. Ti danno tremila.",
+"rubli": 2000
+},
+"ko": {
+"testo": "Il tuo uomo scivola nel fango al secondo colpo. Soldi persi.",
+"rubli": -1000
+}
+},
+{
+"t": "No, grazie",
+"esito": {
+"testo": "«Peccato, la tua faccia vendeva.» Torni al bancone."
+}
+}
+]
+},
+{
+"id": "bar-barman",
+"titolo": "Il Barman ha un lavoro",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Bar e Rostok",
+"nome": 3
+},
+"testo": [
+"Il Barman pulisce lo stesso bicchiere da dieci minuti. «Guida. Un cliente vuole una foto del cimitero dei veicoli dall'alto. Dalla gru. Paga bene, è una persona strana.»"
+],
+"scelte": [
+{
+"t": "Accettare",
+"esito": {
+"testo": "«Tremila, più duemila se la foto è buona. Non chiedere a cosa gli serve.»",
+"lavoro": {
+"titolo": "Una foto dalla gru",
+"da": "Barman",
+"testo": "Salire sulla gru della Discarica e fotografare il cimitero dei veicoli.",
+"paga": 5000,
+"dim": 1,
+"giorni": 7
+}
+}
+},
+{
+"t": "«Cosa vuole davvero?»",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "«Conta i camion. Qualcuno ne ha spostati tre, di notte, e vuole sapere dove sono finiti.» Il prezzo sale a ottomila.",
+"lavoro": {
+"titolo": "Camion spariti",
+"da": "Barman",
+"testo": "Contare i camion del cimitero dei veicoli dall'alto della gru e scoprire dove ne sono finiti tre.",
+"paga": 8000,
+"dim": 2,
+"giorni": 7
+}
+},
+"ko": {
+"testo": "«Fai domande da giornalista. Lascia stare.» Il bicchiere torna a girare."
+},
+"spec": "Lingua del Bar"
+}
+]
+},
+{
+"id": "bar-dovere-pattuglia",
+"titolo": "Controllo del Dovere",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Bar e Rostok",
+"ore": [
+6,
+22
+]
+},
+"testo": [
+"Al cancello nord due del Dovere ti fermano. «Documenti. E cosa porti nello zaino. Il Dovere controlla.»"
+],
+"scelte": [
+{
+"t": "Farsi controllare",
+"esito": {
+"testo": "Ti svuotano lo zaino sul cemento. Trovano qualcosa che non gli piace e lo tengono «per l'analisi». Si chiama furto, ma con la divisa.",
+"rap": {
+"Dovere": 1
+},
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Mostrare il tuo nome",
+"se": {
+"nome": 10
+},
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Uno ti riconosce. «La guida del Cordone. Passa.» L'altro si scusa a metà.",
+"rap": {
+"Dovere": 1
+}
+},
+"ko": {
+"testo": "Il nome non basta. Ti controllano lo stesso, e con più cura.",
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Rifiutare",
+"esito": {
+"testo": "Ti guardano come si guarda uno della Libertà. Passi, ma il sergente si segna la tua faccia.",
+"rap": {
+"Dovere": -1
+}
+}
+}
+]
+},
+{
+"id": "bar-chitarra",
+"titolo": "Una chitarra al fuoco",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": [
+"Bar e Rostok",
+"Magazzini dell'esercito",
+"Janiv e Jupiter"
+],
+"ore": [
+20,
+1
+]
+},
+"testo": [
+"Al fuoco qualcuno suona una chitarra con due corde rotte. Canzoni vecchie, di prima. Qualcuno piange senza farsi vedere."
+],
+"scelte": [
+{
+"t": "Sederti e ascoltare",
+"esito": {
+"testo": "Per un'ora la Zona è lontana. Quando ti alzi, le spalle sono più leggere.",
+"tr": {
+"nervi": -1
+},
+"tempo": 60
+}
+},
+{
+"t": "Offrire da bere a tutti (500 ₽)",
+"se": {
+"rubli": 500
+},
+"esito": {
+"testo": "Brindate ai morti, poi ai vivi, poi alla vodka. Domani al Bar qualcuno dirà il tuo nome con simpatia.",
+"rubli": -500,
+"tr": {
+"nervi": -1
+},
+"nome": 1,
+"tempo": 60
+}
+}
+]
+},
+{
+"id": "yan-scienziato",
+"titolo": "Campioni per Yantar",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Yantar"
+},
+"testo": [
+"Uno scienziato giovane, con la tuta gialla troppo grande, ti ferma al cancello del bunker. «Mi servono dei campioni d'acqua dalla palude a nord del lago. Vicino agli zombi. Pago in strumenti, se vuole.»"
+],
+"scelte": [
+{
+"t": "Accettare",
+"esito": {
+"testo": "Ti dà tre provette e un foglio con le coordinate scritte con una calligrafia perfetta.",
+"lavoro": {
+"titolo": "Acqua del lago Yantar",
+"da": "Scienziati di Yantar",
+"testo": "Riempire tre provette nella palude a nord del lago, vicino agli zombi.",
+"paga": 6000,
+"dim": 2,
+"giorni": 5
+},
+"oggetto": {
+"n": "Provette per campioni",
+"qta": 3
+}
+}
+},
+{
+"t": "Chiedere un rivelatore come paga",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Ci pensa, poi annuisce. «Un Orso. Usato, ma tara bene.» Metà adesso, l'altra metà al ritorno: un rivelatore.",
+"lavoro": {
+"titolo": "Acqua del lago Yantar",
+"da": "Scienziati di Yantar",
+"testo": "Tre provette dalla palude a nord del lago. Paga: un rivelatore Orso.",
+"paga": 0,
+"dim": 2,
+"giorni": 5
+}
+},
+"ko": {
+"testo": "«Non sono autorizzato.» Ti offre solo rubli."
+},
+"spec": "Contrattare"
+}
+]
+},
+{
+"id": "yan-psi",
+"titolo": "Il mal di testa",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Yantar",
+"ore": [
+18,
+6
+]
+},
+"testo": [
+"Comincia dietro gli occhi. Poi le voci: tua madre, un commilitone morto, qualcuno che ti chiama per un nome che non è il tuo. Il lago è fermo come vetro."
+],
+"scelte": [
+{
+"t": "Resistere",
+"tiro": "sf",
+"ok": {
+"testo": "Conti i respiri. Le voci si allontanano, deluse. Qualcosa, nel buio verso il lago, si ritira.",
+"pe": 1
+},
+"ko": {
+"testo": "Ti ritrovi in ginocchio nel fango, con l'arma puntata su un albero. Non ricordi gli ultimi due minuti.",
+"tr": {
+"nervi": 2
+}
+}
+},
+{
+"t": "Andartene subito",
+"esito": {
+"testo": "Corri verso il bunker. Il mal di testa ti segue fino alla porta di ferro, poi resta fuori.",
+"tr": {
+"fatica": 1
+}
+}
+}
+]
+},
+{
+"id": "mag-liberta",
+"titolo": "Un tiro con la Libertà",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Magazzini dell'esercito"
+},
+"testo": [
+"Al posto di guardia della Libertà ti offrono una sigaretta che non è tabacco. «Rilassati, fratello. Qui nessuno ti chiede niente. Solo una cosa: hai visto uomini del Dovere sulla strada?»"
+],
+"scelte": [
+{
+"t": "Dire la verità",
+"esito": {
+"testo": "Dici quello che hai visto. Ti ringraziano con una scatoletta e un'informazione: il Dovere sposta uomini verso la Barriera.",
+"rap": {
+"Libertà": 1,
+"Dovere": -1
+},
+"scorte": {
+"cibo": 1
+}
+}
+},
+{
+"t": "«Non ho visto niente.»",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Ti credono, o non gli importa. Ti offrono comunque da bere.",
+"rap": {
+"Libertà": 0
+}
+},
+"ko": {
+"testo": "«Peccato. Pensavamo fossi uno di noi.»",
+"rap": {
+"Libertà": -1
+}
+},
+"spec": "Faccia da poker"
+},
+{
+"t": "Fumare con loro",
+"esito": {
+"testo": "Ridi per un'ora di cose che non ricordi. Domani ti sentirai stupido, oggi stai bene.",
+"tr": {
+"nervi": -2
+},
+"tempo": 60,
+"rap": {
+"Libertà": 1
+}
+}
+}
+]
+},
+{
+"id": "mag-mercato",
+"titolo": "Contrabbando ai Magazzini",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Magazzini dell'esercito",
+"rubli": 5000
+},
+"testo": [
+"Dietro un hangar, un tizio vende roba occidentale dal bagagliaio di un UAZ. «M855, americane vere. E un mirino, guarda che vetro.»"
+],
+"scelte": [
+{
+"t": "Comprare munizioni (4.000 ₽)",
+"esito": {
+"testo": "Venti colpi 5,56 M855. Lucidi come gioielli.",
+"rubli": -4000,
+"oggetto": {
+"n": "5,56 M855",
+"colpi": 20
+}
+}
+},
+{
+"t": "Trattare sul mirino",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Te lo lascia a metà prezzo, perché «ha la faccia onesta». Il vetro è graffiato, ma tara.",
+"rubli": -5000,
+"oggetto": {
+"n": "Mirino olografico",
+"nota": "comprato ai Magazzini, vetro graffiato"
+}
+},
+"ko": {
+"testo": "Prezzo pieno, o niente. Niente."
+},
+"spec": "Contrattare|Ricettatore"
+},
+{
+"t": "Andare via",
+"esito": {
+"testo": "La roba che costa poco nella Zona costa tanto dopo."
+}
+}
+]
+},
+{
+"id": "mag-cecchino",
+"titolo": "Il cecchino dei Magazzini",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": [
+"Magazzini dell'esercito",
+"Bar e Rostok"
+],
+"ore": [
+7,
+17
+]
+},
+"testo": [
+"Un colpo solo, da lontano. Il secchio accanto a te salta. Poi silenzio. Il secondo arriva sempre."
+],
+"scelte": [
+{
+"t": "Buttarti al riparo e cercarlo",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Un riflesso sulla torre dell'acqua. Ti sposti di lato, fuori dalla sua linea, e lo lasci al suo lavoro.",
+"pe": 1
+},
+"ko": {
+"testo": "Il secondo colpo arriva. Ti prende di striscio.",
+"colpo": {
+"D": 2,
+"P": 4
+},
+"tr": {
+"nervi": 1
+}
+},
+"passi": -1
+},
+{
+"t": "Correre",
+"tiro": "agilita+mobilita",
+"ok": {
+"testo": "Venti metri a zig-zag e sei dietro un muro. Il secondo colpo sbriciola il mattone sopra la tua testa.",
+"tr": {
+"fatica": 1
+}
+},
+"ko": {
+"testo": "Corri, e corri male.",
+"colpo": {
+"D": 3,
+"P": 5
+},
+"tr": {
+"nervi": 2
+}
+}
+}
+]
+}
+]
+}

@@ -193,6 +193,8 @@ html.big .dev{zoom:1.15}
 .vgsteps{display:flex;flex-wrap:wrap;gap:4px;list-style:none;padding:0;margin:4px 0}.vgsteps li{padding:3px 9px;border-radius:12px;background:rgba(0,0,0,.08);font-size:.85rem}.vgsteps li.ok{opacity:.5;text-decoration:line-through}.vgsteps li.cur{background:#2a2f22;color:#e8edd8}
 .vgpane,.anpane{margin-bottom:14px;border:2px solid #b8861b}
 .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15em,1fr));gap:8px}.bcard{padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.06)}.bcard.lock{opacity:.45}.bcard .small{margin-top:3px}
+.fixrow{display:inline-flex;gap:6px;margin-left:auto}table.stat{border-collapse:collapse;width:100%;max-width:30em}table.stat td{padding:4px 6px;border-bottom:1px dashed rgba(0,0,0,.15)}table.stat td.num{text-align:right}
+@media print{body *{visibility:hidden}.partita,.partita *{visibility:visible}.partita{position:absolute;left:0;top:0;width:100%;border:0;background:#fff;color:#000}.noprint{display:none}}
 </style>
 </head>
 <body>
@@ -217,6 +219,7 @@ html.big .dev{zoom:1.15}
   <div class="screen"><svg class="tref" viewBox="-50 -50 100 100" aria-hidden="true"><circle r="7" fill="currentColor"/><g fill="currentColor"><path d="M0 0 L-25 -43.3 A50 50 0 0 1 25 -43.3Z"/><path d="M0 0 L50 0 A50 50 0 0 1 25 43.3Z"/><path d="M0 0 L-25 43.3 A50 50 0 0 1 -50 0Z"/></g><circle r="12" fill="var(--lcd)"/><circle r="7" fill="currentColor"/></svg><div class="bar" id="bar"></div><main class="view" id="view"><p class="empty">Accensione…</p></main></div>
 </div>
 <script src="motore.js"></script><script src="llm.js"></script><script src="scontro.js"></script>
+<script src="vita.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

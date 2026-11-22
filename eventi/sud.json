@@ -1,0 +1,415 @@
+{
+"pacchetto": "Sud: Discarica, Agroprom, Valle Oscura",
+"eventi": [
+{
+"id": "dis-pedaggio",
+"titolo": "Il pedaggio",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Discarica",
+"ore": [
+7,
+20
+]
+},
+"testo": [
+"Tre banditi seduti su un copertone in mezzo alla strada. Uno si alza e allarga le braccia come un vigile. «Strada privata, fratello. Mille a testa.»"
+],
+"scelte": [
+{
+"t": "Pagare",
+"esito": {
+"testo": "Pagano anche per il gruppo, ma ti ricordano la faccia. La prossima volta il prezzo sale.",
+"rubli": -1000,
+"flag": "pagato-pedaggio"
+}
+},
+{
+"t": "Trattare",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Una bottiglia, due battute sul Barman, e passate per cinquecento. Il capo ti dà pure un consiglio: «A est ci sono i cani, oggi.»",
+"rubli": -500
+},
+"ko": {
+"testo": "Il capo ride, poi smette. Duemila, o si comincia.",
+"rubli": -2000,
+"tr": {
+"nervi": 1
+}
+},
+"spec": "Contrattare|Lingua del Bar"
+},
+{
+"t": "Mostrare l'arma e passare",
+"tiro": "sf",
+"ok": {
+"testo": "Li guardi uno per uno. Il più giovane abbassa gli occhi per primo. Passate, e nessuno spara alla schiena.",
+"nome": 1
+},
+"ko": {
+"testo": "Uno ha il dito nervoso. Il colpo ti fischia vicino all'orecchio: adesso è uno scontro.",
+"allerta": 2,
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "dis-autobus",
+"titolo": "Il cimitero dei veicoli",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Discarica"
+},
+"testo": [
+"File di camion e autobus del 1986 arrugginiscono sotto il cielo grigio. Il contatore gracchia. Nella cabina di un ZIL, qualcosa luccica."
+],
+"scelte": [
+{
+"t": "Andare a vedere col contatore",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Giri dalla parte fredda della carcassa. Nella cabina: un vecchio thermos sovietico e un sacchetto di cartucce dimenticato.",
+"oggetto": {
+"n": "12/70 pallettoni",
+"qta": 1,
+"colpi": 8
+},
+"tr": {
+"rad": 0
+}
+},
+"ko": {
+"testo": "Il contatore impazzisce troppo tardi. Esci con una dose e niente in mano.",
+"tr": {
+"rad": 1
+}
+},
+"spec": "Dosimetrista"
+},
+{
+"t": "Lasciar perdere",
+"esito": {
+"testo": "Niente vale una dose di quel ferro. Tiri dritto."
+}
+}
+]
+},
+{
+"id": "dis-novellino-perso",
+"titolo": "Un novellino perso",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": [
+"Discarica",
+"Agroprom"
+],
+"ore": [
+8,
+18
+]
+},
+"testo": [
+"Un ragazzo con una giacca di pelle nuova e un TOZ più vecchio di lui ti corre incontro. «Mi sono perso. Dov'è il Cordone? Ho un appuntamento con… con uno.»"
+],
+"scelte": [
+{
+"t": "Accompagnarlo per un tratto",
+"esito": {
+"testo": "Un'ora di strada in più. Ti racconta di Kiev, di un debito, di una ragazza. Al bivio ti stringe la mano troppo forte. Si chiama {stalker}.",
+"tempo": 60,
+"png": {
+"nome": "{stalker} «Giacca nuova»",
+"fazione": "novellino",
+"nota": "Novellino perso alla Discarica, accompagnato da Sokolov. Ha un debito fuori.",
+"fiducia": 2
+},
+"nome": 1
+}
+},
+{
+"t": "Indicargli la strada e basta",
+"esito": {
+"testo": "Gli disegni la strada sul palmo con una penna. Lo guardi andare. Speri che sappia leggere."
+}
+},
+{
+"t": "Chiedergli soldi per portarlo",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Ti dà quello che ha, millecinquecento. Lo porti fino al ponte. È un lavoro, dopotutto.",
+"rubli": 1500,
+"tempo": 60
+},
+"ko": {
+"testo": "Ti guarda come si guarda un bandito, e scappa via. Verso est. Verso i cani.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "dis-cani-notte",
+"titolo": "Occhi nel buio",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": [
+"Discarica",
+"Agroprom",
+"Valle Oscura"
+],
+"ore": [
+19,
+6
+]
+},
+"testo": [
+"Il fuoco fa un cerchio piccolo. Fuori dal cerchio, occhi. Sei, otto. Poi un ululato più basso degli altri."
+],
+"scelte": [
+{
+"t": "Alimentare il fuoco e aspettare l'alba",
+"tiro": "forza+resistenza",
+"ok": {
+"testo": "Non dormi, ma loro non entrano. All'alba restano solo le impronte, tante.",
+"tr": {
+"fatica": 1
+},
+"scorte": {
+"comb": -1
+}
+},
+"ko": {
+"testo": "Verso le quattro il fuoco cala e uno entra nel cerchio. Lo cacci a calci, ma ti lascia un morso sulla gamba.",
+"colpo": {
+"D": 1,
+"P": 1
+},
+"tr": {
+"fatica": 1
+}
+}
+},
+{
+"t": "Sparare al più grosso",
+"esito": {
+"testo": "Lo sparo rimbomba sulla Discarica. Il branco si sparpaglia, ma ora tutti sanno dove sei.",
+"allerta": 2,
+"tensione": 1
+}
+}
+]
+},
+{
+"id": "agr-sotterranei",
+"titolo": "La grata dell'Agroprom",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Agroprom"
+},
+"testo": [
+"Dietro l'istituto, una grata arrugginita su un pozzo. Dal buio sale aria tiepida e un odore dolciastro. Qualcuno ha scritto col gesso: «NON DI NOTTE»."
+],
+"scelte": [
+{
+"t": "Scendere con la torcia",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Dieci metri di scala, un corridoio, una cassa militare aperta a metà: dentro, un kit medico ancora sigillato. Risali in fretta: in fondo al corridoio qualcosa respira.",
+"oggetto": "Kit medico AI-2",
+"tempo": 40
+},
+"ko": {
+"testo": "La scala cede sull'ultimo piolo. Ti tiri su a forza di braccia, e il buio ti resta addosso per tutto il giorno.",
+"colpo": {
+"D": 1,
+"P": 0
+},
+"tr": {
+"nervi": 2
+},
+"tempo": 30
+},
+"passi": -1
+},
+{
+"t": "Segnarla sul PDA e andare",
+"esito": {
+"testo": "Un punto in più sulla mappa. I sotterranei dell'Agroprom aspettano da ventisei anni, possono aspettare ancora.",
+"flag": "grata-agroprom"
+}
+}
+]
+},
+{
+"id": "agr-militari",
+"titolo": "Elicottero sull'Agroprom",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Agroprom",
+"ore": [
+8,
+17
+]
+},
+"testo": [
+"Il rumore arriva prima dell'elicottero: un Mi-24 basso sugli alberi. Sotto, una colonna di uomini in grigio si muove verso l'istituto."
+],
+"scelte": [
+{
+"t": "Nascondersi nel canale",
+"tiro": "agilita+mobilita",
+"ok": {
+"testo": "Acqua fino alle ginocchia per un'ora. Passano a venti metri. Uno si ferma a pisciare. Poi se ne vanno.",
+"tr": {
+"freddo": 1
+},
+"tempo": 60
+},
+"ko": {
+"testo": "Un cane militare ti fiuta. Scappi lungo il canale con i proiettili che fanno spruzzi dietro di te.",
+"colpo": {
+"D": 2,
+"P": 3
+},
+"allerta": 3
+},
+"spec": "Passo leggero"
+},
+{
+"t": "Allontanarsi subito, a ovest",
+"esito": {
+"testo": "Allunghi di due ore, ma non ti vede nessuno. Sulla rete, più tardi: «Rastrellamento all'Agroprom, due stalker presi».",
+"tempo": 120,
+"msg": {
+"da": "rete",
+"testo": "Rastrellamento all'Agroprom: i militari hanno preso due dei nostri. State lontani dall'istituto per un paio di giorni."
+}
+}
+}
+]
+},
+{
+"id": "vo-rapina",
+"titolo": "La Valle ti guarda",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Valle Oscura"
+},
+"testo": [
+"Una voce dal tetto di un capannone: «Fermo lì, guida. Zaino a terra, e nessuno si fa male.» Ne conti tre. Forse quattro."
+],
+"scelte": [
+{
+"t": "Contrattare: metà zaino",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Lasci il cibo e la vodka. Il capo ride: «Sei uno che capisce.» Ti lasciano andare con l'arma.",
+"scorte": {
+"cibo": -2
+},
+"togli": "Vodka"
+},
+"ko": {
+"testo": "«Tutto, ho detto.» Perdi i soldi che avevi addosso.",
+"rubli": -3000,
+"tr": {
+"nervi": 2
+}
+},
+"spec": "Faccia da poker|Contrattare"
+},
+{
+"t": "Buttarti dietro il camion e sparare",
+"esito": {
+"testo": "Ti butti. Il primo colpo ti manca di un palmo. È uno scontro, e la Valle è casa loro.",
+"allerta": 3,
+"tensione": 1
+}
+},
+{
+"t": "Nominare il loro capo",
+"tiro": "intelletto+persuasione",
+"ok": {
+"testo": "Dici un nome che hai sentito al Bar. Silenzio sul tetto. «Passa. Ma la prossima volta porti qualcosa per lui.»",
+"flag": "debito-valle"
+},
+"ko": {
+"testo": "Il nome è sbagliato, o è morto. Ridono tutti.",
+"rubli": -2000
+},
+"spec": "Ricettatore|Lingua del Bar"
+}
+]
+},
+{
+"id": "vo-prigioniero",
+"titolo": "Il prigioniero",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Valle Oscura",
+"ore": [
+18,
+23
+]
+},
+"testo": [
+"Dietro la fabbrica, un uomo legato a un palo, la faccia gonfia. Nessuna guardia in vista. Ti guarda e non dice niente: ha capito che gridare non serve."
+],
+"scelte": [
+{
+"t": "Liberarlo",
+"tiro": "agilita+mobilita",
+"ok": {
+"testo": "Tagli le corde e sparite nel buio. È uno del Dovere, {stalker}. Al Bar lo sapranno.",
+"rap": {
+"Dovere": 2
+},
+"nome": 1,
+"tempo": 30
+},
+"ko": {
+"testo": "Lo liberi, ma un bandito esce a pisciare proprio in quel momento. Il grido arriva prima del colpo.",
+"rap": {
+"Dovere": 1
+},
+"allerta": 3,
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Non sono affari tuoi",
+"esito": {
+"testo": "Ti allontani. Lui non ti chiama. È peggio così.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+}
+]
+}

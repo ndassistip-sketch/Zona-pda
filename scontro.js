@@ -253,7 +253,7 @@ Ultime cose successe:
 ${last||"—"}
 Diario:
 ${dia||"—"}`;}
-function gmPane(){return `<section class="pane"><h2>Per il GM</h2><p class="small muted" style="margin-top:0">Copia lo stato della partita e incollalo in chat a Claude: riprende da qui.</p><button class="btn" data-x="gm">Copia il riassunto</button>${ui.gmT?`<textarea readonly style="margin-top:8px;min-height:14em;font-size:.8rem">${esc(ui.gmT)}</textarea>`:""}</section>`;}
+function gmPane(){return `<section class="pane"><h2>Per il GM</h2><p class="small muted" style="margin-top:0">Copia lo stato della partita e incollalo in chat a Claude: riprende da qui.</p><div class="row" style="gap:6px"><button class="btn" data-x="gm">Copia il riassunto</button><button class="btn g" data-x="amb">Suoni d'ambiente: ${typeof AMB!=="undefined"&&AMB.on?"sì":"no"}</button></div>${ui.gmT?`<textarea readonly style="margin-top:8px;min-height:14em;font-size:.8rem">${esc(ui.gmT)}</textarea>`:""}</section>`;}
 
 /* ---------- banner e comandi ---------- */
 function scBanner(){let h="";if(S.scontro&&!(ui.tab==="dadi"&&ui.dsub==="scontro"))h+=`<div class="evbox scban"><b>Scontro in corso</b> · round ${S.scontro.r}${scCur()&&scCur().pg&&!S.scontro.fine?" · tocca a te":""} <button class="btn s" data-x="goscontro">Vai</button></div>`;
@@ -264,7 +264,7 @@ const XA={
  scrand:()=>{const z=S.clock.luogo||"Cordone";const mut=d(2)===1;scStart(pk(zNem(z,mut)),mut,{n:0,dist:pk(["media","lunga","media","corta"]),cop:d(3)-1,sorp:""});},
  scshoot:()=>pgShoot(),scmelee:()=>pgMelee(),screl:()=>pgReload(),scq:b=>pgQuick(b.dataset.k),scend:()=>pgEnd(),scclose:()=>scClose(),scloot:b=>scLoot(b.dataset.k),
  scabort:()=>{const C=S.scontro;if(!C)return;C.fine=true;sgLog(C.log,"Interrotto: fuga, tregua o resa. Decidi tu, o chiedi all'Oracolo.");},
- goscontro:()=>{ui.dsub="scontro";location.hash="dadi";},gomappa:()=>{location.hash="mappa";},
+ gopart:()=>{ui.rv="partita";location.hash="registro";},goscontro:()=>{ui.dsub="scontro";location.hash="dadi";},gomappa:()=>{location.hash="mappa";},
  anp:b=>anPass(b.dataset.k),ans:()=>anSearch(),ant:()=>anTake(),anc:()=>anClose(),anstart:()=>anStart(S.clock.luogo),
  vgo:()=>vgStart(),vgl:()=>vgLeg(),vga:b=>vgAct(b.dataset.k),vgstop:()=>{soloPush("Viaggio",S.viaggio.log.slice().reverse());S.viaggio=null;},
  gm:()=>{ui.gmT=gmTxt();try{navigator.clipboard.writeText(ui.gmT).then(()=>toast("Copiato: incollalo in chat."),()=>toast("Selezionalo e copialo a mano."));}catch(_){toast("Selezionalo e copialo a mano.");}},

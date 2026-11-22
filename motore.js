@@ -1,5 +1,5 @@
 /* ===== Motore delle storie: eventi a condizioni, regista, seguiti ===== */
-const EVP=["eventi/cordone.json","eventi/strada.json"];
+const EVP=["eventi/cordone.json","eventi/strada.json","eventi/sud.json","eventi/centro.json","eventi/nord.json"];
 const EVD={list:[],byId:{},ok:false};
 async function evLoad(){try{const r=await fetch("eventi/trama.txt");if(r.ok){const t=(await r.text()).trim().split("").reverse().join("");const j=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))));(j.eventi||[]).forEach(e=>{e.trama=true;e._pack="trama";EVD.list.push(e);EVD.byId[e.id]=e;});EVD.atti=j.atti||[];}}catch(_){}
   for(const p of EVP){try{const r=await fetch(p);if(!r.ok)continue;const a=await r.json();(a.eventi||a).forEach(e=>{e._pack=p;EVD.list.push(e);EVD.byId[e.id]=e;});}catch(_){}}EVD.ok=true;try{render();}catch(_){}}
@@ -87,7 +87,7 @@ function evBox(){const v=ui.ev;if(!v)return "";const e=EVD.byId[v.id];if(!e){ui.
     :`<p class="small"><b>${esc(v.scelta)}</b>${v.tiro?` — ${esc(v.tiro)}`:""}</p><p class="evtx">${esc(v.esito)}</p>${v.log&&v.log.length?`<p class="small muted">${esc(v.log.join(" · "))}</p>`:""}<button class="btn" data-a="evx">Continua</button>`}</div>`;}
 function vStorie(){const E=evS();const nv=EVD.list.filter(e=>!e.trama).length;const fl=Object.keys(E.flag);const atto=E.flag.atto3?3:E.flag.atto2?2:1;const AT=(EVD.atti||[])[atto-1]||{};const tappe=EVD.list.filter(e=>e.trama&&E.visti[e.id]).length;
   return `<div class="grid"><section class="pane"><h2>La Zona viva</h2>
-    ${E.fine?`<div class="fine"><h3>${esc(E.fine.t)}</h3><p>${esc(E.fine.testo)}</p><p class="small muted">${esc(dataIt(E.fine.quando.slice(0,10)))}</p></div>`:`<p class="atto"><b>Atto ${atto}${AT.titolo?" — "+esc(AT.titolo):""}</b><br><span class="small">${esc(AT.spunto||"")}</span><br><span class="small muted">Tappe della storia vissute: ${tappe}</span></p>`}
+    ${E.fine?`<div class="fine"><h3>${esc(E.fine.t)}</h3><p>${esc(E.fine.testo)}</p><p class="small muted">${esc(dataIt(E.fine.quando.slice(0,10)))}</p><button class="btn g s" data-x="gopart">Il diario della partita</button></div>`:`<p class="atto"><b>Atto ${atto}${AT.titolo?" — "+esc(AT.titolo):""}</b><br><span class="small">${esc(AT.spunto||"")}</span><br><span class="small muted">Tappe della storia vissute: ${tappe}</span></p>`}
     <p class="small muted" style="margin-top:0">Il PDA racconta la Zona da solo: ${nv} storie caricate. Quando fai passare il tempo, a volte succede qualcosa; puoi anche chiederlo tu.</p>
     <button class="btn" data-a="evgo" style="width:100%">Cosa succede qui?</button>
     <div class="row" style="gap:6px;margin-top:10px"><span class="lbl" style="margin:0">Il regista</span>${Object.keys(AUTO).map(k=>`<button class="chip" data-a="evauto" data-k="${k}" aria-pressed="${E.auto===k}">${k}</button>`).join("")}</div>

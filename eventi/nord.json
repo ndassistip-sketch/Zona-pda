@@ -1,0 +1,588 @@
+{
+"pacchetto": "Nord: Foresta Rossa, Radar, Janiv, Zaton, Pripjat', centrale, sotterranei",
+"eventi": [
+{
+"id": "fr-alberi",
+"titolo": "Gli alberi che parlano",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Foresta Rossa"
+},
+"testo": [
+"Nella Foresta Rossa i pini sono morti in piedi, color ruggine. Il vento ci passa in mezzo e fa un rumore come di gente che sussurra. Il contatore non smette mai."
+],
+"scelte": [
+{
+"t": "Leggere il bosco",
+"tiro": "intelletto+sopravvivenza",
+"ok": {
+"testo": "Trovi un sentiero di stalker, segnato con nastri bianchi. Ti risparmia un'ora e una dose."
+},
+"ko": {
+"testo": "Giri in tondo per un'ora tra alberi tutti uguali.",
+"tr": {
+"rad": 1,
+"nervi": 1
+},
+"tempo": 60
+},
+"spec": "Passo leggero|Strada vecchia"
+},
+{
+"t": "Andare dritto con la bussola",
+"esito": {
+"testo": "La bussola gira. Poi si ferma. Poi gira di nuovo. Arrivi, ma tardi.",
+"tempo": 60,
+"tr": {
+"rad": 1
+}
+}
+}
+]
+},
+{
+"id": "fr-carro",
+"titolo": "Il carro armato nel bosco",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Foresta Rossa"
+},
+"testo": [
+"Un T-72 abbandonato, coperto di muschio e foglie rosse. Il portello è aperto. Qualcuno ci ha dormito: una coperta, una scatoletta vuota."
+],
+"scelte": [
+{
+"t": "Frugare dentro",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Sotto il sedile del pilota: un contenitore di piombo, chiuso. Dentro, un artefatto che pulsa piano.",
+"oggetto": {
+"n": "Artefatto: Gocce",
+"nota": "comune · +1 a Resistenza contro la fatica in marcia · costo: +1 Radiazioni al giorno"
+},
+"tr": {
+"rad": 1
+}
+},
+"ko": {
+"testo": "Solo ferro caldo. Esci con una dose in più.",
+"tr": {
+"rad": 2
+}
+}
+},
+{
+"t": "Dormirci tu, stanotte",
+"se": {
+"ore": [
+18,
+6
+]
+},
+"esito": {
+"testo": "Acciaio intorno, niente vento. Dormi male ma dormi.",
+"tr": {
+"fatica": -1,
+"rad": 1
+}
+}
+}
+]
+},
+{
+"id": "rad-dolore",
+"titolo": "Il Radar canta",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Radar"
+},
+"testo": [
+"Più ti avvicini al Radar, più la testa si riempie di un ronzio. Le antenne sono un muro di ferro all'orizzonte. Un cartello arrugginito: «Мозговыжигатель»."
+],
+"scelte": [
+{
+"t": "Avanzare a denti stretti",
+"tiro": "sf",
+"ok": {
+"testo": "Il ronzio diventa una nota sola. Ci cammini dentro come in un fiume. Passi.",
+"pe": 1,
+"tr": {
+"nervi": 1
+}
+},
+"ko": {
+"testo": "Ti svegli steso a terra. Il sole è più basso. Qualcuno ti ha tolto i soldi dalla tasca, o li hai buttati tu.",
+"tr": {
+"nervi": 3
+},
+"rubli": -1000,
+"tempo": 120
+},
+"passi": -1
+},
+{
+"t": "Tornare indietro",
+"esito": {
+"testo": "Non oggi. La testa smette di urlare dopo un chilometro.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "rad-monolite",
+"titolo": "Preghiera alla radio",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": [
+"Radar",
+"Pripjat'",
+"La centrale"
+],
+"ore": [
+0,
+24
+]
+},
+"testo": [
+"La radio, da sola, si accende su una frequenza vuota. Una voce lenta, in russo: «Il Monolite vi vede. Il Monolite vi accoglie. Venite.» Poi spari, vicini."
+],
+"scelte": [
+{
+"t": "Spegnere tutto e nasconderti",
+"tiro": "agilita+mobilita",
+"ok": {
+"testo": "Una colonna di uomini in mimetica grigia passa cantando. Uno si ferma, annusa l'aria come un cane. Poi segue gli altri.",
+"tr": {
+"nervi": 2
+}
+},
+"ko": {
+"testo": "Ti hanno visto. Non gridano, non chiamano: sparano.",
+"allerta": 4,
+"tensione": 1
+},
+"spec": "Passo leggero"
+},
+{
+"t": "Ascoltare ancora",
+"esito": {
+"testo": "La voce elenca nomi. Uno è di uno stalker che conoscevi. Spegni.",
+"tr": {
+"nervi": 2
+},
+"pe": 1
+}
+}
+]
+},
+{
+"id": "jan-stazione",
+"titolo": "La stazione di Janiv",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Janiv e Jupiter"
+},
+"testo": [
+"Nella sala d'attesa di Janiv, Dovere e Libertà dormono a tre metri gli uni dagli altri. Il cuoco serve la stessa zuppa a tutti. Qui la guerra ha l'orario di chiusura."
+],
+"scelte": [
+{
+"t": "Riposare qui (500 ₽)",
+"se": {
+"rubli": 500
+},
+"esito": {
+"testo": "Una branda, una coperta, una zuppa calda. Il sonno arriva subito.",
+"rubli": -500,
+"tr": {
+"fatica": -2,
+"nervi": -1,
+"freddo": -2
+},
+"tempo": 480
+}
+},
+{
+"t": "Ascoltare le voci",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Un vecchio stalker ti racconta di un passaggio sicuro lungo la ferrovia per Pripjat'. Te lo segna sulla mappa.",
+"flag": "via-ferrovia",
+"pe": 1
+},
+"ko": {
+"testo": "Voci, solo voci. Un tesoro nel bunker, una chimera al ponte, un fantasma che chiede sigarette."
+},
+"spec": "Lingua del Bar"
+}
+]
+},
+{
+"id": "zat-nave",
+"titolo": "Lo Skadovsk",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Zaton"
+},
+"testo": [
+"La nave arenata nel fango di Zaton è un bar, un mercato e un dormitorio. Dalla stiva sale musica da una radio rotta. Un mercante con un occhio di vetro ti fa un cenno."
+],
+"scelte": [
+{
+"t": "Vendere quello che hai trovato",
+"esito": {
+"testo": "Il prezzo è onesto, per Zaton. Cioè basso.",
+"tr": {
+"nervi": -1
+}
+}
+},
+{
+"t": "Chiedere lavoro",
+"esito": {
+"testo": "«Recupera il carico di una barca affondata nella palude. Ci sono le chimere, dicono. Diecimila.»",
+"lavoro": {
+"titolo": "Il carico della barca",
+"da": "Mercante dello Skadovsk",
+"testo": "Recuperare il carico di una barca affondata nella palude di Zaton.",
+"paga": 10000,
+"dim": 3,
+"giorni": 7
+}
+}
+}
+]
+},
+{
+"id": "zat-nebbia",
+"titolo": "Nebbia sulla palude",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Zaton",
+"ore": [
+4,
+10
+]
+},
+"testo": [
+"La nebbia sale dall'acqua così fitta che vedi la tua mano solo se la tieni davanti alla faccia. Da qualche parte, uno sciacquio. Grosso."
+],
+"scelte": [
+{
+"t": "Fermarti e ascoltare",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Lo senti girare intorno, poi allontanarsi. Aspetti che la nebbia si alzi.",
+"tempo": 90
+},
+"ko": {
+"testo": "Lo sciacquio si ferma. Proprio dietro di te.",
+"colpo": {
+"D": 3,
+"P": 4
+},
+"tr": {
+"nervi": 2
+}
+}
+},
+{
+"t": "Avanzare piano",
+"tiro": "agilita+mobilita",
+"ok": {
+"testo": "Un passo alla volta, con l'acqua alle caviglie. Ne esci.",
+"tr": {
+"freddo": 1
+}
+},
+"ko": {
+"testo": "Finisci in una buca d'acqua gelata fino al petto.",
+"tr": {
+"freddo": 3,
+"fatica": 1
+}
+},
+"passi": -1
+}
+]
+},
+{
+"id": "pri-ruota",
+"titolo": "La ruota panoramica",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Pripjat'",
+"ore": [
+7,
+17
+]
+},
+"testo": [
+"Il parco di Pripjat'. La ruota panoramica gialla non ha mai girato: dovevano inaugurarla il primo maggio 1986. Sui sedili, foglie e silenzio."
+],
+"scelte": [
+{
+"t": "Fermarti un minuto",
+"esito": {
+"testo": "Pensi alle famiglie che dovevano salirci. Pensi a tua madre. Poi ti rimetti in marcia.",
+"tr": {
+"nervi": -1
+},
+"pe": 1
+}
+},
+{
+"t": "Controllare il contatore",
+"esito": {
+"testo": "La ruota scotta come una stufa. Ti allontani in fretta.",
+"tr": {
+"rad": 1
+}
+}
+}
+]
+},
+{
+"id": "pri-appartamento",
+"titolo": "Un appartamento al quinto piano",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Pripjat'"
+},
+"testo": [
+"Porte aperte su appartamenti uguali: carta da parati a fiori, un calendario fermo all'aprile 1986, una bambola. In uno, un fornello da campo ancora tiepido."
+],
+"scelte": [
+{
+"t": "Frugare",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Sotto il materasso, lo zaino di uno stalker che non è tornato. Cibo, munizioni, una lettera mai spedita.",
+"scorte": {
+"cibo": 2
+},
+"oggetto": {
+"n": "Lettera mai spedita",
+"nota": "trovata a Pripjat', indirizzata a Žytomyr"
+}
+},
+"ko": {
+"testo": "Il pavimento cede sotto il letto. Finisci al piano di sotto con un ginocchio gonfio.",
+"colpo": {
+"D": 1,
+"P": 0
+}
+}
+},
+{
+"t": "Aspettare chi torna",
+"tiro": "sf",
+"ok": {
+"testo": "Torna al tramonto: uno stalker solitario, magro come un chiodo. Vi guardate a lungo, poi dividete la cena. Si chiama {stalker}.",
+"png": {
+"nome": "{stalker} «Eremita»",
+"fazione": "stalker libero",
+"nota": "Vive da solo a Pripjat'. Conosce i tetti e le cantine.",
+"fiducia": 1
+},
+"tempo": 180
+},
+"ko": {
+"testo": "Non torna nessuno. O forse è tornato e ti ha visto per primo.",
+"tempo": 180,
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "cen-sarcofago",
+"titolo": "Il Sarcofago",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "La centrale"
+},
+"testo": [
+"Il Sarcofago è più grande di come lo immaginavi, grigio, storto, rattoppato. L'aria vibra. Il contatore non dà più numeri: dà un suono solo."
+],
+"scelte": [
+{
+"t": "Guardare e andare via",
+"esito": {
+"testo": "Lo guardi abbastanza per ricordarlo tutta la vita. Poi ti giri.",
+"tr": {
+"rad": 2,
+"nervi": 1
+},
+"pe": 1
+}
+},
+{
+"t": "Avvicinarti ancora",
+"tiro": "sf",
+"ok": {
+"testo": "Arrivi fino al muro. Ci metti la mano sopra. È caldo. Torni indietro senza voltarti.",
+"tr": {
+"rad": 3
+},
+"pe": 2,
+"nome": 2
+},
+"ko": {
+"testo": "A cento metri qualcosa ti spegne la testa. Ti svegli lontano, senza sapere come.",
+"tr": {
+"rad": 3,
+"nervi": 3
+},
+"tempo": 180
+},
+"passi": -2
+}
+]
+},
+{
+"id": "sot-laboratorio",
+"titolo": "Un laboratorio",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "Sotterranei e laboratori"
+},
+"testo": [
+"Una porta blindata socchiusa, il cartello «X-» con il numero raschiato. Dentro, luci al neon che si accendono da sole al tuo passaggio, una dopo l'altra."
+],
+"scelte": [
+{
+"t": "Entrare",
+"tiro": "intelletto+tecnica",
+"ok": {
+"testo": "Un terminale funziona ancora. Scarichi sul PDA un elenco di esperimenti con nomi in codice e date. Gli scienziati pagheranno.",
+"oggetto": {
+"n": "Dati di un laboratorio",
+"nota": "scaricati sul PDA; gli scienziati pagano bene"
+},
+"pe": 1,
+"tempo": 60
+},
+"ko": {
+"testo": "Le porte si chiudono dietro di te. Ci metti un'ora a forzarle. Nel frattempo, qualcosa ha cominciato a grattare dall'altra parte del muro.",
+"tr": {
+"nervi": 2
+},
+"tempo": 60
+},
+"spec": "Elettricista"
+},
+{
+"t": "Richiudere la porta",
+"esito": {
+"testo": "Spingi la porta finché non scatta. Le luci, dietro, si spengono una per una."
+}
+}
+]
+},
+{
+"id": "inv-ghiaccio",
+"titolo": "Ghiaccio sul fiume",
+"tono": "guaio",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "*",
+"stagione": "inverno"
+},
+"testo": [
+"Il ruscello che di solito si guada è coperto da una crosta di ghiaccio grigio. Sembra reggere. Sembra."
+],
+"scelte": [
+{
+"t": "Attraversare sul ghiaccio",
+"tiro": "agilita+mobilita",
+"ok": {
+"testo": "Il ghiaccio scricchiola ma regge. Dall'altra parte respiri."
+},
+"ko": {
+"testo": "Crac. Sei nell'acqua fino alla vita.",
+"tr": {
+"freddo": 3,
+"fatica": 1
+}
+}
+},
+{
+"t": "Cercare un guado più a monte",
+"esito": {
+"testo": "Un'ora in più nella neve, ma asciutto.",
+"tempo": 60,
+"tr": {
+"freddo": 1
+}
+}
+}
+]
+},
+{
+"id": "inv-congelato",
+"titolo": "Lo stalker congelato",
+"tono": "calmo",
+"peso": 5,
+"ripeti": 48,
+"se": {
+"luogo": "*",
+"stagione": "inverno"
+},
+"testo": [
+"Seduto contro un albero, coperto di brina, uno stalker con gli occhi chiusi. Sembra che dorma. Non dorme."
+],
+"scelte": [
+{
+"t": "Prendergli quello che ha",
+"esito": {
+"testo": "Guanti, un thermos, mezza bottiglia. A lui non servono più.",
+"scorte": {
+"cibo": 1
+},
+"oggetto": "Vodka",
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Seppellirlo sotto la neve",
+"esito": {
+"testo": "Gli metti una croce di rami. Al Bar qualcuno chiederà di lui, e potrai dire dove sta.",
+"tempo": 30,
+"nome": 1
+}
+}
+]
+}
+]
+}
