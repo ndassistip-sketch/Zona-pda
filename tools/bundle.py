@@ -21,6 +21,11 @@ mp=js(rd("mappa.js")).replace('src="zona.jpg"','src="'+uri("zona.jpg","image/jpe
 h=h.replace("<script>",pre+"<script>"+mp+"</script><script>",1) if False else h
 i=h.index("<script>")
 h=h[:i]+pre+"<script>"+mp+"</script>"+h[i:]
-os.makedirs(os.path.join(R,"dist"),exist_ok=True)
-open(os.path.join(R,"dist","PDA-Zona.html"),"w",encoding="utf-8").write(h)
+out=os.path.join(R,"dist","PDA-Zona.html")
+if len(sys.argv)>2:
+    seed=json.load(open(sys.argv[1],encoding="utf-8"));out=sys.argv[2]
+    sd="<script>(function(){var SEED="+js(json.dumps(seed,ensure_ascii=False))+";try{var st=JSON.parse(localStorage.getItem('pda.stato')||'null');if(!st||!st.pg||!st.pg.nome){Object.keys(SEED).forEach(function(k){localStorage.setItem('pda.'+k,JSON.stringify(SEED[k]));});}}catch(e){}})();</script>"
+    i=h.index("<script>");h=h[:i]+sd+h[i:]
+os.makedirs(os.path.dirname(out),exist_ok=True)
+open(out,"w",encoding="utf-8").write(h)
 print(len(h)//1024,"KB")
