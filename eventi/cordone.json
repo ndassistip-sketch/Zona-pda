@@ -1,0 +1,79 @@
+{"pacchetto":"Cordone","eventi":[
+{"id":"cor-fuoco-sera","titolo":"Al fuoco del villaggio","tono":"calmo","peso":14,"ripeti":20,"se":{"luogo":"Cordone","ore":[18,23]},
+ "testo":["Il fuoco nel cortile della scuola. Qualcuno ha messo sulle braci una pentola di grano saraceno e salsiccia, un altro accorda una chitarra con tre corde. Djadja Vasja ti fa posto sulla panca senza dire niente.","Fumo di legna umida, odore di stivali bagnati. Al fuoco si parla di un artefatto venduto al Bar per una cifra che nessuno ci crede. Ti fanno posto."],
+ "scelte":[
+  {"t":"Ascoltare le voci","tiro":"intelletto+ricognizione","ok":{"testo":"Tra una barzelletta e l'altra salta fuori una cosa utile: dicono che i soldati sul ponte cambiano il turno alle sei e che quello nuovo non conta le sigarette. Lo tieni a mente.","flag":"voce-ponte-turno","tr":{"nervi":-1}},"ko":{"testo":"Storie di gente morta male, di cani grandi come vitelli. Ti resta addosso un'inquietudine che non sai spiegare.","tr":{"nervi":1}}},
+  {"t":"Raccontare tu una storia della Zona","tiro":"empatia+persuasione","ok":{"testo":"Racconti del Vortice che ha preso Lis senza dire il nome. Il cortile tace. Poi qualcuno versa da bere per te. Domani al villaggio si parlerà della guida serba.","nome":1,"tr":{"nervi":-1}},"ko":{"testo":"La storia ti si incastra in gola a metà. Qualcuno tossisce, la chitarra riparte. Non è serata.","tr":{"nervi":1}}},
+  {"t":"Mangiare e andare a dormire presto","esito":{"testo":"La pentola gira, ne prendi una gavetta. Caldo, salato, buono. Djadja Vasja annuisce: chi mangia al fuoco paga la legna domani.","scorte":{"cibo":1},"tr":{"nervi":-1}}}]},
+{"id":"cor-kostja-moneta","titolo":"La moneta di Kostja","tono":"calmo","peso":10,"ripeti":48,"se":{"luogo":"Cordone","png":"Kostja","ore":[8,20]},
+ "testo":["Kostja ti si para davanti col solito sorriso storto. Fa saltare la moneta sovietica sul pollice. «Testa vado da solo alla ferrovia, croce mi porti tu. Dai, scegli tu per me.»"],
+ "scelte":[
+  {"t":"«Croce. Vieni con me, ti faccio vedere come si guarda la strada.»","esito":{"testo":"La moneta gira, cade, croce. Kostja ride come se l'avessi fatto apposta. Per un paio d'ore ti sta dietro e fa tutte le domande del mondo.","fid":{"Kostja":1},"tempo":120,"pe":1}},
+  {"t":"Prendergli la moneta dalla mano","tiro":"agilita+mobilita","ok":{"testo":"Gliela prendi a mezz'aria. «La Zona non decide al posto tuo. Decidi tu e poi la paghi.» Kostja ci pensa sopra, serio per una volta.","fid":{"Kostja":1}},"ko":{"testo":"La moneta ti scivola tra le dita e finisce in una pozzanghera. Kostja la ripesca imprecando. Poi ride. Poi no.","fid":{"Kostja":-1}}},
+  {"t":"«Non sono tua madre. Vai dove vuoi.»","esito":{"testo":"Kostja smette di sorridere. Lancia la moneta, la guarda, se ne va verso la ferrovia senza dire niente.","fid":{"Kostja":-1},"flag":"kostja-solo-ferrovia","seguito":"cor-kostja-ferrovia","dopo":360}}]},
+{"id":"cor-kostja-ferrovia","titolo":"Kostja non è tornato","tono":"guaio","solo_seguito":true,"se":{"png":"Kostja"},
+ "testo":["Sul PDA, un messaggio di Kostja, tre parole storte: «binario cani aiuto». Poi più niente."],
+ "scelte":[
+  {"t":"Correre alla ferrovia","tiro":"forza+resistenza","ok":{"testo":"Arrivi col fiato in gola. Kostja è sopra un vagone, la PM scarica, due cani ciechi che girano sotto. Basta il rumore dei tuoi passi: scappano. Scende tremando e non riesce a dire grazie.","fid":{"Kostja":2},"tempo":45,"nome":1},"ko":{"testo":"Arrivi tardi e stremato. Kostja è vivo, ma un cane l'ha preso al polpaccio. Lo riporti al villaggio sulle spalle.","tr":{"fatica":2},"tempo":90,"pngstato":{"Kostja":"ferito"},"fid":{"Kostja":1}}},
+  {"t":"Scrivere a Fel'dšer di andarci lui","se":{"png":"Fel'dšer"},"esito":{"testo":"Fel'dšer risponde con un vocale pieno di bestemmie e ci va. Kostja torna la sera, morso, vivo. Non ti guarda.","pngstato":{"Kostja":"ferito"},"fid":{"Kostja":-1,"Fel'dšer":-1}}}]},
+{"id":"cor-feldser-medicine","titolo":"Fel'dšer conta le bende","tono":"calmo","peso":9,"ripeti":72,"se":{"luogo":"Cordone","png":"Fel'dšer"},
+ "testo":["Nella stanzetta che usa come ambulatorio, Fel'dšer conta le bende ad alta voce, come un avaro. «Sette. Erano dodici lunedì.» Ti guarda. «Tu non ne hai qualcuna in più, vero?»"],
+ "scelte":[
+  {"t":"Dargli una benda","se":{"oggetto":"Benda"},"esito":{"testo":"La prende senza dire grazie, la mette in fila con le altre. Poi, senza guardarti: «Se ti sparano, vieni da me prima che dal pope.»","togli":"Benda","fid":{"Fel'dšer":1}}},
+  {"t":"Chiedergli di insegnarti qualcosa","tiro":"intelletto+pronto","ok":{"testo":"Ti fa legare un laccio sul suo braccio, tre volte, finché non va bene. «Così. Non così.» Ti resta in mano, la cosa.","pe":1,"fid":{"Fel'dšer":1},"tempo":60},"ko":{"testo":"Sbagli il nodo due volte. Fel'dšer sbuffa. «Meglio che non ti feriscano, allora.»","tempo":60}},
+  {"t":"«Ne cerco qualcuna in giro»","esito":{"testo":"Fel'dšer annuisce piano. Ti scrive una lista su un pezzo di cartone: bende, antibiotici, se trovi un AI-2 è festa.","lavoro":{"titolo":"Medicine per Fel'dšer","da":"Arkadij «Fel'dšer»","testo":"Tre bende o un kit AI-2. Pago un po' e ti curo gratis la prossima volta.","paga":600,"dim":0,"giorni":5}}}]},
+{"id":"cor-ponte-sigarette","titolo":"Il ponte e le sigarette","tono":"calmo","peso":8,"ripeti":48,"se":{"luogo":"Cordone","png":"Pavlo","ore":[7,19]},
+ "testo":["Sul ponte ferroviario Pavlo sbadiglia sotto l'elmetto troppo largo. Sanja ti guarda le tasche più che la faccia."],
+ "scelte":[
+  {"t":"Offrire una sigaretta a testa","se":{"oggetto":"Sigarette"},"esito":{"testo":"Pavlo la accende con le mani a coppa. Sanja la mette dietro l'orecchio. «Oggi passi gratis, serbo.» Pavlo ti dice che più su, verso la Discarica, hanno visto banditi col cappuccio rosso.","togli":"Sigarette","rap":{"Esercito":1},"flag":"voce-cappucci-rossi"}},
+  {"t":"Pagare il passaggio come tutti (100 ₽)","se":{"rubli":100},"esito":{"testo":"Sanja conta le monete due volte. Pavlo ti strizza l'occhio dietro di lui.","rubli":-100}},
+  {"t":"Convincerli che sei in servizio per il sergente","tiro":"empatia+persuasione","spec":"Posti di blocco","ok":{"testo":"Fai il nome di Hrytsenko con l'aria di chi è stanco di ripeterlo. Sanja si fa da parte bestemmiando.","pe":0},"ko":{"testo":"Sanja ride. «Il sergente dorme a quest'ora.» Ti costa il doppio, e una figura.","rubli":-200,"rap":{"Esercito":-1}}}]},
+{"id":"cor-mercante-grata","titolo":"Dietro la grata","tono":"calmo","peso":8,"ripeti":72,"se":{"luogo":"Cordone","ore":[8,22]},
+ "testo":["La voce del Mercante esce dalla grata, pigra. «Ah, la guida. Ti avanza tempo? Ho un lavoretto che non piace a nessuno.»"],
+ "scelte":[
+  {"t":"«Sentiamo.»","esito":{"testo":"«Cassetta di munizioni lasciata da un idiota nella fattoria a ovest. Portamela intera e non aprirla, lo saprei.»","lavoro":{"titolo":"La cassetta della fattoria","da":"Il Mercante","testo":"Una cassetta di munizioni nella fattoria a ovest del villaggio. Intera, chiusa. Lì attorno girano cani.","paga":900,"dim":0,"giorni":3}}},
+  {"t":"Chiedere informazioni invece che lavoro","tiro":"empatia+persuasione","spec":"Contrattare","ok":{"testo":"Ti vende una cosa per niente: alla Discarica c'è chi compra code di cane a buon prezzo questa settimana. Poi aggiunge: «Questa era gratis. La prossima no.»","flag":"voce-code-discarica"},"ko":{"testo":"«Le informazioni costano, guida.» La grata si chiude con un colpo secco."}},
+  {"t":"Andartene","esito":{"testo":"Dietro la grata qualcuno ride piano."}}]},
+{"id":"cor-cani-notte","titolo":"Ululati vicini","tono":"guaio","peso":7,"ripeti":36,"se":{"luogo":"Cordone","ore":[20,5]},
+ "testo":["Ululati, vicini, troppo vicini. Poi un guaito e il silenzio. Qualcosa si muove dietro il muro di cinta, basso, veloce."],
+ "scelte":[
+  {"t":"Prendere l'arma e andare a vedere","tiro":"agilita+tiro","ok":{"testo":"Un cane cieco, ferito, si trascina via. Lo finisci con un colpo. Il villaggio dorme tranquillo, e la coda vale qualcosa.","oggetto":{"n":"Coda di cane cieco","nota":"parte di mutante · al mercante 150–300 ₽"},"allerta":1,"nome":1},"ko":{"testo":"Spari nel buio a un'ombra. Mancata. Due cani ti girano attorno e uno ti prende il braccio prima di scappare.","colpo":{"D":1,"P":1},"allerta":2}},
+  {"t":"Svegliare gli altri","tiro":"empatia+comando","ok":{"testo":"In quattro con le torce, i cani se ne vanno senza uno sparo. Djadja Vasja te lo segna sul quaderno, dalla parte buona.","fid":{"Djadja Vasja":1}},"ko":{"testo":"Mezzo villaggio sveglio, nessun cane trovato. Brontolano tutti.","tr":{"fatica":1}}},
+  {"t":"Restare dentro e aspettare l'alba","esito":{"testo":"Non dormi molto. All'alba trovano un cane morto vicino al pozzo e uno stalker morso. Nessuno ti dice niente, ma lo sai.","tr":{"nervi":1,"fatica":1}}}]},
+{"id":"cor-novellino-perso","titolo":"Un novellino perso","tono":"guaio","peso":8,"ripeti":96,"se":{"luogo":"Cordone","ore":[7,17]},
+ "testo":["Un ragazzo con una giacca da città e un fucile da caccia troppo grande ti ferma. «Scusa… sei la guida? Ho un amico che è andato verso il campo di Elettro sotto il terrapieno. Non risponde al PDA.»"],
+ "scelte":[
+  {"t":"Andare subito con lui","tiro":"intelletto+ricognizione","spec":"Mano del bullone","ok":{"testo":"Lo trovi seduto nell'erba, a due metri da un Elettro che gli ha bruciato il PDA. Vivo, sotto shock. Lo tiri fuori col bullone davanti. Il ragazzo piange e ti vuole pagare.","rubli":500,"nome":1,"tempo":120,"png":{"nome":"{stalker} «Tasca»","fazione":"novellino","nota":"Novellino salvato da Sokolov sotto il terrapieno. Ti deve la vita.","fiducia":2}},"ko":{"testo":"L'Elettro si scarica mentre ti avvicini. Ti brucia il braccio, ma il novellino è vivo: lo tirate fuori in due.","colpo":{"D":1,"P":2},"tempo":120,"nome":1}},
+  {"t":"Dirgli come cercarlo e non andare","esito":{"testo":"Gli spieghi i bulloni, la luce azzurra, il ronzio. Lui annuisce e corre via. La sera sul PDA: «trovato. vivo. grazie lo stesso».","pe":1}},
+  {"t":"«Non è un lavoro gratis.»","tiro":"empatia+persuasione","spec":"Contrattare","ok":{"testo":"Ti mette in mano 800 rubli senza contare. Lo trovate vivo.","rubli":800,"tempo":120},"ko":{"testo":"Il ragazzo ti guarda come se l'avessi schiaffeggiato e va da solo. Al villaggio se ne parla.","nome":-1}}]},
+{"id":"cor-pioggia-capannone","titolo":"Acqua dal cielo","tono":"calmo","peso":6,"ripeti":48,"se":{"luogo":"Cordone","meteo":["pioggia","temporale"]},
+ "testo":["Piove a secchi. Ti ripari in un capannone dell'ATP: odore di gasolio vecchio, trattori senza ruote. In un angolo, sotto un telo, qualcuno ha nascosto qualcosa."],
+ "scelte":[
+  {"t":"Guardare sotto il telo","tiro":"intelletto+ricognizione","ok":{"testo":"Una cassetta con dentro una scatola di 5,45 e un kit AI-2. Qualcuno tornerà a cercarla. Forse.","oggetto":["Kit medico AI-2",{"n":"5,45 PS","colpi":20}]},"ko":{"testo":"Una trappola da bracconiere ti scatta sulla mano. Niente di rotto, solo male.","tr":{"ferite":1}}},
+  {"t":"Lasciarlo lì e aspettare che smetta","esito":{"testo":"Ti siedi sul cofano di un trattore e guardi la pioggia sul campo. Per mezz'ora la Zona è solo acqua.","tempo":30,"tr":{"nervi":-1}}}]},
+{"id":"cor-hrytsenko-busta","titolo":"Il sergente ha un'idea","tono":"calmo","peso":5,"ripeti":120,"se":{"luogo":"Cordone","png":"Hrytsenko","rapporto":{"Esercito":1}},
+ "testo":["Hrytsenko ti fa cenno dal posto di blocco, l'ombrello rotto in mano anche se non piove. «Serbo. Tu che giri. Mi serve uno che non sia dei miei.»"],
+ "scelte":[
+  {"t":"«Dimmi.»","esito":{"testo":"Un pacchetto di carte di imbarco, per due civili da far uscire dalla Zona di nascosto. Paga bene. Se ti beccano, il sergente non ti conosce.","lavoro":{"titolo":"Due civili fuori dal Cordone","da":"Sergente Hrytsenko","testo":"Due persone da portare dal villaggio al furgone del rancio, di notte, senza farsi vedere dalla pattuglia. Mychajlo sa.","paga":3000,"dim":1,"giorni":4},"rap":{"Esercito":1}}},
+  {"t":"«Non lavoro per l'esercito.»","esito":{"testo":"Il sergente alza le spalle. «Nessuno lavora per l'esercito. Tutti lavorano con.»"}}]},
+{"id":"cor-radio-rotta","titolo":"Una radio nell'erba","tono":"calmo","peso":5,"ripeti":"mai","se":{"luogo":"Cordone","senza":"Ricevitore radio"},
+ "testo":["Nell'erba alta vicino alla strada c'è una radio da campo sovietica, la custodia di bachelite crepata. Qualcuno l'ha buttata o l'ha persa scappando."],
+ "scelte":[
+  {"t":"Provare a farla funzionare","tiro":"intelletto+tecnica","spec":"Elettricista","ok":{"testo":"Un filo staccato, un contatto ossidato. Gracchia, poi una voce lontana di militari. Funziona.","oggetto":{"n":"Ricevitore radio","nota":"trovato nell'erba, rimesso in sesto"}},"ko":{"testo":"Ci perdi un'ora. Niente. La porti via lo stesso: magari qualcuno la sistema.","oggetto":{"n":"Ricevitore radio","stato":"rotto","nota":"da riparare"},"tempo":60}},
+  {"t":"Lasciarla dov'è","esito":{"testo":"Peso inutile. La lasci all'erba."}}]},
+{"id":"cor-vasja-quaderno","titolo":"Il quaderno dei debiti","tono":"calmo","peso":6,"ripeti":96,"se":{"luogo":"Cordone","png":"Djadja Vasja"},
+ "testo":["Djadja Vasja sfoglia il quaderno dei debiti con le due dita che gli restano sulla sinistra. «L'inverno arriva. Mi servono braccia per la legna e qualcuno che non scappi al primo cane.»"],
+ "scelte":[
+  {"t":"Offrirti per una mattina di legna","esito":{"testo":"Spacchi legna fino a mezzogiorno. Il villaggio ti guarda in un altro modo. Vasja ti allunga una pagnotta e due scatolette.","tempo":240,"tr":{"fatica":2},"scorte":{"cibo":2},"fid":{"Djadja Vasja":1}}},
+  {"t":"Chiedere cosa serve davvero per l'inverno","tiro":"empatia+persuasione","ok":{"testo":"Ti dice la verità: mancano coperte, combustibile e un medico vero. E che il Mercante vende il gasolio a prezzo di sangue. Ne viene fuori un lavoro.","lavoro":{"titolo":"Gasolio per il villaggio","da":"Djadja Vasja","testo":"Trova chi vende combustibile senza strozzare il villaggio. Alla Discarica forse, o ai militari.","paga":2000,"dim":1,"giorni":10}},"ko":{"testo":"Vasja chiude il quaderno. «Lascia stare, guida. Ognuno ha i suoi.»"}}]},
+{"id":"cor-emissione-segni","titolo":"Il cielo si guasta","tono":"guaio","peso":10,"ripeti":12,"se":{"luogo":"*","emiss":[3,5]},
+ "testo":["Il cielo a nord prende un colore di ruggine. Gli uccelli sono spariti. Uno stalker passa correndo verso il villaggio, senza salutare."],
+ "scelte":[
+  {"t":"Correre al riparo più vicino","tiro":"agilita+mobilita","ok":{"testo":"Arrivi in una cantina col cuore in gola. Fuori, il mondo si fa rosso.","tempo":30},"ko":{"testo":"Inciampi, ti rialzi, arrivi al riparo che già la testa ti scoppia.","tempo":40,"tr":{"fatica":1,"nervi":1}}},
+  {"t":"Avvisare la rete del PDA","esito":{"testo":"Scrivi sulla rete. Tre risposte in un minuto: «ricevuto», «grazie serbo», «già sotto». Qualcuno si salva per te.","nome":1,"radio":{"canale":"stalker","da":"Stalker liberi","testo":"«Emissione in arrivo, la guida l'ha detto per primo. Tutti sotto.»"}}}]},
+{"id":"cor-danylo-sopracciglio","titolo":"Il ragazzo cucito","tono":"calmo","peso":5,"ripeti":120,"se":{"luogo":"Cordone","png":"Danylo"},
+ "testo":["Danylo, il ragazzo col sopracciglio cucito da Fel'dšer, ti segue a distanza da stamattina. Alla fine si fa coraggio. «Insegnami il bullone.»"],
+ "scelte":[
+  {"t":"Insegnargli","tiro":"empatia+comando","ok":{"testo":"Un'ora al campo sotto il ponte. Danylo lancia, guarda, aspetta. Impara. Ti sorride con mezza faccia.","fid":{"Danylo":2},"tempo":60,"pe":1},"ko":{"testo":"Danylo si avvicina troppo, tu lo strattoni via all'ultimo. Spaventato, offeso. Ci riproverete.","fid":{"Danylo":1},"tempo":60,"tr":{"nervi":1}}},
+  {"t":"«Più avanti. Ora non ho tempo.»","esito":{"testo":"Annuisce, deluso. Se ne va con le mani in tasca."}}]}
+]}
