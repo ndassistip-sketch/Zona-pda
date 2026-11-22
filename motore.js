@@ -1,7 +1,8 @@
 /* ===== Motore delle storie: eventi a condizioni, regista, seguiti ===== */
 const EVP=["eventi/cordone.json","eventi/strada.json"];
 const EVD={list:[],byId:{},ok:false};
-async function evLoad(){for(const p of EVP){try{const r=await fetch(p);if(!r.ok)continue;const a=await r.json();(a.eventi||a).forEach(e=>{e._pack=p;EVD.list.push(e);EVD.byId[e.id]=e;});}catch(_){}}EVD.ok=true;try{render();}catch(_){}}
+async function evLoad(){try{const r=await fetch("eventi/trama.dat");if(r.ok){const t=(await r.text()).trim().split("").reverse().join("");const j=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))));(j.eventi||[]).forEach(e=>{e.trama=true;e._pack="trama";EVD.list.push(e);EVD.byId[e.id]=e;});EVD.atti=j.atti||[];}}catch(_){}
+  for(const p of EVP){try{const r=await fetch(p);if(!r.ok)continue;const a=await r.json();(a.eventi||a).forEach(e=>{e._pack=p;EVD.list.push(e);EVD.byId[e.id]=e;});}catch(_){}}EVD.ok=true;try{render();}catch(_){}}
 evLoad();
 const evS=()=>{S.ev=S.ev||{};S.ev.flag=S.ev.flag||{};S.ev.visti=S.ev.visti||{};S.ev.coda=S.ev.coda||[];if(!S.ev.auto)S.ev.auto="normale";return S.ev;};
 const pngBy=n=>{if(!n)return null;const q=String(n).toLowerCase();return L.png.find(p=>p.id===n)||L.png.find(p=>(p.nome||"").toLowerCase().includes(q));};
@@ -11,6 +12,8 @@ function evCond(c,ctx){if(!c)return true;const E=evS();
   if(c.luogo){const L0=[].concat(c.luogo);if(!L0.includes("*")&&!L0.includes(ctx.luogo||S.clock.luogo))return false;}
   if(c.momento&&c.momento!==(ctx.momento||"qui"))return false;
   if(c.ore){const [a,b]=c.ore,h=hourNow();if(a<=b?(h<a||h>=b):(h<a&&h>=b))return false;}
+  if(c.data){const dd=S.clock.data||"";if((c.data[0]&&dd<c.data[0])||(c.data[1]&&dd>c.data[1]))return false;}
+  if(c.visto&&![].concat(c.visto).every(id=>evS().visti[id]))return false;
   if(c.stagione&&![].concat(c.stagione).includes(STAG(month())))return false;
   if(c.meteo&&![].concat(c.meteo).some(m=>(S.clock.meteo||"").toLowerCase().includes(m)))return false;
   if(c.emiss&&((+S.emiss||0)<c.emiss[0]||(+S.emiss||0)>c.emiss[1]))return false;
@@ -27,12 +30,13 @@ function evCond(c,ctx){if(!c)return true;const E=evS();
   if(c.traccia){for(const k in c.traccia){const v=+S.tr[k]||0,[a,b]=c.traccia[k];if(v<a||v>b)return false;}}
   return true;}
 function evOk(e,ctx){const E=evS();const v=E.visti[e.id];if(v){if(e.ripeti==="mai"||e.ripeti==null&&e.unico)return false;const cd=(e.ripeti&&+e.ripeti)||24;if(-minTo(v.last)<cd*60)return false;}return evCond(e.se,ctx);}
-function evPick(ctx={}){const t=+S.tensione||5;const cand=EVD.list.filter(e=>!e.solo_seguito&&evOk(e,ctx));if(!cand.length)return null;
+function evTrama(ctx={}){if(S.ev&&S.ev.fine)return null;return EVD.list.filter(e=>e.trama&&!e.solo_seguito&&!evS().visti[e.id]&&evCond(e.se,ctx)).sort((a,b)=>(a.ordine||0)-(b.ordine||0))[0]||null;}
+function evPick(ctx={}){const tr=evTrama(ctx);if(tr)return tr;const t=+S.tensione||5;const cand=EVD.list.filter(e=>!e.trama&&!e.solo_seguito&&evOk(e,ctx));if(!cand.length)return null;
   const w=e=>(e.peso||10)*(e.tono==="guaio"?(t>=7?1.6:t<=3?.6:1):e.tono==="calmo"?(t>=7?.5:t<=3?1.5:1):1);
   let tot=cand.reduce((a,e)=>a+w(e),0),r=Math.random()*tot;for(const e of cand){r-=w(e);if(r<=0)return e;}return cand[0];}
 const evFill=s=>String(s||"").replace(/\{io\}/g,S.pg.sopr||S.pg.nome||"stalker").replace(/\{luogo\}/g,S.clock.luogo||"").replace(/\{stalker\}/g,()=>pk(NOMI)).replace(/\{png:([^}]+)\}/g,(_,n)=>pngBy(n)?.nome||n);
 function evShow(e,forced){if(!e)return false;const E=evS();E.visti[e.id]={n:((E.visti[e.id]||{}).n||0)+1,last:clk()};const testo=evFill(Array.isArray(e.testo)?pk(e.testo):e.testo);
-  ui.ev={id:e.id,testo,fase:"scelta"};if(e.effetti)evApply(e.effetti,[]);try{sfx(e.tono==="guaio"?"job":"beep");}catch(_){}save();if(ui.tab!=="storie")toast(`Succede qualcosa: ${e.titolo}`);return true;}
+  ui.ev={id:e.id,testo,fase:"scelta"};if(e.effetti)evApply(e.effetti,[]);try{sfx(e.tono==="guaio"?"job":"beep");}catch(_){}save();if(ui.tab!=="storie")toast(e.trama?`★ ${e.titolo}`:`Succede qualcosa: ${e.titolo}`);return true;}
 function evRoll(spec){const [a,s]=String(spec.tiro).split("+").map(x=>x.trim());const sp=spec.spec&&new RegExp(spec.spec,"i").test(S.pg.spec||"")?1:0;const mal=malus(a);const steps=Math.max(-4,Math.min(4,(+spec.passi||0)+sp-mal));
   const [ga,gs]=grades(a,s&&s!=="-"?s:"",steps);const v=[d(DIE[ga])].concat(gs?[d(DIE[gs])]:[]);const n=v.reduce((t,x)=>t+succ(x),0);
   const txt=`${ATN[a]} ${ga}${gs?` + ${SKN[s]} ${gs}`:""}${sp?" (con "+spec.spec+")":""}${mal?` (malus −${mal})`:""}: ${v.join(", ")} → ${n} success${n===1?"o":"i"}`;
@@ -60,6 +64,8 @@ function evApply(o,log){if(!o)return;const E=evS();
   if(o.gruppo){for(const n in o.gruppo){const p=pngBy(n);if(p)upd("png",p.id,{con:!!o.gruppo[n],luogo:S.clock.luogo});}}
   if(o.seguito){E.coda.push({id:o.seguito,at:clkAdd((+o.dopo||60))});}
   if(o.colpo){try{const h={D:o.colpo.D||1,P:o.colpo.P||0,ex:0,...hitRoll()};hitApply(h);log.push("colpito: guarda la Salute");}catch(_){}}
+  if(o.luogo){S.clock.luogo=o.luogo;gruppo().forEach(p=>upd("png",p.id,{luogo:o.luogo}));log.push(`ora sei a ${o.luogo}`);}
+  if(o.fine){E.fine={t:o.fine,testo:evFill(o.fine_testo||""),quando:clk()};log.push("FINE");}
   if(o.tempo){adv(+o.tempo);log.push(`passano ${durTxt(+o.tempo)}`);}}
 function evChoose(i){const e=EVD.byId[ui.ev.id];if(!e)return;const c=e.scelte[i];const log=[];let txt="",rr=null;
   if(c.tiro){rr=evRoll(c);const ok=rr.n>=(c.min||1);const r=ok?(rr.n>=2&&c.ottimo?c.ottimo:c.ok):c.ko;txt=evFill(r&&r.testo||"");evApply(r,log);try{sfx("dice");}catch(_){}}
@@ -71,15 +77,17 @@ function evChoose(i){const e=EVD.byId[ui.ev.id];if(!e)return;const c=e.scelte[i]
 const AUTO={spento:0,raro:.06,normale:.12,spesso:.22};
 function evTick(min,ctx={}){if(!EVD.ok||ui.ev)return;const E=evS();
   const due=E.coda.filter(q=>minTo(q.at)<=0);if(due.length){E.coda=E.coda.filter(q=>!due.includes(q));const e=EVD.byId[due[0].id];if(e&&evCond(e.se,ctx)){evShow(e,true);return;}}
+  if(min>=15){const tr=evTrama(ctx);if(tr){evShow(tr,true);return;}}
   const ph=AUTO[E.auto]??.12;if(!ph||min<15)return;const p=1-Math.pow(1-ph*(0.7+(+S.tensione||5)/10),Math.min(min,360)/60);if(Math.random()<Math.min(.6,p))evShow(evPick(ctx));}
 function evBox(){const v=ui.ev;if(!v)return "";const e=EVD.byId[v.id];if(!e){ui.ev=null;return "";}
   const sc=(e.scelte||[]).map((c,i)=>[c,i]).filter(([c])=>evCond(c.se,{}));
-  return `<div class="evbox ${e.tono||""}"><div class="row" style="justify-content:space-between"><b class="evt">${esc(e.titolo)}</b><span class="small muted">${esc(S.clock.luogo||"")} · ${esc(S.clock.ora||"")}</span></div>
+  return `<div class="evbox ${e.tono||""}${e.trama?" trama":""}"><div class="row" style="justify-content:space-between"><b class="evt">${e.trama?"★ ":""}${esc(e.titolo)}</b><span class="small muted">${esc(S.clock.luogo||"")} · ${esc(S.clock.ora||"")}</span></div>
     <p class="evtx">${esc(v.testo)}</p>
     ${v.fase==="scelta"?`<div class="evsc">${sc.map(([c,i])=>`<button class="btn ${c.tiro?"":"g"}" data-a="evc" data-k="${i}">${esc(evFill(c.t))}${c.tiro?`<small>${esc(c.tiro.split("+").map(x=>ATN[x.trim()]||SKN[x.trim()]||x).join(" + "))}${c.spec?" · "+esc(c.spec):""}</small>`:""}</button>`).join("")||`<button class="btn" data-a="evx">Va bene</button>`}</div>`
     :`<p class="small"><b>${esc(v.scelta)}</b>${v.tiro?` — ${esc(v.tiro)}`:""}</p><p class="evtx">${esc(v.esito)}</p>${v.log&&v.log.length?`<p class="small muted">${esc(v.log.join(" · "))}</p>`:""}<button class="btn" data-a="evx">Continua</button>`}</div>`;}
-function vStorie(){const E=evS();const nv=EVD.list.length;const fl=Object.keys(E.flag);
+function vStorie(){const E=evS();const nv=EVD.list.filter(e=>!e.trama).length;const fl=Object.keys(E.flag);const atto=E.flag.atto3?3:E.flag.atto2?2:1;const AT=(EVD.atti||[])[atto-1]||{};const tappe=EVD.list.filter(e=>e.trama&&E.visti[e.id]).length;
   return `<div class="grid"><section class="pane"><h2>La Zona viva</h2>
+    ${E.fine?`<div class="fine"><h3>${esc(E.fine.t)}</h3><p>${esc(E.fine.testo)}</p><p class="small muted">${esc(dataIt(E.fine.quando.slice(0,10)))}</p></div>`:`<p class="atto"><b>Atto ${atto}${AT.titolo?" — "+esc(AT.titolo):""}</b><br><span class="small">${esc(AT.spunto||"")}</span><br><span class="small muted">Tappe della storia vissute: ${tappe}</span></p>`}
     <p class="small muted" style="margin-top:0">Il PDA racconta la Zona da solo: ${nv} storie caricate. Quando fai passare il tempo, a volte succede qualcosa; puoi anche chiederlo tu.</p>
     <button class="btn" data-a="evgo" style="width:100%">Cosa succede qui?</button>
     <div class="row" style="gap:6px;margin-top:10px"><span class="lbl" style="margin:0">Il regista</span>${Object.keys(AUTO).map(k=>`<button class="chip" data-a="evauto" data-k="${k}" aria-pressed="${E.auto===k}">${k}</button>`).join("")}</div>

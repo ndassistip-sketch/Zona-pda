@@ -1,4 +1,4 @@
-const APPV="0.1";
+const APPV="0.2";
 /* ===== utili ===== */
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const d=n=>1+Math.floor(Math.random()*n);
@@ -56,7 +56,7 @@ scorte:{cibo:0,acqua:0,comb:0},cap:{addosso:8,zaino:24},
 clock:{data:"2012-10-15",ora:"07:30",meteo:"",luogo:"Cordone"},emiss:0,allerta:0,tensione:5,lastBuy:null,corpo:[],eff:[],amb:{fuori:true},nasc:[],artUso:{}};
 let db=null,conn="loading",S=clone(DEF),ARM=[];
 const L={inv:[],pda:[],tiri:[],solo:[],diario:[],png:[]};
-const ui={tab:location.hash.slice(1)||"scheda",roll:null,acat:"armi",arar:"tutte",pdaTab:"rete",solo:[],dr:{a:"agilita",s:"tiro",p:0,m:0,tr:true}};
+const ui={tab:(location.hash.slice(1)==='salute'?'scheda':location.hash.slice(1))||"scheda",roll:null,acat:"armi",arar:"tutte",pdaTab:"rete",solo:[],dr:{a:"agilita",s:"tiro",p:0,m:0,tr:true}};
 let saveT=null,dirty=false;
 const LS={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 function save(){dirty=true;clearTimeout(saveT);saveT=setTimeout(async()=>{const snap=clone(S);if(db){try{await db.doc("stato/main").set(snap);}catch(e){toast("Non salvato: riprovo alla prossima modifica.");}}else LS.set("pda.stato",snap);dirty=false;},450);render();}
@@ -234,7 +234,7 @@ function stripHtml(){const t=S.tr,ab=[["ferite","Fer"],["fatica","Fat"],["nervi"
   const mal=["forza","agilita","intelletto","empatia"].map(a=>malus(a)).map((v,i)=>v?`${"FAIE"[i]}−${v}`:"").filter(Boolean).join(" ");const E=effs();
   return `<div class="strip">${ab.map(([k,n])=>{const v=+t[k]||0;return `<span class="tk${v>=5?" crit":v>=3?" hot":v?" on":""}" title="${k}">${n} <b>${v}</b></span>`;}).join("")}
     ${mal?`<span class="tk hot">malus ${mal}</span>`:""}<span class="tk${sl.addosso>S.cap.addosso||sl.zaino>capZ()?" hot":""}">carico <b>${fs(sl.addosso)}/${S.cap.addosso}</b> · <b>${fs(sl.zaino)}/${capZ()}</b></span>
-    ${W&&isFire(w)?`<span class="tk">${esc(w.n)} <b>${carOf(W)}/${capOf(w,W)||"?"}</b></span>`:""}${E.length?`<span class="tk on">${E.length} farmac${E.length===1?"o":"i"}</span>`:""}<span class="tk${(+S.emiss||0)>=3?" hot":""}">Emiss. <b>${S.emiss||0}/6</b></span>
+    ${W&&isFire(w)?`<span class="tk">${esc(w.n)} <b>${carOf(W)}/${capOf(w,W)||"?"}</b></span>`:""}${E.length?`<span class="tk on">${E.length} farmac${E.length===1?"o":"i"}</span>`:""}<a class="tk" href="#salute" title="vai alla Salute">salute ↓</a><span class="tk${(+S.emiss||0)>=3?" hot":""}">Emiss. <b>${S.emiss||0}/6</b></span>
     <span class="sp"></span>${ui.undo?`<button class="btn g s" data-a="undo" title="tasto U">Annulla ${esc(ui.undo.label)}</button>`:""}<button class="btn g s" data-a="big" aria-pressed="${!!LS.get("pda.big")}" title="testo più grande">A+</button></div>`;}
 /* tiri rapidi */
 const QR=[["agilita","tiro","Sparare"],["intelletto","ricognizione","Cercare"],["agilita","mobilita","Muoversi"],["intelletto","sopravvivenza","Sopravvivere"],["intelletto","tecnica","Aggiustare"],["empatia","persuasione","Convincere"],["empatia","pronto","Curare"],["forza","resistenza","Resistere"],["forza","corpo","Corpo a corpo"],["sf","","Sangue freddo"]];
@@ -577,7 +577,7 @@ function compagno(){const g=pk(["D","C","C","B"]),m=pk(["D","C","C","B"]);const 
 const tabsVis=()=>TABS.concat(TABS_END).filter(([k])=>k!=="crea"||!S.pg.nome||ui.tab==="crea");
 const mapMarks=()=>[...(S.nasc||[]).map(n=>({zona:n.zona,txt:"▣ "+n.nome,cls:""})),...L.pda.filter(j=>j.tipo==="lavoro"&&["offerto","accettato"].includes(j.stato||"offerto")&&j.luogo).map(j=>({zona:j.luogo,txt:"✦ "+j.titolo,cls:"job"})),...L.png.filter(p=>p.luogo&&!p.con&&p.stato!=="morto"&&p.imp).map(p=>({zona:p.luogo,txt:"● "+p.nome,cls:"png"}))];
 const TABS_END=[["sistema","Sistema"]];
-const TABS=[["scheda","Scheda"],["dadi","Dadi"],["salute","Salute"],["gruppo","Gruppo"],["storie","Storie"],["zaino","Zaino"],["armeria","Armeria"],["pda","Rete"],["oracolo","Oracolo"],["registro","Registro"],["mappa","Zona"],["crea","Creazione"]];
+const TABS=[["scheda","Scheda"],["dadi","Dadi"],["gruppo","Gruppo"],["storie","Storie"],["zaino","Zaino"],["armeria","Armeria"],["pda","Rete"],["oracolo","Oracolo"],["registro","Registro"],["mappa","Zona"],["crea","Creazione"]];
 const pips=(k,v,max,act,hot)=>`<div class="pips">${Array.from({length:max},(_,i)=>`<button class="pip ${i<v?"on":""} ${hot&&i<v&&i>=hot-1?"hot":""}" data-a="${act}" data-k="${k}" data-v="${i+1}" aria-label="${k} ${i+1}"></button>`).join("")}</div>`;
 const sel=(f,opts,cur)=>`<select data-f="${f}">${opts.map(([v,n])=>`<option value="${esc(v)}" ${String(cur)===String(v)?"selected":""}>${esc(n)}</option>`).join("")}</select>`;
 const GOPT=[["A","A · d12"],["B","B · d10"],["C","C · d8"],["D","D · d6"]];
@@ -1188,7 +1188,7 @@ let pqT;document.addEventListener("input",e=>{const el=e.target;if(el.dataset&&e
 document.addEventListener("input",e=>{const el=e.target;if(el.dataset.cr!=null&&el.tagName==="INPUT"){crSet(el.dataset.cr,el.value);crSave(false);}});
 document.addEventListener("change",e=>{const el=e.target;if(el.dataset.cr!=null){crSet(el.dataset.cr,el.value);crSave();}});
 
-const V={scheda:vScheda,dadi:vDadi,salute:vSalute,gruppo:vGruppo,storie:vStorie,sistema:vSistema,zaino:vZaino,armeria:vArmeria,pda:vPda,oracolo:vOracolo,registro:vRegistro,mappa:vMappa,crea:vCrea};
+const V={scheda:()=>vScheda()+`<div id="salute" class="sezsal"><h2 class="seztit">Salute</h2></div>`+vSalute(),dadi:vDadi,salute:vSalute,gruppo:vGruppo,storie:vStorie,sistema:vSistema,zaino:vZaino,armeria:vArmeria,pda:vPda,oracolo:vOracolo,registro:vRegistro,mappa:vMappa,crea:vCrea};
 function render(){try{effTick();}catch(_){}try{watch();}catch(_){}document.documentElement.dataset.em=String(Math.min(6,+S.emiss||0));
   if(!V[ui.tab])ui.tab="scheda";
   const unread=L.pda.filter(j=>j.tipo==="lavoro"&&(j.stato||"offerto")==="offerto").length;
@@ -1347,7 +1347,7 @@ document.addEventListener("change",e=>{const el=e.target;
   if(el.dataset.u){let v=el.value;if(el.type==="number")v=v===""?0:+v;upd(el.dataset.c||"inv",el.dataset.u,{[el.dataset.k]:v});}
 });
 document.addEventListener("toggle",e=>{const el=e.target;if(el.dataset&&el.dataset.acc){ui.aopen=ui.aopen||{};ui.aopen[el.dataset.acc]=el.open;}},true);
-window.addEventListener("hashchange",()=>{ui.tab=location.hash.slice(1)||"scheda";render();window.scrollTo({top:0});});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h==="salute"){ui.tab="scheda";render();setTimeout(()=>document.getElementById("salute")?.scrollIntoView({behavior:"smooth"}),30);return;}ui.tab=h||"scheda";render();window.scrollTo({top:0});});
 
 /* ===== avvio ===== */
 fetch("armeria.json").then(r=>r.json()).then(a=>{ARM=a;render();}).catch(()=>{});
