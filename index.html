@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#2b3020">
 <link rel="icon" href="icona-192.png">
@@ -195,6 +195,18 @@ html.big .dev{zoom:1.15}
 .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15em,1fr));gap:8px}.bcard{padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.06)}.bcard.lock{opacity:.45}.bcard .small{margin-top:3px}
 .fixrow{display:inline-flex;gap:6px;margin-left:auto}table.stat{border-collapse:collapse;width:100%;max-width:30em}table.stat td{padding:4px 6px;border-bottom:1px dashed rgba(0,0,0,.15)}table.stat td.num{text-align:right}
 @media print{body *{visibility:hidden}.partita,.partita *{visibility:visible}.partita{position:absolute;left:0;top:0;width:100%;border:0;background:#fff;color:#000}.noprint{display:none}}
+@media(max-width:600px){
+.dev{margin:0;border-radius:0;border:0;padding:4px 4px calc(112px + env(safe-area-inset-bottom));box-shadow:none}
+.top{padding:0 4px 4px;min-height:0}.top .screw{display:none}.brand{font-size:13px}
+.keys{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:7px 6px calc(7px + env(safe-area-inset-bottom));margin:0;overflow:visible;background:linear-gradient(var(--shell),var(--shell2));border-top:2px solid var(--edge);box-shadow:0 -6px 18px #0007}
+.keys button{min-width:0;padding:6px 2px;min-height:42px;font-size:11.5px;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.keys button[aria-current=true]{transform:none}
+.screen{border-radius:8px;border-width:2px}
+.bar{gap:4px 8px;padding:6px 8px;font-size:13px}.bar .tm{font-size:15px}.bar>.muted.small{display:none}.bar .btn.s{min-height:34px;padding:2px 8px}
+.strip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.strip>*{flex:none}.strip .sp{display:none}.strip::-webkit-scrollbar{display:none}
+.toast{bottom:calc(120px + env(safe-area-inset-bottom))!important}
+.pane{padding:10px}.subbar .chip{padding:7px 12px}
+}
 </style>
 </head>
 <body>
