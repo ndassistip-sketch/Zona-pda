@@ -161,11 +161,11 @@ Object.assign(XA,{
  xbar:()=>xBarFai(),xct:b=>xCtrlFai(b.dataset.k),
  xcasa:()=>{notte({dove:"base",ore:8});},xtro:b=>{upd("inv",b.dataset.k,{dove:"deposito",nota:"trofeo appeso a casa"});toast("Appeso sopra la branda.");},
  xpal:b=>{const k=b.dataset.k;LS.set("pda.pal",k||null);if(k)document.documentElement.dataset.pal=k;else delete document.documentElement.dataset.pal;},xtrama:b=>{xOpz().trama=b.dataset.k==="1";},xmus:()=>xMusica(),xbozza:()=>xBozza(),
- xeco:b=>{xOpz().eco=b.dataset.k;},xmorte:b=>{xOpz().morte=b.dataset.k;},xtema:()=>{xOpz().tema=xOpz().tema?"":"notte";xTema();},
+ xeco:b=>{xOpz().eco=b.dataset.k;},xmorte:b=>{xOpz().morte=b.dataset.k;},xtema:b=>{LS.set("pda.theme",b.dataset.k||null);xTema();},
  xcampo:()=>{location.hash="salute";setTimeout(()=>document.querySelector(".nottebox,#salute")?.scrollIntoView({behavior:"smooth"}),80);},
 });
 document.addEventListener("change",e=>{const t=e.target.closest("[data-xb]");if(!t)return;const id=t.dataset.xb;ui.xBarMine=ui.xBarMine||[];ui.xBarMine=t.checked?[...new Set([...ui.xBarMine,id])]:ui.xBarMine.filter(x=>x!==id);render();});
-function xTema(){document.documentElement.classList.toggle("tnotte",xOpz().tema==="notte");}
+function xTema(){const t=LS.get("pda.theme");const h=document.documentElement;h.classList.remove("tnotte");if(t)h.dataset.theme=t;else delete h.dataset.theme;const m=document.querySelector('meta[name="theme-color"]');}
 
 /* ---------- pannelli aggiunti alle viste ---------- */
 function xGruppoTop(){const cl=xClienti();const pan=cl.filter(p=>gPau(p)>=5);if(!gruppo().length)return "";
@@ -175,7 +175,7 @@ function xSistemaPane(){const o=xOpz();return `<section class="pane"><h2>Diffico
   <div class="lbl">Morte</div><div class="chips">${[["normale","Come da regole"],["clemente","Clemente: un colpo mortale diventa «morente»"]].map(([k,n])=>`<button class="chip" data-x="xmorte" data-k="${k}" aria-pressed="${o.morte===k}">${n}</button>`).join("")}</div>
   <div class="lbl">Trama in tre atti</div><div class="chips"><button class="chip" data-x="xtrama" data-k="1" aria-pressed="${tramaOn()}">Accesa</button><button class="chip" data-x="xtrama" data-k="0" aria-pressed="${!tramaOn()}">Spenta: solo storie casuali</button></div><p class="small muted" style="margin:2px 0 6px">La trama è scritta per Sokolov: con un altro personaggio resta spenta, così non ti rovini la storia.</p>
   <div class="lbl">Colori</div><div class="chips">${[["","Oliva (originale)"],["ambra","Ambra"],["carta","Carta e ruggine"],["grigio","Grigio militare"]].map(([k,n])=>`<button class="chip" data-x="xpal" data-k="${k}" aria-pressed="${(LS.get("pda.pal")||"")===k}">${n}</button>`).join("")}</div>
-  <div class="lbl">Schermo</div><div class="chips"><button class="chip" data-x="xtema" aria-pressed="${o.tema==="notte"}">Tema notte</button></div>
+  <div class="lbl">Schermo</div><div class="chips">${[["","Automatico (come il telefono)"],["light","Giorno"],["dark","Notte"]].map(([k,n])=>`<button class="chip" data-x="xtema" data-k="${k}" aria-pressed="${(LS.get("pda.theme")||"")===k}">${n}</button>`).join("")}</div>
   <p class="small muted">Quante storie escono si regola in Storie («Il regista»). Caratteri più grandi: il bottone A+ in alto.</p></section>`;}
 
 /* ---------- agganci ---------- */
