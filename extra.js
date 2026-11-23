@@ -141,6 +141,12 @@ function xSegno(z,t){S.xSegni=S.xSegni||[];S.xSegni.unshift({z,t:`${t} (${dataIt
 function xMarks(){const out=[];const seen={};(S.xSegni||[]).forEach(s=>{const k=s.z+s.t.split(" (")[0];if(seen[k])return;seen[k]=1;out.push({zona:s.z,txt:s.t,cls:"seg"});});
   (S.xVoci||[]).forEach(v=>out.push({zona:v.z,txt:v.t==="campo"?"? voce: campo nuovo":"? voce: nascondiglio",cls:"seg"}));return out.slice(0,24);}
 
+/* ---------- mappa: zona selezionata ---------- */
+function zoneInfo(z){const q=S.clock.luogo;const per=perOf(z);let tempo="";try{const p=path(q,z);if(p&&p.length>1){const h=p.slice(1).reduce((a,zz,i)=>a+edge(p[i],zz)[3],0);tempo=` · da qui ${h} h, ${p.length-1} tratt${p.length>2?"i":"o"}`;}}catch(_){}
+  const tip=(ZNEM[z]||[[],[]]).map((l,i)=>l.map(k=>(i?MUT:NEMU)[k].n.toLowerCase()).slice(0,2).join(", ")).filter(Boolean).join(" · ");
+  return `<span class="small">pericolo ${per}${tempo}${tip?`<br>${esc(tip)}`:""}</span>${z===q?`<span class="small"><b>sei qui</b></span>`:`<button data-mzd="${esc(z)}">Meta</button>`}`;}
+function zoneDest(z){ui.dest=z;render();toast(`Meta: ${z}. Ora «Parti, tappa per tappa».`);}
+
 /* ---------- comandi ---------- */
 Object.assign(XA,{
  xcalma:()=>xCalma(),xpan:b=>{const p=L.png.find(x=>x.id===b.dataset.k);if(p)toast(xPanico(p));},
