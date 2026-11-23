@@ -219,3 +219,56 @@ window.addEventListener("load",()=>{
   if(typeof mapMarks==="function"){}
   try{xTema();}catch(_){}
 });
+
+/* ===== Annunci sulla rete: cerco lavoro, compro, vendo, chiedo voci; risposte con offerte ===== */
+const ANNT=[["compro","Compro"],["vendo","Vendo"],["lavoro","Cerco lavoro"],["info","Chiedo voci"]];
+const xNome=()=>`${pk(NOMI)} «${pk(SOPR)}»`;
+const clkPlus=min=>clkAdd(min);
+function annPub(){const t=ui.annT||"compro";const z=S.clock.luogo;const a={id:uid(),tipo:t,z,t0:clk(),fine:clkPlus(1440),off:[],acc:0};
+  if(t==="compro"){const x=ARM.find(y=>y.n===(ui.annCosa||"").trim());if(!x){toast("Scegli dall'elenco cosa compri.");return;}a.cosa=x.n;a.n=Math.max(1,Math.min(20,+ui.annN||1));}
+  if(t==="vendo"){const y=L.inv.find(v=>v.id===ui.annInv);if(!y){toast("Scegli cosa vendi.");return;}a.cosa=y.nome;a.inv=y.id;const pr=(y.nota||"").match(/([\d.]+)\s*[–-]\s*([\d.]+)\s*₽/);const b0=sellBase(y)||(pr?(+pr[1].replace(/\./g,"")+ +pr[2].replace(/\./g,""))/2:0);a.val=Math.max(100,b0*(y.stato==="usurato"?.6:y.stato==="rotto"?.15:1));}
+  S.ann=S.ann||[];S.ann.unshift(a);S.ann=S.ann.slice(0,12);
+  const txt=t==="compro"?`Compro ${a.n>1?a.n+" × ":""}${a.cosa}. Sono a ${z}. Offerte qui.`:t==="vendo"?`Vendo ${a.cosa}. Sono a ${z}. Fate un'offerta.`:t==="lavoro"?`Guida libera a ${z}. Cerco lavoro: scorte, consegne, recuperi.`:`Cerco notizie su ${z} e dintorni. Pago chi sa qualcosa di vero.`;
+  add("pda",{tipo:"msg",da:`${S.pg.sopr||S.pg.nome||"Tu"} (tu)`,mio:true,testo:txt,data:S.clock.data,ora:S.clock.ora});ui.annCosa="";toast("Annuncio pubblicato: le risposte arrivano col tempo.");}
+function annOffer(a){const near=[a.z,...nbr(a.z)];let o={id:uid(),da:xNome(),z:d(2)===1?a.z:pk(near),stato:"nuova",t:clk(),fine:clkPlus(2880)};
+  if(a.tipo==="compro"){const x=ARM.find(y=>y.n===a.cosa);if(!x)return null;const nord=/Yantar|Janiv|Zaton|Radar|Pripjat|Foresta|centrale/.test(o.z);const disp={C:1,NC:.7,R:nord?.4:.15,MR:.05}[x.r]??.5;if(Math.random()>disp)return null;
+    const f=x.r==="MR"?2+Math.random():.7+Math.random()*.65;o.prezzo=Math.round(x.p*a.n*f/50)*50;o.scam=f<.8?d(3)===1:x.r==="MR"?d(2)===1:d(12)===1;o.testo=`Ho ${a.n>1?a.n+" × ":""}${a.cosa}. ${fmtR(o.prezzo)}${o.z===a.z?", sono qui vicino.":`, ci vediamo a ${o.z}.`}${f<.8?" Prezzo d'amico, ma fai in fretta.":""}`;}
+  else if(a.tipo==="vendo"){const f=.4+Math.random()*.55;o.prezzo=Math.round(a.val*f/50)*50;o.scam=d(10)===1;o.testo=`Per «${a.cosa}» ti do ${fmtR(o.prezzo)}${o.z===a.z?". Sono qui.":`. Portamelo a ${o.z}.`}`;}
+  else if(a.tipo==="lavoro"){const L0=S.clock.luogo;S.clock.luogo=a.z;const keep=ui.lastJob;try{lavoro();}catch(_){}const j=ui.lastJob;ui.lastJob=keep;S.clock.luogo=L0;if(!j)return null;o.job=j;o.z=a.z;o.da=j.da||o.da;o.testo=`${j.titolo}: ${j.testo} Paga ${fmtR(j.paga)}.`;o.prezzo=0;}
+  else{o.prezzo=200+d(8)*100;o.vera=d(2)===1;o.vz=pk(near);o.tipoV=pk(["voce","campo"]);o.testo=`So una cosa su ${o.vz}: ${o.tipoV==="campo"?"un campo di anomalie nuovo":"un nascondiglio pieno"}. ${fmtR(o.prezzo)} e te lo dico.`;o.z=a.z;}
+  return o;}
+function annTick(min){(S.ann||[]).forEach(a=>{if(a.chiuso)return;if(minTo(a.fine)<0){a.chiuso=1;return;}a.acc=(+a.acc||0)+min;while(a.acc>=60){a.acc-=60;if(a.off.length<3&&Math.random()<.15){const o=annOffer(a);if(o){a.off.push(o);add("pda",{tipo:"msg",da:o.da,fazione:"Stalker liberi",testo:o.testo,data:S.clock.data,ora:S.clock.ora});try{sfx("job");}catch(_){}}}}});}
+function annFind(id){for(const a of (S.ann||[]))for(const o of a.off)if(o.id===id)return [a,o];return [null,null];}
+function annTratta(id){const [a,o]=annFind(id);if(!o||o.trattato)return;o.trattato=1;const R=qRoll("empatia","persuasione",pgSpec("Contrattare|Ricettatore")?1:0,"",0);if(!R)return;
+  if(!R.base){if(d(2)===1){o.stato="rifiutata";toast(`«Allora niente.» (${R.dv}) Se n'è andato.`);}else toast(`Non si muove dal prezzo (${R.dv}).`);return;}
+  const f=a.tipo==="vendo"?1+.1*R.base:1-.1*R.base;o.prezzo=Math.round(o.prezzo*f/50)*50;toast(`D'accordo (${R.dv}): ${fmtR(o.prezzo)}.`);}
+function annAccetta(id){const [a,o]=annFind(id);if(!o)return;if(o.job){add("pda",{...o.job,stato:"accettato",data:S.clock.data,ora:S.clock.ora});o.stato="fatta";a.chiuso=1;toast("Lavoro accettato: è nei Lavori.");return;}
+  if(a.tipo==="compro"&&(+S.rubli||0)<o.prezzo){toast("Non hai abbastanza rubli.");return;}
+  if(o.z!==S.clock.luogo){o.stato="appuntamento";toast(`Appuntamento con ${o.da} a ${o.z}, entro due giorni.`);return;}annScambio(o.id);}
+function annScambio(id){const [a,o]=annFind(id);if(!o)return;o.stato="fatta";a.chiuso=1;
+  if(o.scam){const R=qRoll("intelletto","ricognizione",0,"",0);if(R&&R.base){toast(`Qualcosa non torna (${R.dv}): troppi uomini in giro, nessuna merce. Te ne vai prima.`);return;}
+    if(a.tipo==="compro"){S.rubli-=o.prezzo;toast(`Paghi, ${o.da} va «a prendere la roba» e non torna. −${fmtR(o.prezzo)}.`);return;}
+    toast("Era un agguato.");scStart("bandito",false,{n:2+d(2),dist:"corta",sorp:"loro"});location.hash="dadi";return;}
+  if(a.tipo==="compro"){const x=ARM.find(y=>y.n===a.cosa);S.rubli-=o.prezzo;if(x.sc){S.scorte[x.sc]=(+S.scorte[x.sc]||0)+a.n;}
+    else if(x.c==="munizioni"){const box=+((x.s.match(/(\d+) (colpi|cartucce)/)||[])[1])||20;add("inv",{nome:x.n,qta:1,slot:x.slot*a.n,colpi:box*a.n,dove:"zaino",stato:"ok",nota:x.s,tipo:"altro"});}
+    else add("inv",{nome:x.n,qta:a.n,slot:x.slot,dove:"zaino",stato:"ok",nota:x.s,tipo:tipoOf(x),classe:classeOf(x.n),segni:0});toast(`Comprato da ${o.da}: ${a.n>1?a.n+" × ":""}${a.cosa}.`);}
+  else if(a.tipo==="vendo"){const y=L.inv.find(v=>v.id===a.inv);if(!y){toast("Non ce l'hai più.");return;}if((+y.qta||1)>1)upd("inv",y.id,{qta:(+y.qta)-1});else del("inv",y.id);S.rubli=(+S.rubli||0)+o.prezzo;toast(`Venduto a ${o.da}: +${fmtR(o.prezzo)}.`);}
+  else if(a.tipo==="info"){if((+S.rubli||0)<o.prezzo){toast("Non hai abbastanza rubli.");o.stato="nuova";a.chiuso=0;return;}S.rubli-=o.prezzo;if(o.vera){S.xVoci=S.xVoci||[];S.xVoci.push({z:o.vz,t:o.tipoV});toast(`Ti dice dove guardare a ${o.vz}. Sembra sincero.`);}else toast(`Ti racconta una storia su ${o.vz}. Chissà.`);}}
+function annBox(){const ap=[];(S.ann||[]).forEach(a=>a.off.forEach(o=>{if(o.stato==="appuntamento"&&o.z===S.clock.luogo)ap.push([a,o]);}));if(!ap.length)return "";
+  return ap.map(([a,o])=>`<div class="evbox scban"><span><b>Incontro</b> con ${esc(o.da)}: ${esc(a.cosa||"")} per ${fmtR(o.prezzo)}.</span><button class="btn s" data-x="anns" data-k="${o.id}">Fai lo scambio</button><button class="btn g s" data-x="annr" data-k="${o.id}">Lascia perdere</button></div>`).join("");}
+function annPane(){const t=ui.annT||"compro";const mieiI=L.inv.filter(y=>mine(y)&&["zaino","addosso"].includes(y.dove||"zaino")&&sellBase(y)>0);const A=(S.ann||[]).filter(a=>!a.chiuso||a.off.some(o=>o.stato==="appuntamento"));
+  const SO={nuova:"",appuntamento:"appuntamento",fatta:"fatto",rifiutata:"rifiutata"};
+  return `<details class="acc" data-acc="annunci" ${ui.aopen&&ui.aopen.annunci===false?"":"open"} style="margin-bottom:10px"><summary><span>Annunci: compra, vendi, cerca lavoro</span><span class="small muted">${A.length?`${A.length} apert${A.length>1?"i":"o"}`:"le risposte arrivano col tempo"}</span></summary><div style="padding:8px 10px">
+  <div class="chips">${ANNT.map(([k,n])=>`<button class="chip" data-x="annt" data-k="${k}" aria-pressed="${t===k}">${n}</button>`).join("")}</div>
+  ${t==="compro"?`<div class="row" style="gap:6px"><input list="annlist" data-xs="annCosa" value="${esc(ui.annCosa||"")}" placeholder="cosa (es. 12/70 pallettoni)" style="flex:1 1 14em"><input type="number" min="1" max="20" data-xs="annN" value="${esc(ui.annN||1)}" style="width:5em" title="quanti (scatole per le munizioni)"></div><datalist id="annlist">${ARM.filter(x=>x.r!=="MR").map(x=>`<option value="${esc(x.n)}">`).join("")}</datalist>`:""}
+  ${t==="vendo"?`<select data-xs="annInv">${mieiI.map(y=>`<option value="${y.id}" ${ui.annInv===y.id?"selected":""}>${esc(y.nome)}</option>`).join("")}</select>`:""}
+  <div class="row" style="margin-top:6px"><button class="btn s" data-x="annp">Pubblica da ${esc(S.clock.luogo)}</button><span class="small muted">Rispondono nell'arco di un giorno. Occhio ai prezzi troppo belli.</span></div>
+  ${A.map(a=>`<div class="annc"><b>${esc(ANNT.find(x=>x[0]===a.tipo)[1])}${a.cosa?`: ${esc(a.cosa)}${a.n>1?` × ${a.n}`:""}`:""}</b> <span class="small muted">· ${esc(a.z)}${a.chiuso?"":` · ${leftTxt(minTo(a.fine))}`}</span>
+    ${a.off.length?`<ul class="items">${a.off.map(o=>`<li class="small"><b>${esc(o.da)}</b>: ${esc(o.testo)} ${SO[o.stato]?`<span class="tag">${SO[o.stato]}</span>`:""}${o.stato==="nuova"&&!a.chiuso?`<span class="row" style="gap:4px;margin-top:3px"><button class="btn s" data-x="anna" data-k="${o.id}">Accetta</button>${o.prezzo&&!o.trattato?`<button class="btn g s" data-x="annt2" data-k="${o.id}">Tratta</button>`:""}<button class="btn g s" data-x="annr" data-k="${o.id}">No</button></span>`:""}</li>`).join("")}</ul>`:`<p class="small muted" style="margin:2px 0">Nessuna risposta, per ora.</p>`}
+    <button class="btn g s" data-x="annc" data-k="${a.id}">Chiudi l'annuncio</button></div>`).join("")}</div></details>`;}
+Object.assign(XA,{annt:b=>{ui.annT=b.dataset.k;},annp:()=>annPub(),anna:b=>annAccetta(b.dataset.k),annt2:b=>annTratta(b.dataset.k),annr:b=>{const [a,o]=annFind(b.dataset.k);if(o)o.stato="rifiutata";},anns:b=>annScambio(b.dataset.k),annc:b=>{const a=(S.ann||[]).find(x=>x.id===b.dataset.k);if(a){a.chiuso=1;a.off.forEach(o=>{if(o.stato==="appuntamento")o.stato="rifiutata";});}}});
+window.addEventListener("load",()=>{
+  if(typeof adv==="function"&&!adv._ann){const o=adv;const w=function(min){o(min);try{annTick(+min||0);(S.ann||[]).forEach(a=>a.off.forEach(x=>{if(x.stato==="appuntamento"&&minTo(x.fine)<0)x.stato="rifiutata";}));}catch(e){console.error(e);}};w._ann=1;w._x=o._x;w._v=o._v;window.adv=w;}
+  if(typeof scBanner==="function"&&!scBanner._ann){const o=scBanner;const w=function(){return annBox()+o();};w._ann=1;window.scBanner=w;}
+  if(typeof V==="object"&&!V._ann){V._ann=1;const op=V.pda;V.pda=()=>{const h=op();return (!ui.pdaTab||ui.pdaTab==="rete")?h.replace('>Radio</button></div>','>Radio</button></div>'+annPane()):h;};}
+});
