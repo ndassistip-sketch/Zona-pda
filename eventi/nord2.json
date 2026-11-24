@@ -1,87 +1,696 @@
-{"pacchetto":"Il nord, ancora","eventi":[
-
-{"id":"n2-yantar-zombie-postino","titolo":"Il postino di Yantar","tono":"calmo","peso":9,"ripeti":120,"se":{"luogo":"Yantar"},
- "testo":["Uno zombie con la borsa del postino attraversa la palude in linea retta, lento, ostinato. Si ferma davanti a ogni rudere, fruga nella borsa, ne tira fuori una lettera che non c'è, la infila in una cassetta che non c'è, e riparte. Gli scienziati lo chiamano Pečkin e dicono che fa lo stesso giro da sei anni. Oggi si ferma davanti a te. Fruga nella borsa. Ti porge la mano vuota."],
- "scelte":[
-  {"t":"Prendere la lettera che non c'è","esito":{"testo":"Tendi la mano. Lui ci posa il niente con cura, ti fa un cenno con la testa, e riparte. Ti accorgi di tenere la mano chiusa, come se ci fosse davvero qualcosa. La apri solo quando lui è lontano. È vuota. Naturalmente. Ma è calda.","tr":{"nervi":-1},"pe":1}},
-  {"t":"Guardare nella borsa","tiro":"sf","ok":{"testo":"Ti avvicini. Lui ti lascia fare. Nella borsa ci sono davvero delle lettere: decine, scritte dagli stalker e infilate lì, negli anni, per scherzo o per disperazione. Una è indirizzata a te. Non la apri. La rimetti a posto. Pečkin riparte.","pe":2,"tr":{"nervi":1}},"ko":{"testo":"Allunghi la mano e lui ti morde il polso, senza fretta, come si timbra un documento. Poi riparte.","colpo":{"D":1,"P":0}}}]},
-
-{"id":"n2-yantar-guardiano","titolo":"Il custode del lago","tono":"guaio","peso":8,"ripeti":96,"se":{"luogo":"Yantar","ore":[18,6]},
- "testo":["Al calare della sera, sulla riva del lago, un uomo in tuta da sub sovietica con l'elmo di rame esce dall'acqua, lento, come un palombaro di un vecchio film. Si siede su un masso. Non si toglie l'elmo. Dalla grata dell'oblò non si vede una faccia: si vede acqua. Ti fa cenno con la mano di sederti vicino."],
- "scelte":[
-  {"t":"Sederti","tiro":"sf","ok":{"testo":"Ti siedi. Restate così mezz'ora, guardando il lago diventare nero. Poi lui si alza, ti mette in mano un sasso liscio e tiepido, e torna in acqua, piano, finché l'elmo sparisce. Il sasso, alla luce della torcia, è un artefatto.","oggetto":{"n":"Artefatto: Bolla","nota":"Dato dal palombaro del lago di Yantar."},"pe":2,"tr":{"nervi":1}},"ko":{"testo":"Ti siedi, ma non reggi. Ti alzi a metà, e lui gira l'elmo verso di te. Nell'oblò, l'acqua si increspa, come una faccia che si offende. Torna in acqua senza darti niente.","tr":{"nervi":2}}},
-  {"t":"Puntargli la torcia nell'oblò","esito":{"testo":"La luce entra nell'oblò e qualcosa, dentro, si ritrae. Il palombaro si alza di scatto e si getta nel lago con un tonfo enorme. L'acqua, per un minuto, bolle.","tr":{"nervi":2},"allerta":1}}]},
-
-{"id":"n2-radar-antenna-canta","titolo":"Quando l'antenna canta","tono":"guaio","peso":9,"ripeti":72,"se":{"luogo":"Radar"},
- "testo":["Il Bruciacervelli è spento. Eppure, a tratti, la grande antenna ronza. Non nel cervello, come prima: nelle ossa. Un ronzio basso che fa tremare i bulloni nello zaino. Gli stalker che stanno al nord dicono che è il Duga che si ricorda di essere stato acceso. Come un arto amputato che fa ancora male."],
- "scelte":[
-  {"t":"Prendere lo Psi-block e aspettare","se":{"oggetto":"Psi-block"},"esito":{"testo":"Lo prendi. Il ronzio diventa una musica, poi una voce, poi niente. Quando passa, trovi in tasca un foglio dove hai scritto, senza ricordarlo, una lista di coordinate. Una è a Pripjat'. Le altre non esistono.","togli":"Psi-block","pe":2}},
-  {"t":"Tenere duro","tiro":"sf","ok":{"testo":"Stringi i denti finché passa. Ti sanguina il naso, ma la testa è tua. Chi la tiene, la testa, al Radar, ha già vinto metà della partita.","tr":{"nervi":2},"pe":1},"ko":{"testo":"Ti ritrovi in ginocchio a contare le antenne, una, due, tre, e a ricominciare. Ti salva la fame, ore dopo.","tr":{"nervi":4,"fatica":2},"tempo":180}},
-  {"t":"Correre lontano dall'antenna","tiro":"agilita+mobilita","ok":{"testo":"Corri finché il ronzio diventa un brontolio, poi un ricordo. Sei fuori. Hai perso la strada ma non la testa.","tr":{"fatica":2},"tempo":30},"ko":{"testo":"Corri nella direzione sbagliata. Il ronzio cresce. Torni indietro piangendo senza sapere perché.","tr":{"nervi":3,"fatica":2}}}]},
-
-{"id":"n2-radar-ufficiale","titolo":"L'ufficiale di servizio","tono":"calmo","peso":8,"ripeti":"mai","se":{"luogo":"Radar"},
- "testo":["In una garitta di cemento, un ufficiale sovietico è seduto davanti a un registro. È morto da anni: la pelle come carta, la divisa intatta. Ma il registro è aggiornato. L'ultima riga, a penna, ha la data di ieri: Nessun bersaglio rilevato. Il cielo è vuoto. In servizio. Sotto, la firma: maggiore A. Grek."],
- "scelte":[
-  {"t":"Scrivere la riga di oggi","tiro":"empatia+persuasione","ok":{"testo":"Scrivi, con la tua calligrafia storta: Nessun bersaglio. Il cielo è vuoto. Il turno è finito, maggiore. Riposo. Ti sembra che le spalle del morto si abbassino di un millimetro. Domani, se torni, il registro sarà fermo a oggi.","pe":2,"tr":{"nervi":-1}},"ko":{"testo":"Scrivi, ma la penna non lascia inchiostro. Il registro non accetta la tua firma. Non sei di servizio.","tr":{"nervi":1}}},
-  {"t":"Prendere il registro","esito":{"testo":"Lo prendi. Gli scienziati lo pagano bene. Il giorno dopo uno stalker ti dice di aver visto, al Radar, un ufficiale che cercava qualcosa nella garitta, piano, con le mani di carta.","rubli":2500,"oggetto":{"n":"Registro del maggiore Grek","nota":"«Nessun bersaglio rilevato. Il cielo è vuoto.»"},"tr":{"nervi":2}}}]},
-
-{"id":"n2-janiv-treno-merci","titolo":"Il macchinista","tono":"calmo","peso":9,"ripeti":96,"se":{"luogo":"Janiv e Jupiter","ore":[5,20]},
- "testo":["Alla stazione di Janiv c'è un uomo che passa le giornate a oliare una locomotiva diesel che non partirà mai. Si chiama Zinovij, era macchinista sulla linea Černihiv–Janiv. «Le locomotive sono come i cavalli,» dice. «Se non le curi, si offendono. E una locomotiva offesa, quando ti serve, non parte.» Ha l'aria di uno che aspetta un giorno preciso."],
- "scelte":[
-  {"t":"Aiutarlo a oliare","esito":{"testo":"Passi un'ora con le mani nell'olio nero, sotto la sua guida. È un lavoro preciso e calmo, e lui ti spiega ogni pezzo con amore. Alla fine ti dà una pacca. «Se un giorno parte, sei sul primo vagone. Gratis.»","tr":{"nervi":-2,"fatica":1},"tempo":60,"png":{"nome":"Zinovij il Macchinista","fazione":"stalker libero","nota":"Ex macchinista. Olia ogni giorno una locomotiva a Janiv. Ti ha promesso un posto sul primo vagone.","fiducia":1}}},
-  {"t":"Chiedergli che giorno aspetta","tiro":"empatia+pronto","ok":{"testo":"«Il giorno in cui la Zona finisce,» dice, come fosse ovvio. «Allora la linea riapre, e il primo treno lo porto io. Non voglio arrivarci impreparato.» Ride. Ma continua a oliare.","pe":1},"ko":{"testo":"«Un giorno,» dice. Poi niente."}}]},
-
-{"id":"n2-janiv-burer","titolo":"Gli oggetti che volano","tono":"guaio","peso":9,"ripeti":72,"se":{"luogo":"Janiv e Jupiter"},
- "testo":["Una latta vuota si alza da terra e ti passa vicino all'orecchio. Poi un mattone. Poi la tua borraccia ti si strappa dalla cintura e vola via, verso il buio di un capannone. Un burer. Lo senti ridacchiare da qualche parte, con una voce da vecchio raffreddato. Ti sta tirando la roba per giocare. O per stancarti."],
- "scelte":[
-  {"t":"Entrare nel capannone e affrontarlo","tiro":"agilita+tiro","ok":{"testo":"Lo trovi in un angolo, piccolo, gobbo, con le mani alzate come un direttore d'orchestra. Spari prima che ti strappi il fucile. Nel suo angolo, una collezione di borracce, PDA, elmetti, accendini. Tutto quello che ha rubato agli stalker per anni. Ti riprendi la tua e qualcos'altro.","oggetto":["Antidolorifici","Torcia"],"rubli":1200,"nome":1},"ko":{"testo":"Entri e il fucile ti vola via dalle mani. Ti tiri indietro a pugni nudi, sotto una pioggia di mattoni. Il fucile lo recuperi dopo un'ora, piegato.","colpo":{"D":2,"P":0},"tr":{"nervi":2}}},
-  {"t":"Lasciargli la borraccia e andartene","esito":{"testo":"Te ne vai. Dietro di te, il burer ridacchia contento. Ti tira dietro un sasso, quasi affettuoso, come un saluto.","scorte":{"acqua":-1}}}]},
-
-{"id":"n2-zaton-skadovsk-bevuta","titolo":"Il brindisi dello Skadovsk","tono":"calmo","peso":9,"ripeti":72,"se":{"luogo":"Zaton","ore":[18,2]},
- "testo":["Nella stiva dello Skadovsk si brinda a uno stalker che oggi ha compiuto un anno nella Zona. È raro: un anno. Il festeggiato è un ragazzo con mezza faccia bruciata e un sorriso storto. Ti versano da bere prima che tu possa dire no. «A Pasha!» urla qualcuno. «Che ne faccia un altro!» E poi, più piano: «Che ne faccia un altro.»"],
- "scelte":[
-  {"t":"Fare un brindisi tu","tiro":"empatia+pronto","ok":{"testo":"Ti alzi. Dici due frasi, semplici, sul tempo che qui vale doppio, su quelli che non sono arrivati a un anno, su quelli che arriveranno. La stiva tace. Poi applaude. Pasha ti abbraccia. Hai detto la cosa giusta, e lo sapete tutti e due.","nome":1,"tr":{"nervi":-2}},"ko":{"testo":"Ti alzi e ti dimentichi cosa volevi dire. Dici solo: «A Pasha.» Va bene lo stesso. Va sempre bene.","tr":{"nervi":-1}}},
-  {"t":"Chiedere a Pasha il segreto","esito":{"testo":"«Nessun segreto,» dice. «Ho paura di tutto. Sempre. Chi smette di avere paura dura sei mesi.» Te lo scrivi nel PDA.","pe":1}}]},
-
-{"id":"n2-zaton-pesca-chimera","titolo":"La rete","tono":"guaio","peso":8,"ripeti":96,"se":{"luogo":"Zaton"},
- "testo":["Due pescatori dello Skadovsk tirano su una rete dalla palude. È pesante, troppo. Tirano, sudano, bestemmiano. Dalla rete spunta una zampa, poi un'altra, poi una testa doppia che si scuote. Hanno pescato un cucciolo di chimera. È ancora vivo. È arrabbiatissimo. «Aiutaci!» urla uno. «Vale una fortuna agli scienziati!»"],
- "scelte":[
-  {"t":"Aiutarli a tenerla","tiro":"forza+corpo","ok":{"testo":"Ti butti sulla rete. Per un minuto lungo come un anno è un groviglio di zampe, denti e corda. Poi è legata. I pescatori ridono come pazzi e ti offrono un terzo. Gli scienziati pagano davvero una fortuna.","rubli":5000,"tr":{"fatica":2},"rap":{"Scienziati":1}},"ko":{"testo":"La chimera ti apre il braccio con una zampa e si libera. Sparisce nella palude con mezzo metro di rete addosso. I pescatori ti guardano come se fosse colpa tua. Forse lo è.","colpo":{"D":2,"P":1},"tr":{"nervi":1}}},
-  {"t":"Tagliare la rete","esito":{"testo":"Tagli la rete col coltello. La chimera scappa, si volta una volta a guardarti con le sue due teste, e sparisce. I pescatori ti insultano per un quarto d'ora. Tra qualche anno, quella chimera sarà grande. Chissà se si ricorderà di te.","tr":{"nervi":-1},"pe":1}}]},
-
-{"id":"n2-foresta-cervo","titolo":"Il cervo bianco","tono":"calmo","peso":7,"ripeti":"mai","se":{"luogo":"Foresta Rossa","ore":[5,9]},
- "testo":["All'alba, tra i pini rossi, un cervo. Bianco, completamente. Grande, con le corna che sembrano rami di betulla. Non è un mutante. È perfetto. Ti guarda da trenta metri, senza paura, con gli occhi scuri e calmi. Nella Zona non hai mai visto niente di così intatto. Niente di così fuori posto."],
- "scelte":[
-  {"t":"Restare immobile e guardarlo","esito":{"testo":"Resti fermo. Lui ti guarda ancora, poi abbassa la testa a brucare, come se tu fossi un albero. Dopo un minuto se ne va, senza fretta, e dove ha camminato l'erba è verde. Verde, nella Foresta Rossa. Te lo ricorderai per tutta la vita.","tr":{"nervi":-4,"fatica":-1},"pe":2}},
-  {"t":"Sparargli","tiro":"agilita+tiro","ok":{"testo":"Il colpo lo prende in pieno. Il cervo non cade. Ti guarda. Poi si volta e cammina via, e dalla ferita non esce sangue ma una luce bianca che si spegne lentamente. Hai fatto una cosa sbagliata. Lo sai. La Foresta, per giorni, ti è ostile.","tr":{"nervi":4},"allerta":2},"ko":{"testo":"Manchi. Il cervo non si muove. Ti guarda come si guarda un bambino che ha fatto una cosa stupida. Poi se ne va. Ti vergogni come non ti vergognavi da anni.","tr":{"nervi":2}}}]},
-
-{"id":"n2-foresta-impiccati","titolo":"I nastri sui rami","tono":"guaio","peso":8,"ripeti":96,"se":{"luogo":"Foresta Rossa"},
- "testo":["Sui rami bassi dei pini, nastri. Di stoffa, di plastica, di carta. Centinaia. Rossi, bianchi, blu. Ogni nastro ha un nome scritto sopra. Qualcuno li lega qui da anni, per i morti della Foresta. Uno è fresco, legato stamattina. Il nome è il tuo."],
- "scelte":[
-  {"t":"Slegarlo","tiro":"sf","ok":{"testo":"Lo sleghi con calma. Lo pieghi. Lo metti in tasca. Chi l'ha legato si è sbagliato, oppure si è portato avanti. In entrambi i casi, non oggi.","tr":{"nervi":1},"pe":2},"ko":{"testo":"Le mani tremano così forte che il nodo non si scioglie. Lo strappi. Tutto il giorno ti guardi le spalle.","tr":{"nervi":3}}},
-  {"t":"Cercare chi lega i nastri","tiro":"intelletto+ricognizione","ok":{"testo":"Segui impronte leggere fino a una capanna. Dentro, un vecchio cieco con un rotolo di nastri e una radio. Ascolta la radio degli stalker e lega i nomi di quelli che sente nominare. «Ti hanno nominato ieri,» dice, senza vederti. «Dicevano che saresti morto in Foresta. Ho pensato di portarmi avanti.» Si scusa. Gli dai una sigaretta.","pe":2,"tr":{"nervi":-1}},"ko":{"testo":"Le impronte spariscono nell'erba rossa. Resti col nastro in mano e una domanda.","tr":{"nervi":2}}}]},
-
-{"id":"n2-pripjat-ascensore","titolo":"L'ascensore","tono":"guaio","peso":8,"ripeti":96,"se":{"luogo":"Pripjat'"},
- "testo":["In un palazzo di sedici piani, l'ascensore funziona. La lucina sopra la porta è accesa. Il pulsante di chiamata è caldo. Quando lo premi, da lontano, in alto, si sente un motore che parte, e la cabina che scende, piano, piano, piano, contando i piani con un ding a ognuno. Sedici. Quindici. Quattordici."],
- "scelte":[
-  {"t":"Aspettare e salire","tiro":"sf","ok":{"testo":"La porta si apre. La cabina è pulita, con lo specchio e un odore di profumo da donna del 1986. Premi l'ultimo piano. Sali. In cima, la porta si apre su un tetto con la vista di tutta Pripjat' al tramonto. Sul parapetto, uno zaino lasciato da un altro che è salito prima di te. Dentro, roba buona e una lettera: Bello, vero? Ora scendi a piedi.","oggetto":["Kit medico AI-2","Binocolo"],"pe":2,"tr":{"nervi":1}},"ko":{"testo":"La porta si apre su una cabina buia. Dentro c'è qualcuno, di spalle, che non si volta. Fai un passo indietro. Le porte si chiudono. Il ding riparte, ma verso il basso, sotto il piano terra, verso piani che il palazzo non ha.","tr":{"nervi":4}}},
-  {"t":"Prendere le scale","esito":{"testo":"Prendi le scale. L'ascensore arriva al piano terra, si apre sul niente, aspetta un po' e riparte. Lo senti salire di nuovo, piano dopo piano, mentre ti allontani.","tr":{"nervi":1}}}]},
-
-{"id":"n2-pripjat-bambola","titolo":"La finestra del terzo piano","tono":"calmo","peso":8,"ripeti":120,"se":{"luogo":"Pripjat'","ore":[10,17]},
- "testo":["A una finestra del terzo piano, tra mille finestre rotte, una finestra pulita. Con le tende. Con un vaso di gerani rossi vivi sul davanzale. Qualcuno li innaffia. Il contatore, sotto la finestra, impazzisce. Sul portone d'ingresso, un biglietto scritto a mano, recente: Vi prego, non salite. Va tutto bene. Ci sono io."],
- "scelte":[
-  {"t":"Rispettare il biglietto","esito":{"testo":"Non sali. Lasci sulla soglia una scatola di conserve, perché ti sembra giusto. Quando ripassi, giorni dopo, la scatola non c'è più, e sul davanzale c'è un geranio in più.","scorte":{"cibo":-1},"tr":{"nervi":-2},"pe":1}},
-  {"t":"Salire","tiro":"sf","ok":{"testo":"Sali. La porta del terzo piano è aperta. Dentro, un appartamento pulito, un tavolo apparecchiato per due, e un vecchio seduto che ti guarda con tristezza. «Avevo scritto di non salire,» dice. Poi ti versa il tè. Non parlate di niente che conti. Quando te ne vai, sai solo che si chiama Ivan Matveevič e che non uscirà mai più di lì. Non perché non possa: perché non vuole.","pe":2,"tr":{"rad":2,"nervi":1},"tempo":60},"ko":{"testo":"Sali. Il terzo piano è sventrato, le stanze vuote, la finestra coi gerani dà su un appartamento che non esiste: dietro le tende c'è solo il cielo. Scendi di corsa.","tr":{"nervi":3,"rad":1}}}]},
-
-{"id":"n2-centrale-gatto","titolo":"Il gatto della centrale","tono":"calmo","peso":8,"ripeti":"mai","se":{"luogo":"La centrale"},
- "testo":["Nel posto più radioattivo della Zona, su una cassa di piombo, c'è un gatto. Un gatto normale, grigio tigrato, grasso, che si lava una zampa con dedizione. Ti guarda. Sbadiglia. Gli stalker del nord lo chiamano il Direttore e giurano che vive lì dal 1986. Il contatore, vicino a lui, scende quasi a zero, come se il gatto si bevesse le radiazioni."],
- "scelte":[
-  {"t":"Accarezzarlo","tiro":"empatia+sopravvivenza","ok":{"testo":"Si lascia accarezzare. Fa le fusa, un motore profondo e regolare. Per tutto il tempo che hai la mano sul suo pelo, il contatore tace. Quando te ne vai, ti segue con lo sguardo e chiude gli occhi, soddisfatto, come un vecchio funzionario che ha firmato una pratica.","tr":{"rad":-3,"nervi":-2},"pe":2},"ko":{"testo":"Ti graffia, svelto e preciso, e torna a lavarsi. Il Direttore riceve solo su appuntamento.","tr":{"ferite":1}}},
-  {"t":"Lasciargli da mangiare","se":{"oggetto":"Cibo"},"esito":{"testo":"Apri una scatoletta e gliela lasci sulla cassa. Ti guarda, poi guarda la scatoletta, poi decide che sei accettabile. Mangia. Il contatore, per un'ora, resta basso anche quando ti allontani.","scorte":{"cibo":-1},"tr":{"rad":-2},"pe":1}}]},
-
-{"id":"n2-magazzini-cimitero-carri","titolo":"I carri armati sepolti","tono":"calmo","peso":8,"ripeti":120,"se":{"luogo":"Magazzini dell'esercito"},
- "testo":["In un campo vicino ai magazzini, la terra ha un ritmo strano: monticelli regolari, in file, ognuno lungo sette metri. Carri armati, sepolti nel 1986 perché troppo contaminati. Da un monticello spunta una torretta, e dalla torretta, aperta, esce il fumo di una stufa. Qualcuno ci vive dentro."],
- "scelte":[
-  {"t":"Bussare sulla torretta","esito":{"testo":"Esce un uomo con una barba fino al petto e una giacca da carrista del 1985. «Sergente Bondar,» si presenta. «Il mio carro. Mi hanno detto di lasciarlo, io non l'ho lasciato.» Ti offre del tè fatto col fornelletto, dentro, nella camera di combattimento. È il posto più caldo e più strano in cui hai mai bevuto. Ti racconta il '86 da dentro un carro armato.","tr":{"nervi":-1,"freddo":-2,"rad":1},"pe":1,"png":{"nome":"Sergente Bondar","fazione":"civile","nota":"Vive dentro il suo carro armato sepolto vicino ai Magazzini dal 1986.","fiducia":1}}},
-  {"t":"Scavare un altro carro per cercare roba","tiro":"forza+resistenza","ok":{"testo":"Scavi per due ore. Apri un portello. Dentro, munizioni d'epoca, un kit medico militare e una radio. Il contatore grida. Prendi in fretta e richiudi.","oggetto":["Kit medico militare","Ricevitore radio"],"tr":{"rad":3,"fatica":2},"tempo":120},"ko":{"testo":"Scavi per due ore e trovi solo terra e ruggine. Il contatore, intanto, ha contato per te.","tr":{"rad":2,"fatica":3},"tempo":120}}]}
-]}
+{
+"pacchetto": "Il nord, ancora",
+"eventi": [
+{
+"id": "n2-yantar-zombie-postino",
+"titolo": "Il postino di Yantar",
+"tono": "calmo",
+"peso": 9,
+"ripeti": 120,
+"se": {
+"luogo": "Yantar"
+},
+"testo": [
+"Uno zombie con la borsa del postino attraversa la palude in linea retta, lento, ostinato. Si ferma davanti a ogni rudere, fruga nella borsa, ne tira fuori una lettera che non c'è, la infila in una cassetta che non c'è, e riparte. Gli scienziati lo chiamano Pečkin e dicono che fa lo stesso giro da sei anni. Oggi si ferma davanti a te. Fruga nella borsa. Ti porge la mano vuota."
+],
+"scelte": [
+{
+"t": "Prendere la lettera che non c'è",
+"esito": {
+"testo": "Tendi la mano. Lui ci posa il niente con cura, ti fa un cenno con la testa, e riparte. Ti accorgi di tenere la mano chiusa, come se ci fosse davvero qualcosa. La apri solo quando lui è lontano. È vuota. Naturalmente. Ma è calda.",
+"tr": {
+"nervi": -1
+},
+"pe": 1
+}
+},
+{
+"t": "Guardare nella borsa",
+"tiro": "sf",
+"ok": {
+"testo": "Ti avvicini. Lui ti lascia fare. Nella borsa ci sono davvero delle lettere: decine, scritte dagli stalker e infilate lì, negli anni, per scherzo o per disperazione. Una è indirizzata a te. Non la apri. La rimetti a posto. Pečkin riparte.",
+"pe": 2,
+"tr": {
+"nervi": 1
+}
+},
+"ko": {
+"testo": "Allunghi la mano e lui ti morde il polso, senza fretta, come si timbra un documento. Poi riparte.",
+"colpo": {
+"D": 1,
+"P": 0
+}
+}
+}
+]
+},
+{
+"id": "n2-yantar-guardiano",
+"titolo": "Il custode del lago",
+"tono": "guaio",
+"peso": 8,
+"ripeti": 96,
+"se": {
+"luogo": "Yantar",
+"ore": [
+18,
+6
+]
+},
+"testo": [
+"Al calare della sera, sulla riva del lago, un uomo in tuta da sub sovietica con l'elmo di rame esce dall'acqua, lento, come un palombaro di un vecchio film. Si siede su un masso. Non si toglie l'elmo. Dalla grata dell'oblò non si vede una faccia: si vede acqua. Ti fa cenno con la mano di sederti vicino."
+],
+"scelte": [
+{
+"t": "Sederti",
+"tiro": "sf",
+"ok": {
+"testo": "Ti siedi. Restate così mezz'ora, guardando il lago diventare nero. Poi lui si alza, ti mette in mano un sasso liscio e tiepido, e torna in acqua, piano, finché l'elmo sparisce. Il sasso, alla luce della torcia, è un artefatto.",
+"oggetto": {
+"n": "Artefatto: Bolla",
+"nota": "Dato dal palombaro del lago di Yantar."
+},
+"pe": 2,
+"tr": {
+"nervi": 1
+}
+},
+"ko": {
+"testo": "Ti siedi, ma non reggi. Ti alzi a metà, e lui gira l'elmo verso di te. Nell'oblò, l'acqua si increspa, come una faccia che si offende. Torna in acqua senza darti niente.",
+"tr": {
+"nervi": 2
+}
+}
+},
+{
+"t": "Puntargli la torcia nell'oblò",
+"esito": {
+"testo": "La luce entra nell'oblò e qualcosa, dentro, si ritrae. Il palombaro si alza di scatto e si getta nel lago con un tonfo enorme. L'acqua, per un minuto, bolle.",
+"tr": {
+"nervi": 2
+},
+"allerta": 1
+}
+}
+]
+},
+{
+"id": "n2-radar-antenna-canta",
+"titolo": "Quando l'antenna canta",
+"tono": "guaio",
+"peso": 9,
+"ripeti": 72,
+"se": {
+"luogo": "Radar"
+},
+"testo": [
+"Il Bruciacervelli è spento. Eppure, a tratti, la grande antenna ronza. Non nel cervello, come prima: nelle ossa. Un ronzio basso che fa tremare i bulloni nello zaino. Gli stalker che stanno al nord dicono che è il Duga che si ricorda di essere stato acceso. Come un arto amputato che fa ancora male."
+],
+"scelte": [
+{
+"t": "Prendere lo Psi-block e aspettare",
+"se": {
+"oggetto": "Psi-block"
+},
+"esito": {
+"testo": "Lo prendi. Il ronzio diventa una musica, poi una voce, poi niente. Quando passa, trovi in tasca un foglio dove hai scritto, senza ricordarlo, una lista di coordinate. Una è a Pripjat'. Le altre non esistono.",
+"togli": "Psi-block",
+"pe": 2
+}
+},
+{
+"t": "Tenere duro",
+"tiro": "sf",
+"ok": {
+"testo": "Stringi i denti finché passa. Ti sanguina il naso, ma la testa è tua. Chi la tiene, la testa, al Radar, ha già vinto metà della partita.",
+"tr": {
+"nervi": 2
+},
+"pe": 1
+},
+"ko": {
+"testo": "Ti ritrovi in ginocchio a contare le antenne, una, due, tre, e a ricominciare. Ti salva la fame, ore dopo.",
+"tr": {
+"nervi": 4,
+"fatica": 2
+},
+"tempo": 180
+}
+},
+{
+"t": "Correre lontano dall'antenna",
+"tiro": "agilita+mobilita",
+"ok": {
+"testo": "Corri finché il ronzio diventa un brontolio, poi un ricordo. Sei fuori. Hai perso la strada ma non la testa.",
+"tr": {
+"fatica": 2
+},
+"tempo": 30
+},
+"ko": {
+"testo": "Corri nella direzione sbagliata. Il ronzio cresce. Torni indietro piangendo senza sapere perché.",
+"tr": {
+"nervi": 3,
+"fatica": 2
+}
+}
+}
+]
+},
+{
+"id": "n2-radar-ufficiale",
+"titolo": "L'ufficiale di servizio",
+"tono": "calmo",
+"peso": 8,
+"ripeti": "mai",
+"se": {
+"luogo": "Radar"
+},
+"testo": [
+"In una garitta di cemento, un ufficiale sovietico è seduto davanti a un registro. È morto da anni: la pelle come carta, la divisa intatta. Ma il registro è aggiornato. L'ultima riga, a penna, ha la data di ieri: Nessun bersaglio rilevato. Il cielo è vuoto. In servizio. Sotto, la firma: maggiore A. Grek."
+],
+"scelte": [
+{
+"t": "Scrivere la riga di oggi",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Scrivi, con la tua calligrafia storta: Nessun bersaglio. Il cielo è vuoto. Il turno è finito, maggiore. Riposo. Ti sembra che le spalle del morto si abbassino di un millimetro. Domani, se torni, il registro sarà fermo a oggi.",
+"pe": 2,
+"tr": {
+"nervi": -1
+}
+},
+"ko": {
+"testo": "Scrivi, ma la penna non lascia inchiostro. Il registro non accetta la tua firma. Non sei di servizio.",
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Prendere il registro",
+"esito": {
+"testo": "Lo prendi. Gli scienziati lo pagano bene. Il giorno dopo uno stalker ti dice di aver visto, al Radar, un ufficiale che cercava qualcosa nella garitta, piano, con le mani di carta.",
+"rubli": 2500,
+"oggetto": {
+"n": "Registro del maggiore Grek",
+"nota": "«Nessun bersaglio rilevato. Il cielo è vuoto.»"
+},
+"tr": {
+"nervi": 2
+}
+}
+}
+]
+},
+{
+"id": "n2-janiv-treno-merci",
+"titolo": "Il macchinista",
+"tono": "calmo",
+"peso": 9,
+"ripeti": 96,
+"se": {
+"luogo": "Janiv e Jupiter",
+"ore": [
+5,
+20
+]
+},
+"testo": [
+"Alla stazione di Janiv c'è un uomo che passa le giornate a oliare una locomotiva diesel che non partirà mai. Si chiama Zinovij, era macchinista sulla linea Černihiv–Janiv. «Le locomotive sono come i cavalli,» dice. «Se non le curi, si offendono. E una locomotiva offesa, quando ti serve, non parte.» Ha l'aria di uno che aspetta un giorno preciso."
+],
+"scelte": [
+{
+"t": "Aiutarlo a oliare",
+"esito": {
+"testo": "Passi un'ora con le mani nell'olio nero, sotto la sua guida. È un lavoro preciso e calmo, e lui ti spiega ogni pezzo con amore. Alla fine ti dà una pacca. «Se un giorno parte, sei sul primo vagone. Gratis.»",
+"tr": {
+"nervi": -2,
+"fatica": 1
+},
+"tempo": 60,
+"png": {
+"nome": "Zinovij il Macchinista",
+"fazione": "stalker libero",
+"nota": "Ex macchinista. Olia ogni giorno una locomotiva a Janiv. Ti ha promesso un posto sul primo vagone.",
+"fiducia": 1
+}
+}
+},
+{
+"t": "Chiedergli che giorno aspetta",
+"tiro": "empatia+pronto",
+"ok": {
+"testo": "«Il giorno in cui la Zona finisce,» dice, come fosse ovvio. «Allora la linea riapre, e il primo treno lo porto io. Non voglio arrivarci impreparato.» Ride. Ma continua a oliare.",
+"pe": 1
+},
+"ko": {
+"testo": "«Un giorno,» dice. Poi niente.",
+"tr": {
+"nervi": 1
+},
+"tempo": 15
+}
+}
+]
+},
+{
+"id": "n2-janiv-burer",
+"titolo": "Gli oggetti che volano",
+"tono": "guaio",
+"peso": 9,
+"ripeti": 72,
+"se": {
+"luogo": "Janiv e Jupiter"
+},
+"testo": [
+"Una latta vuota si alza da terra e ti passa vicino all'orecchio. Poi un mattone. Poi la tua borraccia ti si strappa dalla cintura e vola via, verso il buio di un capannone. Un burer. Lo senti ridacchiare da qualche parte, con una voce da vecchio raffreddato. Ti sta tirando la roba per giocare. O per stancarti."
+],
+"scelte": [
+{
+"t": "Entrare nel capannone e affrontarlo",
+"tiro": "agilita+tiro",
+"ok": {
+"testo": "Lo trovi in un angolo, piccolo, gobbo, con le mani alzate come un direttore d'orchestra. Spari prima che ti strappi il fucile. Nel suo angolo, una collezione di borracce, PDA, elmetti, accendini. Tutto quello che ha rubato agli stalker per anni. Ti riprendi la tua e qualcos'altro.",
+"oggetto": [
+"Antidolorifici",
+"Torcia"
+],
+"rubli": 1200,
+"nome": 1
+},
+"ko": {
+"testo": "Entri e il fucile ti vola via dalle mani. Ti tiri indietro a pugni nudi, sotto una pioggia di mattoni. Il fucile lo recuperi dopo un'ora, piegato.",
+"colpo": {
+"D": 2,
+"P": 0
+},
+"tr": {
+"nervi": 2
+}
+}
+},
+{
+"t": "Lasciargli la borraccia e andartene",
+"esito": {
+"testo": "Te ne vai. Dietro di te, il burer ridacchia contento. Ti tira dietro un sasso, quasi affettuoso, come un saluto.",
+"scorte": {
+"acqua": -1
+}
+}
+}
+]
+},
+{
+"id": "n2-zaton-skadovsk-bevuta",
+"titolo": "Il brindisi dello Skadovsk",
+"tono": "calmo",
+"peso": 9,
+"ripeti": 72,
+"se": {
+"luogo": "Zaton",
+"ore": [
+18,
+2
+]
+},
+"testo": [
+"Nella stiva dello Skadovsk si brinda a uno stalker che oggi ha compiuto un anno nella Zona. È raro: un anno. Il festeggiato è un ragazzo con mezza faccia bruciata e un sorriso storto. Ti versano da bere prima che tu possa dire no. «A Pasha!» urla qualcuno. «Che ne faccia un altro!» E poi, più piano: «Che ne faccia un altro.»"
+],
+"scelte": [
+{
+"t": "Fare un brindisi tu",
+"tiro": "empatia+pronto",
+"ok": {
+"testo": "Ti alzi. Dici due frasi, semplici, sul tempo che qui vale doppio, su quelli che non sono arrivati a un anno, su quelli che arriveranno. La stiva tace. Poi applaude. Pasha ti abbraccia. Hai detto la cosa giusta, e lo sapete tutti e due.",
+"nome": 1,
+"tr": {
+"nervi": -2
+}
+},
+"ko": {
+"testo": "Ti alzi e ti dimentichi cosa volevi dire. Dici solo: «A Pasha.» Va bene lo stesso. Va sempre bene.",
+"tr": {
+"nervi": -1
+}
+}
+},
+{
+"t": "Chiedere a Pasha il segreto",
+"esito": {
+"testo": "«Nessun segreto,» dice. «Ho paura di tutto. Sempre. Chi smette di avere paura dura sei mesi.» Te lo scrivi nel PDA.",
+"pe": 1
+}
+}
+]
+},
+{
+"id": "n2-zaton-pesca-chimera",
+"titolo": "La rete",
+"tono": "guaio",
+"peso": 8,
+"ripeti": 96,
+"se": {
+"luogo": "Zaton"
+},
+"testo": [
+"Due pescatori dello Skadovsk tirano su una rete dalla palude. È pesante, troppo. Tirano, sudano, bestemmiano. Dalla rete spunta una zampa, poi un'altra, poi una testa doppia che si scuote. Hanno pescato un cucciolo di chimera. È ancora vivo. È arrabbiatissimo. «Aiutaci!» urla uno. «Vale una fortuna agli scienziati!»"
+],
+"scelte": [
+{
+"t": "Aiutarli a tenerla",
+"tiro": "forza+corpo",
+"ok": {
+"testo": "Ti butti sulla rete. Per un minuto lungo come un anno è un groviglio di zampe, denti e corda. Poi è legata. I pescatori ridono come pazzi e ti offrono un terzo. Gli scienziati pagano davvero una fortuna.",
+"rubli": 5000,
+"tr": {
+"fatica": 2
+},
+"rap": {
+"Scienziati": 1
+}
+},
+"ko": {
+"testo": "La chimera ti apre il braccio con una zampa e si libera. Sparisce nella palude con mezzo metro di rete addosso. I pescatori ti guardano come se fosse colpa tua. Forse lo è.",
+"colpo": {
+"D": 2,
+"P": 1
+},
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Tagliare la rete",
+"esito": {
+"testo": "Tagli la rete col coltello. La chimera scappa, si volta una volta a guardarti con le sue due teste, e sparisce. I pescatori ti insultano per un quarto d'ora. Tra qualche anno, quella chimera sarà grande. Chissà se si ricorderà di te.",
+"tr": {
+"nervi": -1
+},
+"pe": 1
+}
+}
+]
+},
+{
+"id": "n2-foresta-cervo",
+"titolo": "Il cervo bianco",
+"tono": "calmo",
+"peso": 7,
+"ripeti": "mai",
+"se": {
+"luogo": "Foresta Rossa",
+"ore": [
+5,
+9
+]
+},
+"testo": [
+"All'alba, tra i pini rossi, un cervo. Bianco, completamente. Grande, con le corna che sembrano rami di betulla. Non è un mutante. È perfetto. Ti guarda da trenta metri, senza paura, con gli occhi scuri e calmi. Nella Zona non hai mai visto niente di così intatto. Niente di così fuori posto."
+],
+"scelte": [
+{
+"t": "Restare immobile e guardarlo",
+"esito": {
+"testo": "Resti fermo. Lui ti guarda ancora, poi abbassa la testa a brucare, come se tu fossi un albero. Dopo un minuto se ne va, senza fretta, e dove ha camminato l'erba è verde. Verde, nella Foresta Rossa. Te lo ricorderai per tutta la vita.",
+"tr": {
+"nervi": -4,
+"fatica": -1
+},
+"pe": 2
+}
+},
+{
+"t": "Sparargli",
+"tiro": "agilita+tiro",
+"ok": {
+"testo": "Il colpo lo prende in pieno. Il cervo non cade. Ti guarda. Poi si volta e cammina via, e dalla ferita non esce sangue ma una luce bianca che si spegne lentamente. Hai fatto una cosa sbagliata. Lo sai. La Foresta, per giorni, ti è ostile.",
+"tr": {
+"nervi": 4
+},
+"allerta": 2
+},
+"ko": {
+"testo": "Manchi. Il cervo non si muove. Ti guarda come si guarda un bambino che ha fatto una cosa stupida. Poi se ne va. Ti vergogni come non ti vergognavi da anni.",
+"tr": {
+"nervi": 2
+}
+}
+}
+]
+},
+{
+"id": "n2-foresta-impiccati",
+"titolo": "I nastri sui rami",
+"tono": "guaio",
+"peso": 8,
+"ripeti": 96,
+"se": {
+"luogo": "Foresta Rossa"
+},
+"testo": [
+"Sui rami bassi dei pini, nastri. Di stoffa, di plastica, di carta. Centinaia. Rossi, bianchi, blu. Ogni nastro ha un nome scritto sopra. Qualcuno li lega qui da anni, per i morti della Foresta. Uno è fresco, legato stamattina. Il nome è il tuo."
+],
+"scelte": [
+{
+"t": "Slegarlo",
+"tiro": "sf",
+"ok": {
+"testo": "Lo sleghi con calma. Lo pieghi. Lo metti in tasca. Chi l'ha legato si è sbagliato, oppure si è portato avanti. In entrambi i casi, non oggi.",
+"tr": {
+"nervi": 1
+},
+"pe": 2
+},
+"ko": {
+"testo": "Le mani tremano così forte che il nodo non si scioglie. Lo strappi. Tutto il giorno ti guardi le spalle.",
+"tr": {
+"nervi": 3
+}
+}
+},
+{
+"t": "Cercare chi lega i nastri",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Segui impronte leggere fino a una capanna. Dentro, un vecchio cieco con un rotolo di nastri e una radio. Ascolta la radio degli stalker e lega i nomi di quelli che sente nominare. «Ti hanno nominato ieri,» dice, senza vederti. «Dicevano che saresti morto in Foresta. Ho pensato di portarmi avanti.» Si scusa. Gli dai una sigaretta.",
+"pe": 2,
+"tr": {
+"nervi": -1
+}
+},
+"ko": {
+"testo": "Le impronte spariscono nell'erba rossa. Resti col nastro in mano e una domanda.",
+"tr": {
+"nervi": 2
+}
+}
+}
+]
+},
+{
+"id": "n2-pripjat-ascensore",
+"titolo": "L'ascensore",
+"tono": "guaio",
+"peso": 8,
+"ripeti": 96,
+"se": {
+"luogo": "Pripjat'"
+},
+"testo": [
+"In un palazzo di sedici piani, l'ascensore funziona. La lucina sopra la porta è accesa. Il pulsante di chiamata è caldo. Quando lo premi, da lontano, in alto, si sente un motore che parte, e la cabina che scende, piano, piano, piano, contando i piani con un ding a ognuno. Sedici. Quindici. Quattordici."
+],
+"scelte": [
+{
+"t": "Aspettare e salire",
+"tiro": "sf",
+"ok": {
+"testo": "La porta si apre. La cabina è pulita, con lo specchio e un odore di profumo da donna del 1986. Premi l'ultimo piano. Sali. In cima, la porta si apre su un tetto con la vista di tutta Pripjat' al tramonto. Sul parapetto, uno zaino lasciato da un altro che è salito prima di te. Dentro, roba buona e una lettera: Bello, vero? Ora scendi a piedi.",
+"oggetto": [
+"Kit medico AI-2",
+"Binocolo"
+],
+"pe": 2,
+"tr": {
+"nervi": 1
+}
+},
+"ko": {
+"testo": "La porta si apre su una cabina buia. Dentro c'è qualcuno, di spalle, che non si volta. Fai un passo indietro. Le porte si chiudono. Il ding riparte, ma verso il basso, sotto il piano terra, verso piani che il palazzo non ha.",
+"tr": {
+"nervi": 4
+}
+}
+},
+{
+"t": "Prendere le scale",
+"esito": {
+"testo": "Prendi le scale. L'ascensore arriva al piano terra, si apre sul niente, aspetta un po' e riparte. Lo senti salire di nuovo, piano dopo piano, mentre ti allontani.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "n2-pripjat-bambola",
+"titolo": "La finestra del terzo piano",
+"tono": "calmo",
+"peso": 8,
+"ripeti": 120,
+"se": {
+"luogo": "Pripjat'",
+"ore": [
+10,
+17
+]
+},
+"testo": [
+"A una finestra del terzo piano, tra mille finestre rotte, una finestra pulita. Con le tende. Con un vaso di gerani rossi vivi sul davanzale. Qualcuno li innaffia. Il contatore, sotto la finestra, impazzisce. Sul portone d'ingresso, un biglietto scritto a mano, recente: Vi prego, non salite. Va tutto bene. Ci sono io."
+],
+"scelte": [
+{
+"t": "Rispettare il biglietto",
+"esito": {
+"testo": "Non sali. Lasci sulla soglia una scatola di conserve, perché ti sembra giusto. Quando ripassi, giorni dopo, la scatola non c'è più, e sul davanzale c'è un geranio in più.",
+"scorte": {
+"cibo": -1
+},
+"tr": {
+"nervi": -2
+},
+"pe": 1
+}
+},
+{
+"t": "Salire",
+"tiro": "sf",
+"ok": {
+"testo": "Sali. La porta del terzo piano è aperta. Dentro, un appartamento pulito, un tavolo apparecchiato per due, e un vecchio seduto che ti guarda con tristezza. «Avevo scritto di non salire,» dice. Poi ti versa il tè. Non parlate di niente che conti. Quando te ne vai, sai solo che si chiama Ivan Matveevič e che non uscirà mai più di lì. Non perché non possa: perché non vuole.",
+"pe": 2,
+"tr": {
+"rad": 2,
+"nervi": 1
+},
+"tempo": 60
+},
+"ko": {
+"testo": "Sali. Il terzo piano è sventrato, le stanze vuote, la finestra coi gerani dà su un appartamento che non esiste: dietro le tende c'è solo il cielo. Scendi di corsa.",
+"tr": {
+"nervi": 3,
+"rad": 1
+}
+}
+}
+]
+},
+{
+"id": "n2-centrale-gatto",
+"titolo": "Il gatto della centrale",
+"tono": "calmo",
+"peso": 8,
+"ripeti": "mai",
+"se": {
+"luogo": "La centrale"
+},
+"testo": [
+"Nel posto più radioattivo della Zona, su una cassa di piombo, c'è un gatto. Un gatto normale, grigio tigrato, grasso, che si lava una zampa con dedizione. Ti guarda. Sbadiglia. Gli stalker del nord lo chiamano il Direttore e giurano che vive lì dal 1986. Il contatore, vicino a lui, scende quasi a zero, come se il gatto si bevesse le radiazioni."
+],
+"scelte": [
+{
+"t": "Accarezzarlo",
+"tiro": "empatia+sopravvivenza",
+"ok": {
+"testo": "Si lascia accarezzare. Fa le fusa, un motore profondo e regolare. Per tutto il tempo che hai la mano sul suo pelo, il contatore tace. Quando te ne vai, ti segue con lo sguardo e chiude gli occhi, soddisfatto, come un vecchio funzionario che ha firmato una pratica.",
+"tr": {
+"rad": -3,
+"nervi": -2
+},
+"pe": 2
+},
+"ko": {
+"testo": "Ti graffia, svelto e preciso, e torna a lavarsi. Il Direttore riceve solo su appuntamento.",
+"tr": {
+"ferite": 1
+}
+}
+},
+{
+"t": "Lasciargli da mangiare",
+"se": {
+"oggetto": "Cibo"
+},
+"esito": {
+"testo": "Apri una scatoletta e gliela lasci sulla cassa. Ti guarda, poi guarda la scatoletta, poi decide che sei accettabile. Mangia. Il contatore, per un'ora, resta basso anche quando ti allontani.",
+"scorte": {
+"cibo": -1
+},
+"tr": {
+"rad": -2
+},
+"pe": 1
+}
+}
+]
+},
+{
+"id": "n2-magazzini-cimitero-carri",
+"titolo": "I carri armati sepolti",
+"tono": "calmo",
+"peso": 8,
+"ripeti": 120,
+"se": {
+"luogo": "Magazzini dell'esercito"
+},
+"testo": [
+"In un campo vicino ai magazzini, la terra ha un ritmo strano: monticelli regolari, in file, ognuno lungo sette metri. Carri armati, sepolti nel 1986 perché troppo contaminati. Da un monticello spunta una torretta, e dalla torretta, aperta, esce il fumo di una stufa. Qualcuno ci vive dentro."
+],
+"scelte": [
+{
+"t": "Bussare sulla torretta",
+"esito": {
+"testo": "Esce un uomo con una barba fino al petto e una giacca da carrista del 1985. «Sergente Bondar,» si presenta. «Il mio carro. Mi hanno detto di lasciarlo, io non l'ho lasciato.» Ti offre del tè fatto col fornelletto, dentro, nella camera di combattimento. È il posto più caldo e più strano in cui hai mai bevuto. Ti racconta il '86 da dentro un carro armato.",
+"tr": {
+"nervi": -1,
+"freddo": -2,
+"rad": 1
+},
+"pe": 1,
+"png": {
+"nome": "Sergente Bondar",
+"fazione": "civile",
+"nota": "Vive dentro il suo carro armato sepolto vicino ai Magazzini dal 1986.",
+"fiducia": 1
+}
+}
+},
+{
+"t": "Scavare un altro carro per cercare roba",
+"tiro": "forza+resistenza",
+"ok": {
+"testo": "Scavi per due ore. Apri un portello. Dentro, munizioni d'epoca, un kit medico militare e una radio. Il contatore grida. Prendi in fretta e richiudi.",
+"oggetto": [
+"Kit medico militare",
+"Ricevitore radio"
+],
+"tr": {
+"rad": 3,
+"fatica": 2
+},
+"tempo": 120
+},
+"ko": {
+"testo": "Scavi per due ore e trovi solo terra e ruggine. Il contatore, intanto, ha contato per te.",
+"tr": {
+"rad": 2,
+"fatica": 3
+},
+"tempo": 120
+}
+}
+]
+}
+]
+}

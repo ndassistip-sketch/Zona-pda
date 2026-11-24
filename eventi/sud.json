@@ -97,7 +97,10 @@
 {
 "t": "Lasciar perdere",
 "esito": {
-"testo": "Niente vale una dose di quel ferro. Tiri dritto."
+"testo": "Niente vale una dose di quel ferro. Tiri dritto.",
+"tr": {
+"fatica": -1
+}
 }
 }
 ]
@@ -139,7 +142,10 @@
 {
 "t": "Indicargli la strada e basta",
 "esito": {
-"testo": "Gli disegni la strada sul palmo con una penna. Lo guardi andare. Speri che sappia leggere."
+"testo": "Gli disegni la strada sul palmo con una penna. Lo guardi andare. Speri che sappia leggere.",
+"tr": {
+"fatica": -1
+}
 }
 },
 {

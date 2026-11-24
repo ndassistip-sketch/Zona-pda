@@ -1,0 +1,1025 @@
+{
+"pacchetto": "Storie della Zona, seconda raccolta",
+"eventi": [
+{
+"id": "s2-lotteria-1",
+"titolo": "La lotteria del Bar",
+"tono": "calmo",
+"peso": 9,
+"ripeti": 168,
+"se": {
+"luogo": "Bar e Rostok",
+"ore": [
+18,
+2
+]
+},
+"testo": [
+"Il Barman ha appeso al muro un barattolo di vetro pieno di biglietti numerati. Ogni domenica estrae un numero. Il premio non è mai lo stesso: una volta un artefatto, una volta una bottiglia di cognac francese, una volta un biglietto del treno per Kiev, sola andata. «Mille rubli il biglietto,» dice, senza alzare gli occhi dal bicchiere che pulisce da vent'anni. «I soldi vanno alle vedove. Il premio va a chi ha fortuna. Di solito non sei tu.»"
+],
+"scelte": [
+{
+"t": "Comprare un biglietto",
+"se": {
+"rubli": 1000
+},
+"esito": {
+"testo": "Scrivi il tuo soprannome sul retro e lo infili nel barattolo. Il Barman annuisce. Domenica si vedrà.",
+"rubli": -1000,
+"flag": "lotteria",
+"seguito": "s2-lotteria-2",
+"rap": {
+"Barman": 1
+},
+"dopo": 4320
+}
+},
+{
+"t": "Comprarne cinque",
+"se": {
+"rubli": 5000
+},
+"esito": {
+"testo": "Cinque biglietti. Il Barman ti guarda per la prima volta. «Tante vedove,» dice. «Brav'uomo.» Non sai se è ironico.",
+"rubli": -5000,
+"flag": [
+"lotteria",
+"lotteria5"
+],
+"seguito": "s2-lotteria-2",
+"rap": {
+"Barman": 2
+},
+"nome": 1,
+"dopo": 4320
+}
+},
+{
+"t": "Chiedere chi ha vinto l'ultima volta",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "«Uno del Dovere. Ha vinto il biglietto del treno. Non l'ha usato. Lo tiene nel portafogli, dice che gli porta fortuna.» Il Barman fa una pausa. «È morto martedì.»",
+"pe": 1,
+"tr": {
+"nervi": 1
+}
+},
+"ko": {
+"testo": "«Qualcuno,» dice il Barman. Fine della conversazione.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-lotteria-2",
+"titolo": "L'estrazione",
+"tono": "calmo",
+"peso": 0,
+"ripeti": "mai",
+"solo_seguito": true,
+"se": {
+"flag": "lotteria"
+},
+"testo": [
+"Il messaggio arriva sul PDA, firmato «il Bar»: l'estrazione c'è stata. Il numero vincente è stato letto ad alta voce davanti a quaranta stalker ubriachi. Il premio di questa settimana era una cassa chiusa, sigillata col piombo, che nessuno ha voluto aprire prima dell'estrazione."
+],
+"scelte": [
+{
+"t": "Controllare il tuo numero",
+"tiro": "sf",
+"ok": {
+"testo": "È il tuo. Quaranta stalker ti guardano quando arrivi a ritirarlo. Nella cassa: un artefatto, una pistola col calcio d'avorio e una lettera senza firma che dice soltanto «usali meglio di me».",
+"oggetto": [
+{
+"n": "Artefatto: Pietra di sangue",
+"nota": "Vinto alla lotteria del Bar."
+},
+{
+"n": "PM Makarov",
+"nota": "Calcio d'avorio. Vinta alla lotteria del Bar."
+}
+],
+"nome": 1,
+"noflag": "lotteria"
+},
+"ko": {
+"testo": "Non è il tuo. Ha vinto un novellino arrivato da tre giorni, che ha aperto la cassa davanti a tutti e ha pianto. Dentro c'era una foto di sua madre. Nessuno sa come ci sia finita.",
+"noflag": "lotteria",
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Non controllare: lasciare che vinca qualcun altro",
+"esito": {
+"testo": "Cancelli il messaggio senza leggerlo. Ti piace pensare che abbia vinto qualcuno che ne aveva più bisogno di te. Il Barman, quando ripassi, ti versa da bere senza farti pagare. Non dice perché.",
+"noflag": "lotteria",
+"tr": {
+"nervi": -1
+},
+"rap": {
+"Barman": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-debito-zona-1",
+"titolo": "Il debito con la Zona",
+"tono": "guaio",
+"peso": 5,
+"ripeti": "mai",
+"se": {
+"luogo": "*",
+"traccia": {
+"nervi": [
+2,
+6
+]
+}
+},
+"testo": [
+"Ti svegli con una certezza che non viene da nessuna parte: la Zona ti ha dato troppo. Gli artefatti, le volte che il bullone è caduto giusto, i colpi che ti hanno mancato di un palmo. Non è gratis. Niente qui è gratis. Da qualche parte c'è un conto aperto, e oggi qualcuno lo ha guardato."
+],
+"scelte": [
+{
+"t": "Lasciare un'offerta: qualcosa di valore in un campo di anomalie",
+"tiro": "sf",
+"ok": {
+"testo": "Prendi la cosa più preziosa che hai nello zaino e la lanci nel campo. L'anomalia la prende con un suono quasi educato. Per giorni ti senti più leggero, come chi ha pagato l'affitto.",
+"tr": {
+"nervi": -3
+},
+"rubli": -3000,
+"flag": "zona-pagata"
+},
+"ko": {
+"testo": "Ti avvicini al campo con l'offerta in mano e non riesci a lasciarla. Torni indietro. Il conto resta aperto. E cresce.",
+"tr": {
+"nervi": 1
+},
+"flag": "debito-zona",
+"seguito": "s2-debito-zona-2",
+"dopo": 7200
+}
+},
+{
+"t": "Ridere della superstizione",
+"esito": {
+"testo": "Ridi. Da solo, nel rifugio, ridi forte. Poi smetti di colpo, perché ti sembra che qualcosa, fuori, abbia riso con te.",
+"flag": "debito-zona",
+"seguito": "s2-debito-zona-2",
+"tr": {
+"nervi": 1
+},
+"dopo": 7200
+}
+},
+{
+"t": "Chiedere a padre Avraamij cosa fare",
+"se": {
+"png": "Avraamij"
+},
+"esito": {
+"testo": "Il prete ti ascolta e poi dice: «Non sei tu ad avere un debito con la Zona. È lei ad averne uno con tutti noi. Ma se vuoi dormire, accendi una candela per chi non è tornato.» Lo fai. Dormi.",
+"tr": {
+"nervi": -2
+},
+"fid": {
+"Avraamij": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-debito-zona-2",
+"titolo": "Il conto",
+"tono": "guaio",
+"peso": 0,
+"ripeti": "mai",
+"solo_seguito": true,
+"se": {
+"flag": "debito-zona"
+},
+"testo": [
+"Le cose cominciano a sparire. Un caricatore che eri sicuro di avere. Una borraccia. Il bullone portafortuna che tieni nel taschino da mesi. Non c'è nessuno nel rifugio. Non c'è mai nessuno. Stanotte, sul fango davanti alla porta, impronte di piedi nudi che arrivano e non ripartono."
+],
+"scelte": [
+{
+"t": "Pagare ora, e pagare tanto",
+"se": {
+"rubli": 5000
+},
+"esito": {
+"testo": "Porti cinquemila rubli in banconote al campo di anomalie più vicino e le lasci volare nel vortice come foglie. Le cose smettono di sparire. Il bullone portafortuna lo ritrovi la mattina dopo, sul cuscino, pulito.",
+"rubli": -5000,
+"noflag": "debito-zona",
+"tr": {
+"nervi": -3
+}
+}
+},
+{
+"t": "Aspettare, sveglio, chi viene a prendere",
+"tiro": "sf",
+"ok": {
+"testo": "Alle tre di notte qualcosa entra. Non lo vedi: senti il freddo spostarsi nella stanza. Si ferma davanti a te. Tu non ti muovi. Dopo un tempo lunghissimo, se ne va. Sul tavolo lascia il tuo bullone portafortuna e un artefatto che non hai mai visto. Il conto è chiuso. Pari.",
+"oggetto": {
+"n": "Artefatto: Anima",
+"nota": "Lasciato da qualcosa che non hai visto."
+},
+"noflag": "debito-zona",
+"pe": 2,
+"tr": {
+"nervi": 2
+}
+},
+"ko": {
+"testo": "Ti addormenti. Al risveglio manca metà dei tuoi soldi e hai una ciocca di capelli bianchi. Il conto, adesso, è chiuso. Ma l'hai pagato a modo suo.",
+"rubli": -4000,
+"noflag": "debito-zona",
+"tr": {
+"nervi": 3
+}
+}
+},
+{
+"t": "Scappare in un'altra zona",
+"esito": {
+"testo": "Te ne vai. Per qualche giorno sembra funzionare. Poi trovi le impronte anche lì.",
+"tr": {
+"nervi": 2,
+"fatica": 2
+},
+"seguito": "s2-debito-zona-2",
+"dopo": 5760
+}
+}
+]
+},
+{
+"id": "s2-novellini-scommessa",
+"titolo": "La scommessa dei novellini",
+"tono": "calmo",
+"peso": 8,
+"ripeti": 96,
+"se": {
+"luogo": "Cordone",
+"ore": [
+10,
+20
+]
+},
+"testo": [
+"Tre novellini con le tute ancora pulite stanno per entrare in un campo di anomalie per scommessa. Il premio è una bottiglia. Il più giovane ha già il bullone in mano e la faccia di chi vuole dimostrare qualcosa a qualcuno che non c'è. Ti vedono arrivare e si irrigidiscono: un veterano. O almeno, uno che ne ha l'aria."
+],
+"scelte": [
+{
+"t": "Fermarli",
+"tiro": "empatia+comando",
+"spec": "Pastore",
+"ok": {
+"testo": "Gli spieghi in tre frasi cosa resta di chi fa queste scommesse. Il più giovane abbassa il bullone. Gli altri due ridono, nervosi, poi smettono. Vi bevete la bottiglia insieme, fuori dal campo. Tra un mese due di loro saranno ancora vivi. Forse grazie a te.",
+"nome": 1,
+"pe": 1
+},
+"ko": {
+"testo": "Ti ridono in faccia. Il più giovane entra. Esce. Vivo, per miracolo, con una mano bruciata. Adesso crede di essere immortale. È la cosa peggiore che potesse succedergli.",
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Mostrargli come si fa davvero",
+"tiro": "intelletto+ricognizione",
+"spec": "Mano del bullone",
+"ok": {
+"testo": "Entri tu, piano, contando, mostrando ogni lancio. Esci dall'altra parte con un artefatto piccolo, che era lì da settimane e nessuno aveva visto. Glielo lasci. «La prossima volta, questo,» dici. La bottiglia, invece, te la tieni.",
+"oggetto": "Vodka",
+"nome": 1,
+"pe": 1
+},
+"ko": {
+"testo": "A metà, un'anomalia ti colpisce la gamba. Esci zoppicando, e i novellini hanno imparato la lezione meglio di qualunque discorso.",
+"colpo": {
+"D": 2,
+"P": 0
+},
+"nome": -1
+}
+},
+{
+"t": "Scommettere anche tu (500 ₽ sul più giovane)",
+"se": {
+"rubli": 500
+},
+"esito": {
+"testo": "Il più giovane entra, ed esce. Vinci. Ti senti un verme mentre conti i soldi. Il più giovane ti offre da bere. Accetti. Ti senti ancora più verme.",
+"rubli": 500,
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-pittore-muri",
+"titolo": "I muri di Pripjat'",
+"tono": "calmo",
+"peso": 7,
+"ripeti": "mai",
+"se": {
+"luogo": "Pripjat'"
+},
+"testo": [
+"Sui muri di un palazzo qualcuno ha dipinto delle ombre. Sagome nere di persone, a grandezza naturale: un bambino che gioca, una donna che stende i panni, due uomini che si stringono la mano. Ce ne sono decine. Le vernici sono fresche. Alcune sagome hanno un nome scritto sotto, a pennello. Uno è il nome di uno stalker che conoscevi."
+],
+"scelte": [
+{
+"t": "Cercare chi le dipinge",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Lo trovi al quarto piano: un vecchio con un secchio di vernice nera e un pennello consumato. Dipinge chi è morto nella Zona, uno al giorno, senza fretta. «Così restano,» dice. Ti chiede un nome. Gliene dai uno. Lui comincia a dipingere.",
+"pe": 2,
+"tr": {
+"nervi": -2
+},
+"png": {
+"nome": "Il Pittore delle ombre",
+"fazione": "civile",
+"nota": "Vecchio che dipinge sui muri di Pripjat' le sagome di chi è morto nella Zona.",
+"fiducia": 1
+}
+},
+"ko": {
+"testo": "Trovi solo secchi vuoti e impronte di vernice che vanno su per le scale e finiscono contro un muro, come se chi le ha lasciate ci fosse entrato dentro.",
+"tr": {
+"nervi": 2
+}
+}
+},
+{
+"t": "Scrivere un nome sotto una sagoma vuota",
+"esito": {
+"testo": "Prendi il pennello abbandonato e scrivi il nome di qualcuno che hai perso. Quando ripassi, giorni dopo, la sagoma ha un volto. Il volto è giusto.",
+"tr": {
+"nervi": -1
+},
+"pe": 1
+}
+},
+{
+"t": "Fotografare tutto col PDA",
+"esito": {
+"testo": "Fotografi ogni sagoma. Agli scienziati di Yantar interesserà. Al Bar, qualcuno piangerà vedendo le foto. Decidi tu chi le vedrà per primo.",
+"oggetto": {
+"n": "Foto delle ombre di Pripjat'",
+"nota": "Decine di sagome dipinte sui muri. Agli scienziati interessano; al Bar fanno piangere."
+},
+"rap": {
+"Scienziati": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-medico-senza-licenza",
+"titolo": "Il medico senza licenza",
+"tono": "calmo",
+"peso": 8,
+"ripeti": 120,
+"se": {
+"luogo": [
+"Cordone",
+"Discarica",
+"Bar e Rostok",
+"Zaton"
+],
+"traccia": {
+"ferite": [
+1,
+6
+]
+}
+},
+"testo": [
+"Un uomo con gli occhiali spaccati e le mani più pulite che tu abbia visto nella Zona ti guarda zoppicare. «Ferita da sette giorni, infetta, cucita male,» dice, senza che tu abbia aperto bocca. «Ero chirurgo a Dnipro. Mi hanno tolto la licenza per un errore. Uno solo. Qui non chiedono la licenza. Chiedono che il paziente sopravviva.»"
+],
+"scelte": [
+{
+"t": "Farti curare (2.000 ₽)",
+"se": {
+"rubli": 2000
+},
+"tiro": "forza+resistenza",
+"ok": {
+"testo": "Ti apre, ti pulisce, ti richiude, senza anestesia e senza tremare. Fa malissimo. Poi fa meno male. Poi, il giorno dopo, quasi niente.",
+"rubli": -2000,
+"tr": {
+"ferite": -2
+},
+"png": {
+"nome": "Il Chirurgo di Dnipro",
+"fazione": "stalker libero",
+"nota": "Ex chirurgo senza licenza. Cura bene, senza anestesia.",
+"fiducia": 1
+}
+},
+"ko": {
+"testo": "Svieni a metà. Ti svegli ricucito, con la febbre e un biglietto: «Bevi. Riposa. Sei vivo, di niente.»",
+"rubli": -2000,
+"tr": {
+"ferite": -1,
+"fatica": 2
+}
+}
+},
+{
+"t": "Chiedergli dell'errore",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "«Un bambino,» dice. «Avevo dormito due ore in tre giorni.» Non aggiunge altro. Ti cura gratis, quel giorno, e tu non chiedi perché.",
+"tr": {
+"ferite": -1
+},
+"png": {
+"nome": "Il Chirurgo di Dnipro",
+"fazione": "stalker libero",
+"nota": "Ex chirurgo. Ha perso un bambino sul tavolo. Ti ha curato gratis.",
+"fiducia": 2
+}
+},
+"ko": {
+"testo": "«Non sono affari tuoi.» Ti cura lo stesso, ma ti fa pagare il doppio.",
+"rubli": -4000,
+"tr": {
+"ferite": -2
+}
+}
+},
+{
+"t": "Rifiutare: chi ti dice che non è un macellaio?",
+"esito": {
+"testo": "Lui alza le spalle. «La gente muore di orgoglio più che di pallottole.» Torna a sterilizzare un ago sul fornelletto.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-cane-del-morto",
+"titolo": "Il cane del morto",
+"tono": "calmo",
+"peso": 7,
+"ripeti": 120,
+"se": {
+"luogo": "*",
+"ore": [
+6,
+19
+]
+},
+"testo": [
+"Un cane da caccia, vero, con un collare di cuoio e una medaglietta, è sdraiato accanto a una tuta da stalker vuota, sotto un albero. La tuta è aperta, svuotata. Del padrone resta solo il PDA, appeso al ramo. Il cane non ringhia. Ti guarda e basta. Aspetta che tu decida cosa fare di lui."
+],
+"scelte": [
+{
+"t": "Portarlo con te",
+"tiro": "empatia+sopravvivenza",
+"ok": {
+"testo": "Ti segue dopo un'esitazione lunga, voltandosi ogni dieci passi verso l'albero. Poi smette di voltarsi. Sulla medaglietta c'è scritto Barone. Barone sente i mutanti prima di te.",
+"png": {
+"nome": "Barone",
+"fazione": "amico",
+"nota": "Cane da caccia di uno stalker morto. Sente i mutanti prima di te.",
+"fiducia": 2,
+"con": true
+}
+},
+"ko": {
+"testo": "Non vuole venire. Resta accanto alla tuta. Quando ripasserai, tra una settimana, sarà ancora lì. O non ci sarà più niente.",
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Leggere il PDA del padrone",
+"esito": {
+"testo": "Ultimo messaggio, non inviato: «Se trovate Barone, dategli da mangiare. Non è colpa sua.» Non dice di cosa. Lasci una scatoletta aperta accanto al cane.",
+"scorte": {
+"cibo": -1
+},
+"pe": 1,
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Andartene",
+"esito": {
+"testo": "Te ne vai. Il cane ti segue con gli occhi finché non sparisci dietro la collina. Poi torna a guardare la tuta.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-contrabbando-sigarette",
+"titolo": "Le sigarette di Odessa",
+"tono": "guaio",
+"peso": 7,
+"ripeti": 120,
+"se": {
+"luogo": [
+"Cordone",
+"Discarica",
+"Zaton"
+]
+},
+"testo": [
+"Un camion con il cassone coperto da un telo è fermo di traverso sulla strada, una gomma a terra. L'autista, un uomo grasso con un berretto da marinaio, fuma nervosamente. «Sigarette,» dice, prima che tu chieda. «Di Odessa. Cinquanta casse. Per il Bar e per il nord. La gomma è andata, il mio socio è scappato. Se mi aiuti a cambiarla, una cassa è tua.» Dalla collina, un riflesso: qualcuno guarda."
+],
+"scelte": [
+{
+"t": "Aiutarlo con la gomma",
+"tiro": "forza+tecnica",
+"ok": {
+"testo": "Mezz'ora di lavoro col cric arrugginito. Il camion riparte. Una cassa di sigarette valgono, al Bar, più di quanto pensi. Il riflesso sulla collina non si è mosso.",
+"rubli": 3500,
+"rap": {
+"Stalker liberi": 1
+}
+},
+"ko": {
+"testo": "Il cric cede. Il camion ti schiaccia una mano. Mentre bestemmi, dalla collina scendono in quattro. Banditi. Prendono tutto, camion compreso. A te lasciano la mano rotta.",
+"colpo": {
+"D": 2,
+"P": 0
+},
+"rap": {
+"Banditi": -1
+}
+}
+},
+{
+"t": "Avvisarlo del riflesso e andarvene insieme",
+"esito": {
+"testo": "Lasciate il camion. Dalla collina scendono i banditi, si prendono le sigarette e ridono. Il marinaio piange, poi ti abbraccia. «Mi hai salvato la vita. Le sigarette si ricomprano.» Ti dà il suo coltello, l'unica cosa che ha salvato.",
+"oggetto": "Coltello NR-40",
+"nome": 1
+}
+},
+{
+"t": "Vendere l'informazione ai banditi sulla collina",
+"esito": {
+"testo": "Sali sulla collina con le mani alzate. Ai banditi dici che il camion è solo e disarmato. Loro ti pagano. Il marinaio ti guarda mentre lo legano. Non dice niente. Non serve.",
+"rubli": 2500,
+"rap": {
+"Banditi": 2,
+"Stalker liberi": -1
+},
+"tr": {
+"nervi": 2
+}
+}
+}
+]
+},
+{
+"id": "s2-messa-di-natale",
+"titolo": "La messa di mezzanotte",
+"tono": "calmo",
+"peso": 12,
+"ripeti": "mai",
+"se": {
+"luogo": [
+"Cordone",
+"Bar e Rostok",
+"Zaton"
+],
+"data": [
+"2012-12-24",
+"2012-12-26"
+],
+"ore": [
+22,
+2
+]
+},
+"testo": [
+"Nella chiesa senza tetto del villaggio qualcuno ha acceso cento candele. Stalker di tutte le fazioni, perfino due banditi senza armi, stanno in piedi in silenzio. Un vecchio legge il Vangelo in ucraino, poi in russo, poi in una lingua che nessuno riconosce. Nevica dentro la chiesa. Nessuno spara, stanotte. È l'unica notte dell'anno."
+],
+"scelte": [
+{
+"t": "Restare fino alla fine",
+"esito": {
+"testo": "Alla fine, qualcuno comincia a cantare. Poi un altro. Il Dovere e la Libertà cantano la stessa canzone, stonati. Tu anche. Quando esci, la neve ha coperto tutte le impronte. Sembra un posto nuovo.",
+"tr": {
+"nervi": -4,
+"freddo": 1
+},
+"nome": 1,
+"rap": {
+"Dovere": 1,
+"Libertà": 1
+}
+}
+},
+{
+"t": "Portare qualcosa da dividere",
+"se": {
+"oggetto": "Vodka"
+},
+"esito": {
+"testo": "La tua bottiglia passa di mano in mano, da un bandito a uno del Dovere, a un mercenario, a un ragazzo che piange. Torna vuota. È la bottiglia meglio spesa della tua vita.",
+"togli": "Vodka",
+"nome": 2,
+"tr": {
+"nervi": -3
+}
+}
+},
+{
+"t": "Fare la guardia fuori, perché qualcuno deve",
+"esito": {
+"testo": "Stai fuori, nella neve, col fucile, mentre dentro cantano. Nessuno ti ringrazia. Ma a mezzanotte un vecchio esce e ti mette in mano una candela accesa e un pezzo di pane. Non dice niente.",
+"tr": {
+"freddo": 2,
+"nervi": -2
+},
+"pe": 2
+}
+}
+]
+},
+{
+"id": "s2-la-ragazza-alla-radio",
+"titolo": "La voce di Kiev",
+"tono": "calmo",
+"peso": 6,
+"ripeti": "mai",
+"se": {
+"luogo": "*",
+"ore": [
+23,
+3
+],
+"oggetto": "Ricevitore radio"
+},
+"testo": [
+"Sulla frequenza delle emergenze, a notte fonda, una voce d'uomo anziano parla da Kiev. Dice che il figlio è nella Zona da due anni. Lo chiama per nome, ogni notte, alla stessa ora. Dice che la cena è pronta. Dice che la madre non sta bene. Dice di tornare. Ripete il nome tre volte, poi tace fino alla notte dopo. Il nome è Pavlo Kravčenko."
+],
+"scelte": [
+{
+"t": "Chiedere sulla rete di Pavlo Kravčenko",
+"tiro": "intelletto+persuasione",
+"ok": {
+"testo": "Ci vuole un giorno. Poi uno scrive: «Kravčenko? Il Lento? È al Bar. Non risponde mai al PDA.» Lo trovi al bancone. Gli dici della radio. Lui ascolta, poi appoggia il bicchiere. Il giorno dopo non c'è più: ha preso il furgone di Mychajlo verso sud. Sul bancone ha lasciato cinquemila rubli e un biglietto: per chi me l'ha detto.",
+"rubli": 5000,
+"nome": 2,
+"tr": {
+"nervi": -2
+}
+},
+"ko": {
+"testo": "Nessuno lo conosce. O nessuno vuole conoscerlo. La voce, la notte dopo, è lì, alla stessa ora.",
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Rispondere alla voce",
+"se": {
+"oggetto": "Ricevitore radio"
+},
+"esito": {
+"testo": "Prendi il microfono e dici: «Lo cerco io.» Silenzio lunghissimo. Poi la voce, rotta: «Grazie, figliolo. Chiunque tu sia.» Ogni notte, da quella, la voce finisce con: «e grazie a chi lo cerca.»",
+"flag": "cerca-kravcenko",
+"pe": 1
+}
+},
+{
+"t": "Spegnere la radio",
+"esito": {
+"testo": "La spegni. Ognuno ha il suo padre che lo chiama, qui dentro. Il tuo, forse, ha smesso da tempo.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-pseudocane-ferito",
+"titolo": "Il pseudocane ferito",
+"tono": "guaio",
+"peso": 7,
+"ripeti": 96,
+"se": {
+"luogo": [
+"Agroprom",
+"Discarica",
+"Valle Oscura",
+"Yantar"
+]
+},
+"testo": [
+"Uno pseudocane è intrappolato sotto una lamiera crollata. Ha una zampa schiacciata. Ringhia quando ti avvicini, ma il ringhio si spegne in un guaito. Ti guarda. Gli pseudocani sono intelligenti: dicono che capiscano quando qualcuno ha pietà. Dicono anche che non perdonino mai chi ha avuto paura di loro."
+],
+"scelte": [
+{
+"t": "Liberarlo",
+"tiro": "forza+resistenza",
+"ok": {
+"testo": "Sollevi la lamiera. Lo pseudocane esce strisciando, ti guarda per un lungo momento, e se ne va zoppicando. Da quel giorno, quando passi da questa zona, i branchi ti girano intorno senza attaccare. Una volta, di notte, senti qualcosa che fa la guardia fuori dalla tenda.",
+"nome": 1,
+"pe": 2,
+"flag": "amico-pseudocani"
+},
+"ko": {
+"testo": "La lamiera ti scivola. Lo pseudocane urla, si libera da solo strappandosi la zampa, e ti morde il braccio prima di sparire. Te lo ricorderai. Anche lui.",
+"colpo": {
+"D": 2,
+"P": 0
+},
+"allerta": 1
+}
+},
+{
+"t": "Ucciderlo: è un mutante, e soffre",
+"tiro": "agilita+tiro",
+"ok": {
+"testo": "Un colpo pulito. Smette di soffrire. Dal bosco, poco dopo, un ululato lungo, poi un altro, poi molti. Stanotte dormi con il fucile sulle ginocchia.",
+"allerta": 2,
+"tr": {
+"nervi": 1
+}
+},
+"ko": {
+"testo": "Il primo colpo non basta. Il secondo sì. L'ululato dal bosco arriva prima del secondo colpo.",
+"allerta": 3,
+"tr": {
+"nervi": 2
+}
+}
+},
+{
+"t": "Lasciarlo lì",
+"esito": {
+"testo": "Te ne vai. Il guaito ti segue per un chilometro. Poi smette. Non sai se è morto o se si è stancato di chiedere.",
+"tr": {
+"nervi": 2
+}
+}
+}
+]
+},
+{
+"id": "s2-il-sosia",
+"titolo": "Il sosia al Bar",
+"tono": "calmo",
+"peso": 5,
+"ripeti": "mai",
+"se": {
+"luogo": "Bar e Rostok",
+"nome": 4
+},
+"testo": [
+"Al Bar c'è un uomo che dice di essere te. Ha il tuo soprannome, racconta le tue storie, offre da bere a tutti con soldi che non sono suoi. Ha anche una giacca simile alla tua. I novellini lo ascoltano a bocca aperta. Quando entri, il Barman ti guarda, poi guarda lui, poi di nuovo te, e sorride per la prima volta da quando lo conosci."
+],
+"scelte": [
+{
+"t": "Smascherarlo davanti a tutti",
+"tiro": "empatia+persuasione",
+"ok": {
+"testo": "Gli fai tre domande su cose che solo tu sai. Al terzo silenzio, il Bar scoppia a ridere. Il sosia se ne va tra i fischi. Il Barman ti versa da bere. «Sei più famoso di quanto pensi,» dice. «È pericoloso.»",
+"nome": 2,
+"rap": {
+"Barman": 1
+}
+},
+"ko": {
+"testo": "Lui è più bravo di te a raccontare le tue storie. Il Bar non sa a chi credere. Te ne vai prima che decidano.",
+"nome": -1,
+"tr": {
+"nervi": 1
+}
+}
+},
+{
+"t": "Lasciarlo fare e offrire da bere a lui",
+"esito": {
+"testo": "Ti siedi in fondo e ascolti. Racconta la tua vita meglio di te. Quando finisce, gli mandi un bicchiere. Lui capisce chi sei. Ti raggiunge, pallido. «Ho fame,» dice solo. Gli dai da mangiare. Da quella sera, ovunque vada, parla bene di te. Anche troppo.",
+"nome": 1,
+"scorte": {
+"cibo": -1
+},
+"png": {
+"nome": "Il tuo sosia",
+"fazione": "stalker libero",
+"nota": "Si spacciava per te al Bar. L'hai sfamato. Adesso racconta le tue storie in giro, gonfiate.",
+"fiducia": 1
+}
+}
+},
+{
+"t": "Prenderlo da parte e minacciarlo",
+"esito": {
+"testo": "Fuori, contro il muro, gli spieghi una cosa. Se ne va dalla Zona il giorno dopo. Il Bar, però, ha visto come l'hai trattato.",
+"nome": 0,
+"tr": {
+"nervi": 1
+},
+"rap": {
+"Stalker liberi": -1
+}
+}
+}
+]
+},
+{
+"id": "s2-scuola-di-bulloni",
+"titolo": "La scuola dei bulloni",
+"tono": "calmo",
+"peso": 6,
+"ripeti": "mai",
+"se": {
+"luogo": "Cordone",
+"nome": 5
+},
+"testo": [
+"Il vecchio del villaggio dei novellini ti ferma. «Sei diventato qualcuno,» dice, e non è un complimento, è una constatazione. «I ragazzi nuovi muoiono come mosche. Io sono vecchio e non cammino più. Ma tu sì. Un'ora al giorno, per una settimana: insegnagli. Non pago. Ma ti ricorderanno. Qui, ricordare è tutto quello che c'è.»"
+],
+"scelte": [
+{
+"t": "Insegnare per una settimana",
+"esito": {
+"testo": "Ogni mattina, un'ora. Bulloni, passi, notti, cani, Emissioni. Alla fine della settimana dodici novellini sanno lanciare un bullone come si deve. Fra un anno, metà di loro sarà ancora viva. È il doppio del solito. Il villaggio ti chiama «il maestro» e tu fingi che ti dia fastidio.",
+"tempo": 420,
+"nome": 3,
+"pe": 3,
+"rap": {
+"Stalker liberi": 2
+}
+}
+},
+{
+"t": "Insegnare un giorno solo",
+"esito": {
+"testo": "Un'ora, una volta. Il vecchio annuisce. «Meglio di niente.» I ragazzi si ricorderanno di te. Uno, almeno.",
+"tempo": 60,
+"nome": 1,
+"pe": 1
+}
+},
+{
+"t": "«Non sono un maestro.»",
+"esito": {
+"testo": "«Nessuno lo è,» dice il vecchio. «Finché non comincia.» Ti lascia andare. Non te lo chiederà più.",
+"tr": {
+"nervi": 1
+}
+}
+}
+]
+},
+{
+"id": "s2-carta-dei-morti",
+"titolo": "La mappa dei morti",
+"tono": "guaio",
+"peso": 6,
+"ripeti": "mai",
+"se": {
+"luogo": [
+"Discarica",
+"Agroprom",
+"Valle Oscura",
+"Yantar"
+]
+},
+"testo": [
+"In un rifugio abbandonato, inchiodata al muro, una mappa della Zona coperta di croci. Ogni croce ha una data e un nome. Sono centinaia. Qualcuno ha segnato per anni dove morivano gli stalker. Guardandola, ti accorgi di uno schema: le croci si addensano in linee, come sentieri. Sentieri che nessuno dovrebbe prendere. O sentieri dove qualcuno aspetta."
+],
+"scelte": [
+{
+"t": "Studiare lo schema",
+"tiro": "intelletto+ricognizione",
+"ok": {
+"testo": "Ci metti un'ora. Le linee non sono anomalie: sono imboscate. Tre punti, sempre gli stessi, da anni. Qualcuno uccide lì, con metodo, e nessuno se n'è accorto. Copi tutto nel PDA. Al Bar, questa mappa vale una fortuna. O una condanna a morte.",
+"pe": 2,
+"flag": "mappa-dei-morti",
+"oggetto": {
+"n": "Copia della mappa dei morti",
+"nota": "Tre punti dove qualcuno uccide stalker da anni."
+}
+},
+"ko": {
+"testo": "Le croci ti si confondono davanti agli occhi. Ti viene mal di testa. Te ne vai senza aver capito, ma con una sensazione: qualcuno ti stava guardando dalla finestra rotta.",
+"tr": {
+"nervi": 2
+}
+}
+},
+{
+"t": "Aggiungere le croci che conosci",
+"esito": {
+"testo": "Prendi un mozzicone di matita e aggiungi i nomi che sai. Quattro, cinque. Mentre scrivi, ti accorgi che la mano trema. Quando esci, ti sembra che la mappa abbia un peso in più. Ce l'ha.",
+"tr": {
+"nervi": 1
+},
+"nome": 1
+}
+},
+{
+"t": "Strapparla e bruciarla",
+"esito": {
+"testo": "La bruci. Non vuoi sapere. Non vuoi che lo sappiano altri. Il fumo puzza di carta vecchia e di qualcos'altro. La notte dopo sogni centinaia di persone che ti chiedono perché.",
+"tr": {
+"nervi": 3
+}
+}
+}
+]
+},
+{
+"id": "s2-mappa-dei-morti-2",
+"titolo": "Il cacciatore dei sentieri",
+"tono": "guaio",
+"peso": 10,
+"ripeti": "mai",
+"se": {
+"flag": "mappa-dei-morti",
+"luogo": [
+"Agroprom",
+"Valle Oscura",
+"Discarica"
+]
+},
+"testo": [
+"Sei in uno dei tre punti della mappa. Lo riconosci dalla forma degli alberi, dalla curva del sentiero. Ti fermi, ti abbassi. Dopo un'ora lo vedi: un uomo in una tuta senza mostrine, appostato su un traliccio con un fucile da cecchino. Non è un bandito. È troppo paziente. Sta aspettando qualcuno. Chiunque."
+],
+"scelte": [
+{
+"t": "Prenderlo",
+"tiro": "agilita+tiro",
+"ok": {
+"testo": "Due colpi. Il secondo lo fa cadere dal traliccio. Addosso ha un taccuino con centinaia di nomi, e accanto a ognuno un prezzo pagato da qualcuno. Qualcuno, al Bar, pagava perché gli stalker morissero. Ora hai il taccuino.",
+"oggetto": {
+"n": "Taccuino del cacciatore dei sentieri",
+"nota": "Nomi, prezzi, committenti. Qualcuno al Bar pagava per far morire gli stalker."
+},
+"nome": 3,
+"noflag": "mappa-dei-morti",
+"flag": "taccuino-cacciatore"
+},
+"ko": {
+"testo": "Ti vede prima. Il colpo ti sfiora la tempia. Scappi strisciando. Adesso lui sa che qualcuno sa.",
+"colpo": {
+"D": 2,
+"P": 3
+},
+"tr": {
+"nervi": 3
+}
+}
+},
+{
+"t": "Avvisare il Dovere",
+"esito": {
+"testo": "Mandi le coordinate al Dovere. Due giorni dopo, sulla rete, un messaggio senza firma: «Il cacciatore dei sentieri non caccerà più.» Il Dovere ti manda una ricompensa e una domanda: come lo sapevi?",
+"rubli": 6000,
+"rap": {
+"Dovere": 2
+},
+"noflag": "mappa-dei-morti"
+}
+},
+{
+"t": "Andartene senza farti vedere",
+"esito": {
+"testo": "Te ne vai. Lui resta lì. Domani qualcuno passerà da quel sentiero. Tu lo sapevi.",
+"tr": {
+"nervi": 3
+}
+}
+}
+]
+}
+]
+}

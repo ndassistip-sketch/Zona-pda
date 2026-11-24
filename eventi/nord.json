@@ -18,7 +18,8 @@
 "t": "Leggere il bosco",
 "tiro": "intelletto+sopravvivenza",
 "ok": {
-"testo": "Trovi un sentiero di stalker, segnato con nastri bianchi. Ti risparmia un'ora e una dose."
+"testo": "Trovi un sentiero di stalker, segnato con nastri bianchi. Ti risparmia un'ora e una dose.",
+"pe": 1
 },
 "ko": {
 "testo": "Giri in tondo per un'ora tra alberi tutti uguali.",
@@ -224,7 +225,11 @@
 "pe": 1
 },
 "ko": {
-"testo": "Voci, solo voci. Un tesoro nel bunker, una chimera al ponte, un fantasma che chiede sigarette."
+"testo": "Voci, solo voci. Un tesoro nel bunker, una chimera al ponte, un fantasma che chiede sigarette.",
+"tr": {
+"nervi": 1
+},
+"tempo": 15
 },
 "spec": "Lingua del Bar"
 }
@@ -502,7 +507,10 @@
 {
 "t": "Richiudere la porta",
 "esito": {
-"testo": "Spingi la porta finché non scatta. Le luci, dietro, si spengono una per una."
+"testo": "Spingi la porta finché non scatta. Le luci, dietro, si spengono una per una.",
+"tr": {
+"nervi": -1
+}
 }
 }
 ]
@@ -525,7 +533,8 @@
 "t": "Attraversare sul ghiaccio",
 "tiro": "agilita+mobilita",
 "ok": {
-"testo": "Il ghiaccio scricchiola ma regge. Dall'altra parte respiri."
+"testo": "Il ghiaccio scricchiola ma regge. Dall'altra parte respiri.",
+"pe": 1
 },
 "ko": {
 "testo": "Crac. Sei nell'acqua fino alla vita.",

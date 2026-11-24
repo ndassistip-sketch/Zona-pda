@@ -36,7 +36,10 @@
 {
 "t": "No, grazie",
 "esito": {
-"testo": "«Peccato, la tua faccia vendeva.» Torni al bancone."
+"testo": "«Peccato, la tua faccia vendeva.» Torni al bancone.",
+"tr": {
+"fatica": -1
+}
 }
 }
 ]
@@ -84,7 +87,11 @@
 }
 },
 "ko": {
-"testo": "«Fai domande da giornalista. Lascia stare.» Il bicchiere torna a girare."
+"testo": "«Fai domande da giornalista. Lascia stare.» Il bicchiere torna a girare.",
+"tr": {
+"nervi": 1
+},
+"tempo": 15
 },
 "spec": "Lingua del Bar"
 }
@@ -243,7 +250,11 @@
 }
 },
 "ko": {
-"testo": "«Non sono autorizzato.» Ti offre solo rubli."
+"testo": "«Non sono autorizzato.» Ti offre solo rubli.",
+"tr": {
+"nervi": 1
+},
+"tempo": 15
 },
 "spec": "Contrattare"
 }
@@ -386,14 +397,21 @@
 }
 },
 "ko": {
-"testo": "Prezzo pieno, o niente. Niente."
+"testo": "Prezzo pieno, o niente. Niente.",
+"tr": {
+"nervi": 1
+},
+"tempo": 15
 },
 "spec": "Contrattare|Ricettatore"
 },
 {
 "t": "Andare via",
 "esito": {
-"testo": "La roba che costa poco nella Zona costa tanto dopo."
+"testo": "La roba che costa poco nella Zona costa tanto dopo.",
+"tr": {
+"nervi": -1
+}
 }
 }
 ]
