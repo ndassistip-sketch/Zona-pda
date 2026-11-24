@@ -54,3 +54,18 @@ SFX.accendi=()=>{noise(.35,{f:1800,q:.4,vol:.06});tone(15000,.6,{type:"sine",vol
   const _e=evShow;evShow=function(e,f){const r=_e.apply(this,arguments);if(r!==false&&crtOn())sfx("tv");return r;};for(const k in _e)evShow[k]=_e[k];
   (function amb(){setTimeout(()=>{if(crtOn()&&!document.hidden)sfx("crack");amb();},25000+Math.random()*50000);})();})();
 document.addEventListener("click",e=>{const b=e.target.closest('[data-crt="1"]');if(b)setTimeout(()=>sfx("accendi"),50);});
+/* suoni più forti e più veri, e rumori d'ambiente del PDA */
+Object.assign(SFX,{
+  key:()=>{noise(.012,{ft:"highpass",f:4200,vol:.09});noise(.02,{f:1400,q:2,vol:.04,at:.006});},
+  beep:()=>{[[1320,0],[1760,.09],[1320,.32],[1760,.41]].forEach(([f,a])=>{tone(f,.07,{vol:.08,at:a});tone(f*2.01,.05,{type:"sine",vol:.012,at:a});});noise(.04,{f:2000,vol:.03});},
+  job:()=>{[988,1319,1568].forEach((f,i)=>tone(f,.09,{vol:.08,at:i*.1}));noise(.05,{f:1800,vol:.03});},
+  stat:()=>{noise(.9,{f:1100,q:.35,vol:.11});noise(.4,{ft:"highpass",f:5000,vol:.03,at:.2});tone(800+Math.random()*400,.15,{type:"sine",vol:.03,at:.35});},
+  tv:()=>{noise(.2,{f:2600,q:.3,vol:.09});noise(.07,{ft:"highpass",f:5200,vol:.05,at:.02});tone(60,.22,{type:"sine",vol:.05});},
+  crack:()=>{const n=2+Math.floor(Math.random()*5);for(let i=0;i<n;i++)noise(.01+Math.random()*.02,{ft:"highpass",f:3000+Math.random()*3500,vol:.08,at:Math.random()*.6});},
+  /* contatore geiger: scatti secchi, irregolari */
+  tick:n=>{let t=0;for(let i=0;i<n;i++){t+=-Math.log(1-Math.random())*(1.2/n);noise(.0025,{ft:"highpass",f:3500,vol:.35,at:t});tone(2400,.004,{type:"square",vol:.02,at:t});}},
+  /* il PDA perde e ritrova la rete */
+  riconn:()=>{noise(.25,{f:900,q:.6,vol:.07});tone(1200,.05,{vol:.05,at:.3});tone(2100,.05,{vol:.05,at:.36});tone(1200,.05,{vol:.05,at:.42});tone(2400,.08,{vol:.045,at:.5});
+    for(let i=0;i<6;i++)tone(1400+Math.random()*1400,.025,{vol:.03,at:.62+i*.035});noise(.015,{ft:"highpass",f:4000,vol:.1,at:.9});tone(1760,.06,{type:"sine",vol:.05,at:.95});}});
+(function amb(){setTimeout(()=>{try{if(SND.on&&!document.hidden&&!ui.ev){const r=Math.random();const per=+perOf(S.clock.luogo)||1;
+  if(r<.55)sfx("tick",1+Math.floor(Math.random()*(per+1)));else if(r<.75)sfx("riconn");else if(crtOn())sfx("crack");}}catch(_){}amb();},20000+Math.random()*40000);})();
