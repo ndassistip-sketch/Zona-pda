@@ -33,3 +33,14 @@ function cjAsk(){if(cjLeft()<=0){toast("Hai già chiesto abbastanza oggi. Torna 
 (function hk(){if(typeof ctPanel!=="function"){setTimeout(hk,300);return;}if(ctPanel._cj)return;const _p=ctPanel;ctPanel=function(){let h=_p.apply(this,arguments);const n=cjLeft();
   return h.replace(`<h4 style="margin:10px 0 2px">Offerte qui intorno</h4>`,`<div class="row" style="justify-content:space-between;margin:10px 0 2px"><h4 style="margin:0">Offerte qui intorno</h4><button class="btn g s" data-cj="1" ${n>0?"":"disabled"}>Chiedi lavoro (${n}/${CJ_MAX})</button></div>`);};ctPanel._cj=1;})();
 document.addEventListener("click",e=>{const b=e.target.closest("[data-cj]");if(!b)return;e.stopImmediatePropagation();cjAsk();},true);
+/* effetto schermo catodico (Sistema → Colori) */
+(function(){const st=document.createElement("style");st.textContent=`
+html.crt body::before{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;background:repeating-linear-gradient(to bottom,#0000 0 2px,#0000001f 2px 3px),radial-gradient(ellipse at center,#0000 60%,#00000059 100%);animation:crtF 6s steps(1) infinite}
+html.crt body::after{content:"";position:fixed;left:0;right:0;top:0;height:70px;z-index:9999;pointer-events:none;background:linear-gradient(to bottom,#fff0,#ffffff14 45%,#ffffff26 50%,#ffffff14 55%,#fff0);transform:translateY(-80px);animation:crtR 11s linear infinite}
+html.crt .screen{text-shadow:0 0 1px currentColor}
+@keyframes crtR{0%{transform:translateY(-80px)}22%{transform:translateY(105vh)}100%{transform:translateY(105vh)}}
+@keyframes crtF{0%{opacity:1}47%{opacity:.82}48%{opacity:1}91%{opacity:.88}92%{opacity:1}}
+@media (prefers-reduced-motion:reduce){html.crt body::before,html.crt body::after{animation:none}html.crt body::after{display:none}}`;document.head.appendChild(st);
+  let on=false;try{on=localStorage.getItem("pda.crt")==="1";}catch(_){}document.documentElement.classList.toggle("crt",on);})();
+function crtSet(v){try{localStorage.setItem("pda.crt",v?"1":"0");}catch(_){}document.documentElement.classList.toggle("crt",v);render();}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-crt]");if(!b)return;e.stopImmediatePropagation();crtSet(b.dataset.crt==="1");},true);
