@@ -46,3 +46,13 @@ Ogni file in `eventi/` è `{"pacchetto":"Nome","eventi":[ … ]}`. Per caricare 
 - Mezzi (`MZ_V`): Niva, UAZ-469, ZIL-131, BRDM-2 (+ KPVT ai Magazzini). Si comprano al Bar, ai Magazzini (Libertà 1+), allo Skadovsk, al Cordone (Mercante 2+). Col mezzo «con te», il viaggio («Arrivato» o a tappe) dura la metà se il percorso evita Foresta Rossa, Pripjat' e centrale (il BRDM passa nella Foresta); consuma combustibile (ogni 2 ore il consumo del mezzo), Allerta +2 (+3 ZIL e BRDM), può guastarsi. Incustodito può essere rubato: garage (300 ₽/giorno) o officina della base. Stato in `stato/main.al.mz`.
 - Elicotteri: l'Esercito manda ogni tanto un Mi-24 (pattuglia) o un Mi-8 (sbarca una squadra). Se è nella tua zona e sei fuori dalla base con Allerta alta o col mezzo, parte la storia. Con l'RPG si abbattono (Rapporto Esercito −3).
 - Condizioni nuove: `heli` (true, "Mi-24", "Mi-8"), `mezzo`. Esiti: `abbatti`, `viaheli`, `mezzoseg`. Storie in `eventi/mezzi.json` (10).
+
+## La Zona viva, seconda parte (vivo.js, reclute2.js)
+- Persone con un nome (non nel gruppo, non mercanti, Barman o scienziati) hanno un punto (`png.poi`) e ogni giorno possono spostarsi: nella zona o, a volte, in quella accanto. Nella campagna con la trama si muovono solo quelle con `vaga: true`. Sulla mappa, toccando un punto, si vede chi c'è; nella linguetta Zona, «Qui ci sono».
+- Squadre in marcia e elicotteri sono disegnati sulla mappa (triangolo del colore della fazione; avvicinandosi, chi sono e dove vanno).
+- Scontro: col mezzo «con te» il gruppo ha riparo leggero (riparo pesante col BRDM); la KPVT entra come combattente. L'OG-7V colpisce fino ad altri 3 bersagli con le schegge. Vincendo uno Scontro in un punto, il contratto «prendi» o «ripulisci» lì si chiude da solo, e un punto tenuto da nemici diventa vuoto.
+- Armi pesanti in mano o addosso: −1 Mobilità automatico.
+- Mezzi: limite di posti (se il gruppo non ci sta, si va a piedi); bagagliaio come nascondiglio che viaggia col mezzo (si perde se il mezzo viene rubato); sovraccarico = più usura.
+- Dialoghi coi modelli: sanno dove sei, chi tiene il punto, chi c'è nel gruppo, mezzo, base e voci recenti.
+- 4 storie personali nuove (trattoria, orologio del padre, l'inseguito, i quadri della Zona); il passato della recluta suggerisce la sua storia nel 65% dei casi.
+- Equilibrio A-Life: rinforzi da fuori per le fazioni ridotte a pochi punti; l'Esercito resta nelle sue zone; banditi e scienziati più resistenti. Tempi di calcolo ridotti di circa 8 volte (memoria dei percorsi).

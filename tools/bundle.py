@@ -16,7 +16,7 @@ h=re.sub(r'<link rel="manifest"[^>]*>\n?','',h)
 ico=uri("icona-192.png","image/png")
 h=h.replace('href="icona-192.png"',f'href="{ico}"')
 def inl(m):return "<script>"+js(rd(m.group(1)))+"</script>"
-h=re.sub(r'<script src="([a-z]+\.js)"></script>',inl,h)
+h=re.sub(r'<script src="([a-z0-9]+\.js)"></script>',inl,h)
 mp=js(rd("mappa.js")).replace('src="zona.jpg"','src="'+uri("zona.jpg","image/jpeg")+'"')
 h=h.replace("<script>",pre+"<script>"+mp+"</script><script>",1) if False else h
 i=h.index("<script>")

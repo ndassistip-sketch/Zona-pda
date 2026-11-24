@@ -20,8 +20,8 @@ const AL_RAW={
 "Zaton":"*Skadovsk~B~s|*Sultansk~B~b|*Stazione meteo di Zaton~L~c|Chiatta «Kirov»~V~-|Fabbrica di cemento~V~-|Gru del porto~V~-|Palude di sinistra~A~-|Torre della centrale idrica~V~-|Banco di sabbia~Q~-|Cantiere dei mercenari~C~m|Villaggio di Zaton~V~-|Tana delle chimere~T~x|Rimorchiatore affondato~R~-|Pontile dei pescatori~R~s|Ferrovia sul fiume~S~-|Campo degli Elettro della palude~A~-|Silos di Zaton~V~-|Barcone dei mercanti~M~s|Albero del corvo~Q~-|Draga di Shevchenko~D~b"};
 /* zone preferite: dove ogni fazione manda le sue squadre */
 const AL_PREF={"Stalker liberi":["Cordone","Discarica","Agroprom","Bar e Rostok","Yantar","Janiv e Jupiter","Zaton"],"Dovere":["Bar e Rostok","Discarica","Agroprom","Janiv e Jupiter","Magazzini dell'esercito"],"Libertà":["Magazzini dell'esercito","Radar","Janiv e Jupiter","Bar e Rostok"],"Banditi":["Discarica","Valle Oscura","Cordone","Agroprom","Zaton"],"Mercenari":["Foresta Rossa","Magazzini dell'esercito","Zaton","Radar","Valle Oscura"],"Esercito":["Cordone","Agroprom","Pripjat'"],"Monolite":["Radar","Pripjat'","La centrale","Foresta Rossa","Janiv e Jupiter"],"Mutanti":[]};
-const AL_STR={"Stalker liberi":1,"Dovere":1.25,"Libertà":1.15,"Banditi":.85,"Mercenari":1.3,"Esercito":1.3,"Scienziati":.4,"Monolite":1.45,"Mutanti":.8};
-const AL_CAP={"Stalker liberi":5,"Dovere":4,"Libertà":4,"Banditi":4,"Mercenari":3,"Esercito":2,"Scienziati":0,"Monolite":3,"Mutanti":4};
+const AL_STR={"Stalker liberi":1,"Dovere":1.25,"Libertà":1.15,"Banditi":1,"Mercenari":1.3,"Esercito":1.15,"Scienziati":.9,"Monolite":1.45,"Mutanti":.8};
+const AL_CAP={"Stalker liberi":5,"Dovere":4,"Libertà":4,"Banditi":5,"Mercenari":3,"Esercito":2,"Scienziati":0,"Monolite":3,"Mutanti":4};
 const AL_ENE={"Stalker liberi":"Banditi|Esercito|Monolite|Mutanti","Dovere":"Libertà|Banditi|Mercenari|Monolite|Mutanti","Libertà":"Dovere|Banditi|Mercenari|Esercito|Monolite|Mutanti","Banditi":"Stalker liberi|Dovere|Libertà|Esercito|Scienziati|Monolite|Mutanti","Mercenari":"Dovere|Libertà|Esercito|Monolite|Mutanti","Esercito":"Stalker liberi|Libertà|Banditi|Mercenari|Monolite|Mutanti","Scienziati":"Banditi|Monolite|Mutanti","Monolite":"Stalker liberi|Dovere|Libertà|Banditi|Mercenari|Esercito|Scienziati|Mutanti","Mutanti":"Stalker liberi|Dovere|Libertà|Banditi|Mercenari|Esercito|Scienziati|Monolite"};
 const alEne=(a,b)=>!!a&&!!b&&a!==b&&(AL_ENE[a]||"").split("|").includes(b);
 const AL_MUT=["cani ciechi","pseudocani","cinghiali","carne","succhiasangue","snork","zombie","burer","chimera","Controllore"];
@@ -51,7 +51,8 @@ let AL_NOW=null;const alClk=()=>AL_NOW||((S.clock.data||"")+" "+(S.clock.ora||""
 function alLog(p,txt,imp){const A=alS();A.log.unshift({t:alClk(),z:p.z,p:p.id,txt});A.log=A.log.slice(0,60);
   if((p.z===S.clock.luogo||(imp&&p.main))&&Math.random()<.6){const last=A.news||"";if(!last||(typeof minTo==="function"?-minTo(last)>180:true)){A.news=alClk();try{add("pda",{tipo:"radio",canale:"stalker",da:typeof pk==="function"?pk(NOMI):"uno stalker",testo:txt,data:S.clock.data,ora:S.clock.ora});}catch(_){}}}}
 const alRand=a=>a[Math.floor(Math.random()*a.length)];
-function alZoneH(a,b){if(a===b)return 1;try{const p=path(a,b);if(p&&p.length>1)return p.slice(1).reduce((t,zz,i)=>t+edge(p[i],zz)[3],0);}catch(_){}return 99;}
+const AL_ZH=new Map();function alZoneH(a,b){if(a===b)return 1;const k=a+"|"+b;if(AL_ZH.has(k))return AL_ZH.get(k);const v=alZoneH0(a,b);AL_ZH.set(k,v);return v;}
+function alZoneH0(a,b){try{const p=path(a,b);if(p&&p.length>1)return p.slice(1).reduce((t,zz,i)=>t+edge(p[i],zz)[3],0);}catch(_){}return 99;}
 
 /* ---- un'ora di vita ---- */
 function alHour(){const A=alS();
@@ -62,6 +63,8 @@ function alHour(){const A=alS();
     const homes=AL_P.filter(p=>alCtl(p.id)[0]===f&&alCtl(p.id)[1]>=(f==="Mutanti"?2:4));if(!homes.length)continue;const h=alRand(homes);const c=A.c[h.id];
     const n=Math.max(1,Math.min(c[1]-1,2+Math.floor(Math.random()*4)));const to=alTarget(f,h);if(!to)continue;c[1]-=n;
     const eta=Math.max(1,alZoneH(h.z,to.z)+(h.z===to.z?Math.floor(Math.random()*2):0));A.q.push({id:A.n++,f,n,da:h.id,to:to.id,eta,cap:f==="Mutanti"?alRand(AL_MUT):(typeof pk==="function"?pk(NOMI):"")});}
+  // rinforzi da fuori: chi è ridotto a pochi punti riceve gente nelle sue zone
+  if(Math.random()<.06){const cnt={};AL_P.forEach(p=>{const [g]=alCtl(p.id);if(g)cnt[g]=(cnt[g]||0)+1;});const f=alRand(["Stalker liberi","Dovere","Libertà","Banditi","Mercenari","Monolite","Scienziati"]);const lim=f==="Scienziati"?3:6;if((cnt[f]||0)<lim){const zs=f==="Scienziati"?["Yantar","Janiv e Jupiter","Zaton"]:(AL_PREF[f]||[]);const c=AL_P.filter(p=>zs.includes(p.z)&&!alCtl(p.id)[0]&&p.id!==S.clock.poi&&(f!=="Scienziati"||p.t==="L"));if(c.length){const p=alRand(c);A.c[p.id]=[f,3+Math.floor(Math.random()*3)];alLog(p,`Da fuori sono arrivati rinforzi per ${f}: adesso tengono ${p.n} (${p.z}).`);}}}
   // tane nuove nei posti vuoti, più facili lontano dal Cordone
   if(Math.random()<.035){const vuoti=AL_P.filter(p=>!alCtl(p.id)[0]&&p.id!==S.clock.poi);if(vuoti.length){const p=alRand(vuoti);const per=typeof perOf==="function"?(+perOf(p.z)||2):2;if(Math.random()<.25+per*.1){A.c[p.id]=["Mutanti",2+Math.floor(Math.random()*3)];alLog(p,`Si dice che a ${p.n} (${p.z}) si siano fatti la tana dei mutanti.`);}}}
   // le basi richiamano gente
@@ -70,7 +73,7 @@ function alHour(){const A=alS();
   if(Math.random()<.15){const occ=AL_P.filter(p=>alCtl(p.id)[1]>0&&p.t!=="B"&&alCtl(p.id)[0]!=="La tua gente");if(occ.length){const p=alRand(occ);const c=A.c[p.id];c[1]--;if(c[1]<=0){const f=c[0];A.c[p.id]=["",0];alLog(p,`${p.n} (${p.z}) è rimasto vuoto: ${f==="Mutanti"?"i mutanti se ne sono andati":"quelli di "+f+" se ne sono andati"}.`);}}}}
 function alTarget(f,h){const pref=AL_PREF[f]||[];const cand=[];for(const p of AL_P){if(p.id===h.id)continue;const hh=alZoneH(h.z,p.z);if(hh>(f==="Mutanti"?2:9))continue;const [g,n]=alCtl(p.id);let w=0;
     if(!g)w=3;else if(g===f)w=n<4?1.5:0;else if(alEne(f,g)){if(f==="Mutanti"&&n>3)continue;w=(g==="Mutanti"?1.6:1)*(n<=3?4:n<=6?1.5:.4);}else continue;
-    if(f==="Scienziati")continue;if(f!=="Mutanti"&&pref.length)w*=pref.includes(p.z)?3:.25;if(p.main)w*=1.4;if(p.t==="A")w*=.4;w/=(1+hh/3);if(w>0)cand.push([p,w]);}
+    if(f==="Scienziati")continue;if(f!=="Mutanti"&&pref.length)w*=pref.includes(p.z)?3:(f==="Esercito"?0:.25);if(p.main)w*=1.4;if(p.t==="A")w*=.4;w/=(1+hh/3);if(w>0)cand.push([p,w]);}
   if(!cand.length)return null;let t=cand.reduce((a,c)=>a+c[1],0)*Math.random();for(const [p,w] of cand){t-=w;if(t<=0)return p;}return cand[0][0];}
 function alArrive(s,p){const A=alS();const c=A.c[p.id]||["",0];const [g,n]=c;const chi=s.f==="Mutanti"?`un branco di ${s.cap}`:`una squadra di ${s.f}${s.cap?" guidata da "+s.cap:""}`;
   if(p.id===S.clock.poi&&s.f!==g){try{toast(`Arriva ${chi} (${s.n}) a ${p.n}.`);}catch(_){}ui.alWarn={p:p.id,f:s.f,n:s.n};}

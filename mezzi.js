@@ -40,9 +40,9 @@ function mzDay(n){const M=mzS();for(let i=0;i<Math.min(n,7);i++)M.veh.forEach(v=
 
 /* ---- elicotteri dell'Esercito ---- */
 function mzHeliHour(){const M=mzS();const A=alS();
-  if(!M.heli){if(Math.random()<.035&&AL_P.some(p=>alCtl(p.id)[0]==="Esercito")){const zs=["Cordone","Agroprom","Discarica","Valle Oscura","Bar e Rostok","Yantar","Magazzini dell'esercito","Radar","Pripjat'"];const z=alRand(zs);const t=Math.random()<.6?"Mi-24":"Mi-8";M.heli={t,z,h:3+Math.floor(Math.random()*4)};
+  if(!M.heli){if(Math.random()<.035&&AL_P.some(p=>alCtl(p.id)[0]==="Esercito")){const zs=["Cordone","Agroprom","Discarica","Valle Oscura","Bar e Rostok","Yantar","Magazzini dell'esercito","Radar","Pripjat'"];const zd=["Cordone","Agroprom","Pripjat'"];const z=alRand(zs);const t=Math.random()<.6?"Mi-24":"Mi-8";M.heli={t,z,h:3+Math.floor(Math.random()*4)};
       alLog(alMain(z),`Un ${t} dell'Esercito sorvola ${z}.`,1);
-      if(t==="Mi-8"){const to=alTarget("Esercito",alMain(z));if(to){A.q.push({id:A.n++,f:"Esercito",n:4+Math.floor(Math.random()*3),da:alMain(z).id,to:to.id,eta:1,cap:"un tenente sceso dal Mi-8"});alLog(to,`Il Mi-8 ha sbarcato una squadra dell'Esercito diretta a ${to.n} (${to.z}).`,1);}}}return;}
+      if(t==="Mi-8"&&zd.includes(z)){const to=alTarget("Esercito",alMain(z));if(to){A.q.push({id:A.n++,f:"Esercito",n:4+Math.floor(Math.random()*3),da:alMain(z).id,to:to.id,eta:1,cap:"un tenente sceso dal Mi-8"});alLog(to,`Il Mi-8 ha sbarcato una squadra dell'Esercito diretta a ${to.n} (${to.z}).`,1);}}}return;}
   const H=M.heli;H.h--;if(H.h<=0){M.heli=null;return;}if(Math.random()<.5){try{const nb=EDGES.filter(e=>e[0]===H.z||e[1]===H.z).map(e=>e[0]===H.z?e[1]:e[0]);if(nb.length)H.z=alRand(nb);}catch(_){}}
   if(H.z===S.clock.luogo&&!ui.ev){const B=typeof bsS==="function"?bsS():null;const aBase=B&&S.clock.poi===B.poi&&!B.persa;if(!aBase&&((+S.allerta||0)>=3||mzAct()||Math.random()<.2)){try{const e=EVD.byId[H.t==="Mi-24"?"mz-heli-24":"mz-heli-8"];if(e&&evOk(e,{luogo:S.clock.luogo}))evShow(e);}catch(_){}}}}
 (function hookH2(){if(typeof alHour!=="function"||!alHour._ct){setTimeout(hookH2,300);return;}if(alHour._mz)return;const _h=alHour;alHour=function(){_h();try{mzHeliHour();}catch(e){console.error(e);}};alHour._ct=1;alHour._mz=1;})();
