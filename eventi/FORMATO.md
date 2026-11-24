@@ -23,3 +23,8 @@ Ogni file in `eventi/` è `{"pacchetto":"Nome","eventi":[ … ]}`. Per caricare 
 - Condizioni nuove in `se`: `poi` (nome o parte del nome del punto dove sei), `tipo` (base, mercante, rifugio, campo di anomalie, tana, rovine, posto di blocco, laboratorio, deposito, ferrovia, fattoria, bunker, accampamento, luogo selvaggio), `controllo` (fazione che tiene il punto dove sei, o `"vuoto"`), `ctl` {punto: fazione}.
 - Esiti nuovi: `prendi` {poi, f, forza} (cambia chi tiene un punto; `f` vuoto = ripulito), `vai` (sposta il personaggio su un punto).
 - Arrivando a un punto («Vai» nella linguetta Zona o sulla mappa) escono prima le storie con quel `poi`. Le missioni sono in `eventi/quest-sud.json` e `eventi/quest-nord.json` (20 linee, 3 tappe ciascuna, segni `qNN-1`, `qNN-2`, `qNN-fine`).
+
+## Contratti e Ambizioni (contratti.js)
+- Le fazioni con basi offrono contratti dallo stato della mappa: **prendere** un punto nemico debole, **ripulire** una tana, **difendere** un punto verso cui marcia una squadra nemica (bisogna esserci quando arriva: conti come +4 di forza), **rifornire** un presidio debole (3 cibo o 2 scatole di munizioni). Linguetta Zona → «Contratti». Paga, Rapporto +1 col committente (−1 con chi ci perde), +1 PE; fallire o rinunciare: Rapporto −1. Banditi e Mercenari offrono solo con Rapporto 1+.
+- **Ambizioni** (in cima a Storie, solo quando la trama è spenta): la Guida (Nome), il Ricco (rubli), il Cartografo (punti visitati), il Soldato di ventura (contratti), il Cronista (missioni concluse). Quattro traguardi, +2/+3/+4/+6 PE, epilogo nel diario. Stato in `stato/main.al` (`ctr`, `vis`, `cfatti`, `amb`, `ambl`).
+- Storie nuove: `eventi/punti.json` (26, legate al tipo di punto e a chi lo controlla) e `eventi/nord2.json` (14, zone del nord).

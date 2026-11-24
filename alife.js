@@ -47,7 +47,7 @@ function alS(){if(!S.al||!S.al.c){S.al={c:{},q:[],n:1,log:[],t:(S.clock.data||"2
 const alCtl=id=>(alS().c[id]||["",0]);
 const alHere=()=>{const p=AL_BY[S.clock.poi];if(p&&p.z===S.clock.luogo)return p;const m=alMain(S.clock.luogo);if(m)S.clock.poi=m.id;return m||null;};
 const alForza=n=>n<=0?"nessuno":n<=2?"pochi":n<=4?"un gruppo":n<=7?"molti":"una guarnigione";
-const alClk=()=>(S.clock.data||"")+" "+(S.clock.ora||"");
+let AL_NOW=null;const alClk=()=>AL_NOW||((S.clock.data||"")+" "+(S.clock.ora||""));
 function alLog(p,txt,imp){const A=alS();A.log.unshift({t:alClk(),z:p.z,p:p.id,txt});A.log=A.log.slice(0,60);
   if((p.z===S.clock.luogo||(imp&&p.main))&&Math.random()<.6){const last=A.news||"";if(!last||(typeof minTo==="function"?-minTo(last)>180:true)){A.news=alClk();try{add("pda",{tipo:"radio",canale:"stalker",da:typeof pk==="function"?pk(NOMI):"uno stalker",testo:txt,data:S.clock.data,ora:S.clock.ora});}catch(_){}}}}
 const alRand=a=>a[Math.floor(Math.random()*a.length)];
@@ -82,7 +82,7 @@ function alArrive(s,p){const A=alS();const c=A.c[p.id]||["",0];const [g,n]=c;con
   if(a>b){A.c[p.id]=[s.f,Math.max(1,Math.round(s.n*(1-b/a/1.5)))];alLog(p,`Sparatoria a ${p.n} (${p.z}): ${s.f} ${s.f==="Mutanti"?"hanno sbranato":"hanno cacciato"} ${g}. Ora il posto è loro.`,1);}
   else{c[1]=Math.max(1,Math.round(n*(1-a/b/1.5)));alLog(p,`A ${p.n} (${p.z}) ${g} hanno respinto ${s.f==="Mutanti"?"i mutanti":s.f}.`);}}
 function alTick(){const A=alS();const now=alClk();let h=0;try{h=Math.floor(-minTo(A.t)/60);}catch(_){h=0;}if(h<=0)return;h=Math.min(h,96);
-  for(let i=0;i<h;i++)alHour();A.t=now;alHere();}
+  for(let i=0;i<h;i++){try{AL_NOW=clkAdd(-(h-1-i)*60);}catch(_){AL_NOW=null;}try{alHour();}finally{AL_NOW=null;}}A.t=now;alHere();}
 function alEmission(){const A=alS();A.q.forEach(s=>{if(s.f!=="Mutanti"&&s.f!=="Monolite")s.n=Math.floor(s.n*.3);});A.q=A.q.filter(s=>s.n>0);
   AL_P.filter(p=>!alCtl(p.id)[0]&&Math.random()<.3).forEach(p=>A.c[p.id]=["Mutanti",2+Math.floor(Math.random()*3)]);alLog(alMain(S.clock.luogo),"Dopo l'Emissione i mutanti sono usciti dalle tane. Molti posti vuoti adesso hanno padroni con i denti.",1);}
 
@@ -108,7 +108,7 @@ function alSide(){const r=S.rap||{};let best="Stalker liberi",v=1;for(const f of
       if(c.ctl){for(const n in c.ctl){const p=alFind(n);const g=p?alCtl(p.id)[0]||"vuoto":"vuoto";if(![].concat(c.ctl[n]).includes(g))return false;}}}
     return _c(c,ctx);};evCond._al=1;
   const _ap=evApply;evApply=function(o,log){_ap(o,log);if(!o)return;
-    if(o.prendi){[].concat(o.prendi).forEach(x=>{const p=alFind(x.poi);if(!p)return;alS().c[p.id]=[x.f||"",x.f?(x.forza||4):0];alLog(p,x.f?`${p.n} (${p.z}) adesso è di ${x.f}.`:`${p.n} (${p.z}) è stato ripulito.`,1);log&&log.push(`${p.n}: ${x.f||"vuoto"}`);});}
+    if(o.prendi){[].concat(o.prendi).forEach(x=>{const p=x.poi==="qui"?alHere():alFind(x.poi);if(!p)return;alS().c[p.id]=[x.f||"",x.f?(x.forza||4):0];alLog(p,x.f?`${p.n} (${p.z}) adesso è di ${x.f}.`:`${p.n} (${p.z}) è stato ripulito.`,1);log&&log.push(`${p.n}: ${x.f||"vuoto"}`);});}
     if(o.vai){const p=alFind(o.vai);if(p){S.clock.luogo=p.z;S.clock.poi=p.id;log&&log.push(`ora sei a ${p.n}`);}}};})();
 
 /* ---- mappa: punti visibili zoomando ---- */
