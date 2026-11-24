@@ -115,7 +115,7 @@ function alSide(){const r=S.rap||{};let best="Stalker liberi",v=1;for(const f of
 function alMapInstall(){const M=window.Map3D;if(!M||M._al)return;const inn=M.el.querySelector(".m2d-in"),box=M.el.querySelector(".m2d");if(!inn||!box)return;M._al=1;
   const st=document.createElement("style");st.textContent=`.m2d-in .al{position:absolute;inset:0;pointer-events:none}
 .m2d-in .al i{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:2px solid #10140c;background:var(--c,#777);transform:scale(calc(1 / var(--k,1)));pointer-events:auto;cursor:pointer;box-shadow:0 0 0 1px #eef3df88}
-.m2d-in .al i.mn{width:9px;height:9px;margin:-4.5px 0 0 -4.5px}.m2d-in .al i.vu{background:#10140c;border-color:#9fb07a}.m2d-in .al i.me{box-shadow:0 0 0 3px #ffb199}
+.m2d-in .al i.mn{width:9px;height:9px;margin:-4.5px 0 0 -4.5px}@media (pointer:coarse){.m2d-in .al i{width:16px;height:16px;margin:-8px 0 0 -8px}.m2d-in .al i.mn{width:13px;height:13px;margin:-6.5px 0 0 -6.5px}}.m2d-in .al i.vu{background:#10140c;border-color:#9fb07a}.m2d-in .al i.me{box-shadow:0 0 0 3px #ffb199}
 .m2d-in .al b{position:absolute;transform:translate(9px,-50%) scale(calc(1 / var(--k,1)));transform-origin:0 50%;font:600 10px var(--f-h);color:#eef3df;background:#141a10cc;border-left:3px solid var(--c,#777);padding:0 4px;border-radius:2px;white-space:nowrap;pointer-events:none}
 .m2d-in .al b.mn{display:none}.m2d-in .al i.mn{display:none}.m2d.zz .m2d-in .al i.mn,.m2d.zz2 .m2d-in .al b.mn{display:block}.m2d:not(.zz) .m2d-in .al b:not(.mn){display:none}.m2d.zz .m2d-in .al b:not(.mn){display:block}
 .m2d-in .al b small{opacity:.75;font-weight:500}
@@ -127,8 +127,12 @@ function alMapInstall(){const M=window.Map3D;if(!M||M._al)return;const inn=M.el.
   const merc=(lat,lon)=>{const Z0=12,X0=2384,Y0=1361,PW=3328,PH=2560,n=2**Z0*256,r=lat*Math.PI/180;return [((lon+180)/360*n-X0*256)/PW,((1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n-Y0*256)/PH];};
   lay.innerHTML=AL_P.map(p=>{const [u,v]=merc(p.la,p.lo);const L=`left:${(u*100).toFixed(3)}%;top:${(v*100).toFixed(3)}%`;return `<i data-alp="${p.id}" class="${p.main?"":"mn"}" style="${L}" title="${esc(p.n)}"></i><b data-alb="${p.id}" class="${p.main?"":"mn"}" style="${L}"></b>`;}).join("");
   const W=1664,H=1280;new MutationObserver(()=>{const k=+inn.style.getPropertyValue("--k")||1;const base=Math.max(box.clientWidth/W,box.clientHeight/H)*1.6;box.classList.toggle("zz",k>base*1.9);box.classList.toggle("zz2",k>base*3.2);}).observe(inn,{attributes:true,attributeFilter:["style"]});
-  let down=null;box.addEventListener("pointerdown",e=>{const t=e.target.closest("[data-alp]");down=t?{id:t.dataset.alp,x:e.clientX,y:e.clientY}:null;},true);
-  box.addEventListener("pointerup",e=>{if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<8){ui.alSel=down.id;alPop();}down=null;});
+  /* tocco tollerante: vale il punto visibile più vicino entro ~30 px, anche se il dito non lo prende in pieno */
+  let down=null,np=0;box.addEventListener("pointerdown",e=>{np++;if(e.target.closest(".al-pop,.m2d-btn,.m2d-info"))return;down=np===1?{x:e.clientX,y:e.clientY,t:Date.now()}:null;},true);
+  const fin=e=>{np=Math.max(0,np-1);if(!down||e.type!=="pointerup"){if(!np)down=null;return;}const d=down;down=null;if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>12||Date.now()-d.t>700)return;
+    let best=null,bd=e.pointerType==="mouse"?18:30;lay.querySelectorAll("[data-alp]").forEach(i=>{if(!i.offsetParent&&getComputedStyle(i).display==="none")return;const r=i.getBoundingClientRect();if(!r.width)return;const dd=Math.hypot(r.left+r.width/2-e.clientX,r.top+r.height/2-e.clientY);if(dd<bd){bd=dd;best=i.dataset.alp;}});
+    if(best){ui.alSel=best;alPop();}};
+  box.addEventListener("pointerup",fin,true);box.addEventListener("pointercancel",fin,true);
   pop.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;e.stopPropagation();if(b.dataset.alx){ui.alSel=null;pop.hidden=true;return;}if(b.dataset.algo){alGo(b.dataset.algo);render();}});
   pop.addEventListener("pointerdown",e=>e.stopPropagation());}
 function alPop(){const M=window.Map3D;if(!M||!M._alPop)return;const pop=M._alPop;const p=AL_BY[ui.alSel];if(!p){pop.hidden=true;return;}const [g,n]=alCtl(p.id);const A=alS();
