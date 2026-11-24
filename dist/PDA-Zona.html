@@ -2057,13 +2057,13 @@ function vArmeria(){const r=+S.rubli||0;ui.aopen=ui.aopen||{};const rf=x=>ui.ara
       <button class="btn g s" data-a="accall" data-v="0">Chiudi tutto</button></div>
     ${cats}</section>`;}
 
-function vPda(){const t=ui.pdaTab;const msgs=L.pda.filter(m=>m.tipo!=="lavoro"&&m.tipo!=="radio").sort((a,b)=>b.ts-a.ts);const jobs=L.pda.filter(m=>m.tipo==="lavoro").sort((a,b)=>b.ts-a.ts);
+function vPda(){const t=ui.pdaTab;const msgs=L.pda.filter(m=>m.tipo!=="lavoro"&&m.tipo!=="radio").sort((a,b)=>b.ts-a.ts);const jobsAll=L.pda.filter(m=>m.tipo==="lavoro").sort((a,b)=>b.ts-a.ts);const jobs=jobsAll.filter(j=>ui.arch?j.arch:!j.arch);
   const ST={offerto:"Offerto",accettato:"Accettato",fatto:"Fatto",fallito:"Fallito",rifiutato:"Rifiutato"};
   return `<section><h2>Rete degli stalker</h2><div class="chips"><button class="chip" data-a="pt" data-k="rete" aria-pressed="${t==="rete"}">Messaggi</button><button class="chip" data-a="pt" data-k="lavori" aria-pressed="${t==="lavori"}">Lavori (${jobs.filter(j=>(j.stato||"offerto")==="offerto").length})</button><button class="chip" data-a="pt" data-k="radio" aria-pressed="${t==="radio"}">Radio</button></div>${t==="radio"?radioHtml():""}
   ${t==="radio"?"":t==="rete"?`<div>${msgs.map(m=>`<div class="msg ${m.mio?"mio":""}"><div class="h">${m.mio?"":(()=>{const q=L.png.find(x=>x.nome===m.da);return avHtml(q||{nome:m.da,fazione:m.fazione},"av xs");})()}${esc(m.da||"?")}${m.fazione?` · ${esc(m.fazione)}`:""} · ${esc(dataIt(m.data))} ${esc(m.ora||"")}</div><div>${esc(m.testo)}</div></div>`).join("")||`<p class="empty">Silenzio sulla rete.</p>`}</div>
     <div class="row" style="margin-top:10px"><input data-dr="msg" value="${esc(ui.msg||"")}" placeholder="scrivi sulla rete" style="flex:1 1 14em"><button class="btn" data-a="send">Invia</button></div>`
-  :`<div class="cards">${jobs.map(j=>{const s=j.stato||"offerto";return `<article class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">${esc(j.titolo)}</h3><span class="rar">${ST[s]}</span></div><span class="small muted">${esc(j.da||"")}${j.luogo?` · ${esc(j.luogo)}`:""}${j.scadenza?(()=>{const m=jobLeft(j);return m==null||!["offerto","accettato"].includes(s)?` · entro ${esc(j.scadenza)}`:` · <span class="${m<1440?"warn":""}">${leftTxt(m)}</span>`;})():""}</span><p style="margin:0;white-space:pre-wrap">${esc(j.testo||"")}</p><b class="num">${fmtR(j.paga)}</b>
-    <div class="row">${s==="offerto"?`<button class="btn s" data-a="job" data-k="${j.id}" data-v="accettato">Accetta</button><button class="btn g s" data-a="job" data-k="${j.id}" data-v="rifiutato">Rifiuta</button>`:s==="accettato"?`<button class="btn s" data-a="job" data-k="${j.id}" data-v="fatto">Fatto</button><button class="btn g s" data-a="job" data-k="${j.id}" data-v="fallito">Fallito</button>`:""}</div></article>`;}).join("")||`<p class="empty">Nessun lavoro.</p>`}</div>`}
+  :`${typeof stHtml==="function"?stHtml():""}<div class="row" style="justify-content:flex-end;margin:6px 0"><button class="btn g s" data-a="archv">${ui.arch?"Torna ai lavori":`Archiviati (${jobsAll.filter(j=>j.arch).length})`}</button></div><div class="cards">${jobs.map(j=>{const s=j.stato||"offerto";return `<article class="card"><div class="row" style="justify-content:space-between"><h3 style="margin:0">${esc(j.titolo)}</h3><span class="rar">${ST[s]}</span></div><span class="small muted">${esc(j.da||"")}${j.luogo?` · ${esc(j.luogo)}`:""}${j.scadenza?(()=>{const m=jobLeft(j);return m==null||!["offerto","accettato"].includes(s)?` · entro ${esc(j.scadenza)}`:` · <span class="${m<1440?"warn":""}">${leftTxt(m)}</span>`;})():""}</span><p style="margin:0;white-space:pre-wrap">${esc(j.testo||"")}</p><b class="num">${fmtR(j.paga)}</b>
+    <div class="row">${s==="offerto"?`<button class="btn s" data-a="job" data-k="${j.id}" data-v="accettato">Accetta</button><button class="btn g s" data-a="job" data-k="${j.id}" data-v="rifiutato">Rifiuta</button>`:s==="accettato"?`<button class="btn s" data-a="job" data-k="${j.id}" data-v="fatto">Fatto</button><button class="btn g s" data-a="job" data-k="${j.id}" data-v="fallito">Fallito</button>`:""}<button class="btn g s" data-a="archj" data-k="${j.id}" style="margin-left:auto">${j.arch?"Ripristina":"Archivia"}</button></div></article>`;}).join("")||`<p class="empty">${ui.arch?"Nessun lavoro archiviato.":"Nessun lavoro."}</p>`}</div>`}
   <p class="small muted">I messaggi degli altri e i lavori li scrive il GM. Accettare qui vale come dirlo in gioco. «Fatto» incassa la paga e alza il Nome (+1, +2, +3 secondo la grandezza; +1 con testimoni lo aggiunge il GM); «Fallito» toglie 1 al Nome.</p></section>`;}
 
 function vOracolo(){const t=+S.tensione;const hist=(ui.solo.length?ui.solo:L.solo.slice().sort((a,b)=>b.ts-a.ts)).slice(0,30);
@@ -3940,6 +3940,28 @@ IN_T.push(
   {t:"«Imbucala tu. Uscirai.»",esito:{testo:`Lui sorride, storto. «Dicono tutti così.» Se la rimette in tasca. Ma l'hai detto, e qualcosa, nei suoi occhi, si è acceso per un momento.`,fid:{[p.nome]:1},tr:{nervi:-1}}},
   {t:"Leggerla prima di accettare",tiro:"empatia+persuasione",ok:{testo:"Gli chiedi se puoi. Lui esita, poi annuisce. La leggi. Ti si chiude la gola. La ripieghi, la metti in tasca, e gli stringi la mano senza parlare.",oggetto:{n:"Lettera di "+p.nome,nota:"L'hai letta. La porterai."},fid:{[p.nome]:2},inSegreto:p.id},ko:{testo:"«No.» Se la riprende. «Se devi leggerla, non sei l'uomo giusto.»",fid:{[p.nome]:-1}}}]}
 );})();
+</script>
+<script>/* ===== Storie in corso (taccuino delle catene aperte) e archivio lavori ===== */
+const ST_F={
+ "radar-coordinate":["Le coordinate del Radar","Un punto a Janiv. «SCORTA.»","Janiv e Jupiter"],
+ "jupiter-casse":["Le casse sotto il Jupiter","Qualcuno accumula qualcosa da ventisei anni.","Janiv e Jupiter"],
+ "segreti-della-valle":["I segreti della Valle","Sai dove Borov tiene i soldi. O la usi, o te la tolgono.","Valle Oscura"],
+ "zs-debito-1":["Il debito del Mercante","Zhorik aspetta la busta all'officina.","Discarica"],
+ "zs-debito-mio":["Quello che il Mercante ti deve","Ottomila di tasca tua. Passa al bunker.","Cordone"],
+ "zs-debito-guerra":["I ragazzi di Zhorik","Ti cercano sulla strada.","Cordone o Discarica"],
+ "lapide-dytjatky":["L'uomo della lapide","La faccia della foto l'hai vista al Bar.","Bar e Rostok"],
+ "quaderni-maestro":["I quaderni","Il maestro dell'autobus giallo chiede quaderni (500 ₽).","Discarica"],
+ "staffetta":["La staffetta","Il siero ai Magazzini, l'artefatto dal Barman, poi di corsa all'Agroprom.","Bar · Magazzini"],
+ "segreti-del-mercante":["I segreti del Mercante","Sai abbastanza da farlo uccidere. Lui lo sa.",""]
+};
+function stHtml(){const E=evS();const rows=Object.keys(ST_F).filter(f=>E.flag[f]).map(f=>{const [t,x,dove]=ST_F[f];
+  let tm="";if(f==="staffetta"){const q=E.coda.find(q=>q.id==="zs-staffetta-tardi");if(q){const m=minTo(q.at);tm=` · <span class="warn">${m>0?Math.ceil(m/60)+" ore":"scaduto"}</span>`;}}
+  return `<li><b>${esc(t)}</b>${tm}<br><span class="small muted">${esc(x)}${dove?` — ${esc(dove)}`:""}</span></li>`;});
+  const n=E.coda.length;if(!rows.length&&!n)return "";
+  return `<article class="card" style="margin-bottom:8px"><h3 style="margin:0">Storie in corso</h3>${rows.length?`<ul style="margin:6px 0;padding-left:18px">${rows.join("")}</ul>`:""}${n?`<p class="small muted" style="margin:0">${n} seguit${n===1?"o":"i"} in arrivo.</p>`:""}</article>`;}
+document.addEventListener("click",e=>{const b=e.target.closest('[data-a="archj"],[data-a="archv"]');if(!b)return;e.stopImmediatePropagation();e.preventDefault();
+  if(b.dataset.a==="archv"){ui.arch=!ui.arch;render();return;}
+  const j=L.pda.find(x=>x.id===b.dataset.k||String(x.id)===b.dataset.k);if(!j)return;j.arch=!j.arch;upd("pda",j.id,{arch:j.arch});toast(j.arch?"Lavoro archiviato.":"Lavoro ripristinato.");render();},true);
 </script>
 </body>
 </html>
