@@ -109,7 +109,7 @@ function alSide(){const r=S.rap||{};let best="Stalker liberi",v=1;for(const f of
     return _c(c,ctx);};evCond._al=1;
   const _ap=evApply;evApply=function(o,log){_ap(o,log);if(!o)return;
     if(o.prendi){[].concat(o.prendi).forEach(x=>{const p=x.poi==="qui"?alHere():alFind(x.poi);if(!p)return;alS().c[p.id]=[x.f||"",x.f?(x.forza||4):0];alLog(p,x.f?`${p.n} (${p.z}) adesso è di ${x.f}.`:`${p.n} (${p.z}) è stato ripulito.`,1);log&&log.push(`${p.n}: ${x.f||"vuoto"}`);});}
-    if(o.vai){const p=alFind(o.vai);if(p){S.clock.luogo=p.z;S.clock.poi=p.id;log&&log.push(`ora sei a ${p.n}`);}}};})();
+    if(o.vai){const p=alFind(o.vai);if(p){S.clock.luogo=p.z;S.clock.poi=p.id;log&&log.push(`ora sei a ${p.n}`);}}};evApply._al=1;})();
 
 /* ---- mappa: punti visibili zoomando ---- */
 function alMapInstall(){const M=window.Map3D;if(!M||M._al)return;const inn=M.el.querySelector(".m2d-in"),box=M.el.querySelector(".m2d");if(!inn||!box)return;M._al=1;
