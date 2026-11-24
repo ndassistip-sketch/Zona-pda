@@ -22,3 +22,14 @@ document.addEventListener("click",e=>{const b=e.target.closest('[data-a="archj"]
 /* mappa: i nomi non coprono i punti da toccare */
 (function(){const st=document.createElement("style");st.textContent=`.m2d-in .al{z-index:2}.m2d-in .al i{z-index:2}.m2d-in .al b{z-index:1;opacity:.9}
 .m2d.zz .m2d-in>span{pointer-events:none!important;opacity:.45}.m2d.zz2 .m2d-in>span:not(.mk){display:none}.m2d.zz .m2d-in>span.mk{opacity:.6}`;document.head.appendChild(st);})();
+/* Chiedi lavoro: massimo 3 richieste ogni 24 ore di gioco */
+const CJ_MAX=3;
+function cjLeft(){const A=ctS();A.cj=(A.cj||[]).filter(t=>minTo(t)>-1440);return CJ_MAX-A.cj.length;}
+function cjAsk(){if(cjLeft()<=0){toast("Hai già chiesto abbastanza oggi. Torna domani.");return;}const A=ctS();const z=S.clock.luogo;const pre=new Set(A.ctr.map(c=>c.id));let nuovo=null;
+  for(let i=0;i<40&&!nuovo;i++){A.ctr.filter(c=>c.stato==="offerto"&&!pre.has(c.id)&&!(AL_BY[c.da].z===z||AL_BY[c.poi].z===z)).forEach(c=>{A.ctr.splice(A.ctr.indexOf(c),1);});
+    const off=A.ctr.filter(c=>c.stato==="offerto");if(off.length>=8){const o=off[off.length-1];if(!(AL_BY[o.da].z===z||AL_BY[o.poi].z===z))A.ctr.splice(A.ctr.indexOf(o),1);}
+    try{ctGen();}catch(_){}nuovo=A.ctr.find(c=>!pre.has(c.id)&&c.stato==="offerto"&&ctOk(c.f)&&(AL_BY[c.da].z===z||AL_BY[c.poi].z===z));}
+  A.cj.push(clk());save();toast(nuovo?`${nuovo.f} ha un lavoro per te.`:"Oggi qui nessuno ha lavoro. Prova in un'altra zona.");render();}
+(function hk(){if(typeof ctPanel!=="function"){setTimeout(hk,300);return;}if(ctPanel._cj)return;const _p=ctPanel;ctPanel=function(){let h=_p.apply(this,arguments);const n=cjLeft();
+  return h.replace(`<h4 style="margin:10px 0 2px">Offerte qui intorno</h4>`,`<div class="row" style="justify-content:space-between;margin:10px 0 2px"><h4 style="margin:0">Offerte qui intorno</h4><button class="btn g s" data-cj="1" ${n>0?"":"disabled"}>Chiedi lavoro (${n}/${CJ_MAX})</button></div>`);};ctPanel._cj=1;})();
+document.addEventListener("click",e=>{const b=e.target.closest("[data-cj]");if(!b)return;e.stopImmediatePropagation();cjAsk();},true);
