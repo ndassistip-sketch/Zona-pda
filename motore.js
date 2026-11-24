@@ -1,5 +1,5 @@
 /* ===== Motore delle storie: eventi a condizioni, regista, seguiti ===== */
-const EVP=["eventi/cordone.json","eventi/strada.json","eventi/sud.json","eventi/centro.json","eventi/nord.json","eventi/vagabondi.json","eventi/luoghi.json","eventi/notti.json","eventi/quest-sud.json","eventi/quest-nord.json","eventi/punti.json","eventi/nord2.json","eventi/mezzi.json","eventi/storie2.json"];
+const EVP=["eventi/cordone.json","eventi/strada.json","eventi/sud.json","eventi/centro.json","eventi/nord.json","eventi/vagabondi.json","eventi/luoghi.json","eventi/notti.json","eventi/quest-sud.json","eventi/quest-nord.json","eventi/punti.json","eventi/nord2.json","eventi/mezzi.json","eventi/storie2.json","eventi/zone-nord.json","eventi/zone-centro.json"];
 const EVD={list:[],byId:{},ok:false};
 async function evLoad(){if(!window.__BUNDLE)try{const r=await fetch("eventi/trama.txt");if(r.ok){const t=(await r.text()).trim().split("").reverse().join("");const j=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))));(j.eventi||[]).forEach(e=>{e.trama=true;e._pack="trama";EVD.list.push(e);EVD.byId[e.id]=e;});EVD.atti=j.atti||[];}}catch(_){}
   for(const p of EVP){try{const r=await fetch(p);if(!r.ok)continue;const a=await r.json();(a.eventi||a).forEach(e=>{e._pack=p;EVD.list.push(e);EVD.byId[e.id]=e;});}catch(_){}}EVD.ok=true;try{render();}catch(_){}}
