@@ -1,0 +1,163 @@
+{"pacchetto":"Luoghi della Zona","eventi":[
+
+{"id":"luo-campanile","titolo":"Il campanile senza campana","tono":"calmo","peso":8,"ripeti":120,
+ "se":{"luogo":"Cordone","ore":[6,20]},
+ "testo":["La chiesa del villaggio abbandonato ha perso il tetto, le icone, perfino i chiodi. Il campanile è rimasto in piedi per ostinazione. La campana non c'è più da trent'anni. Eppure, alle sei in punto, la senti suonare. Una volta sola. Gli stalker del villaggio non alzano nemmeno la testa. «Suona per chi deve morire oggi,» dice uno, masticando. «Non preoccuparti. Non sai mai per chi.»"],
+ "scelte":[
+  {"t":"Salire sul campanile","tiro":"agilita+mobilita","ok":{"testo":"Le scale sono marce, ma reggono. In cima, dove c'era la campana, c'è solo un trave annerito e, appeso a un chiodo, un mazzo di piastrine. Ventidue. Tutte di stalker morti nel Cordone. Qualcuno le ha portate qui, una per una, per anni. Ne prendi una? No. Le lasci. Ma ora conosci un posto dove qualcuno ricorda.","pe":1,"tr":{"nervi":-1}},
+   "ko":{"testo":"Il terzo gradino cede. Cadi di due metri sul pavimento di pietra. Dall'alto, un suono metallico, lungo, che si spegne lentamente. Gli stalker fuori ridono. «Visto? Non era per te.»","colpo":{"D":1,"P":0}}},
+  {"t":"Chiedere chi porta le piastrine lassù","tiro":"empatia+persuasione","ok":{"testo":"Ti indicano un vecchio che ripara stivali. Lui non nega. «Qualcuno deve suonare,» dice. «La campana l'hanno portata via i saccheggiatori. Ma la campana non è il bronzo. La campana è il fatto che qualcuno tira la corda.»","png":{"nome":"Nikodim il Calzolaio","fazione":"stalker libero","nota":"Vecchio del villaggio. Ripara stivali e porta le piastrine dei morti sul campanile.","fiducia":1},"pe":1},
+   "ko":{"testo":"Ti guardano come si guarda un turista. Nessuno risponde. Uno sputa per terra, non per maleducazione: per scaramanzia."}},
+  {"t":"Ignorare la campana","esito":{"testo":"La ignori. Ma per tutto il giorno, ogni tanto, ti tocchi la tasca dove tieni la tua piastrina."}}]},
+
+{"id":"luo-scarpe","titolo":"Il mercato delle scarpe","tono":"calmo","peso":7,"ripeti":96,
+ "se":{"luogo":["Cordone","Bar e Rostok"],"ore":[8,18]},
+ "testo":["Su un telo, una trentina di paia di stivali. Militari, da caccia, da lavoro, uno di gomma rosso da bambino che nessuno compra. Il venditore è un uomo grosso con la voce gentile. «Tutti di stalker morti,» dice subito, prima che tu chieda. «Sono onesto. Gli stivali buoni non devono finire sottoterra: sotto terra si cammina scalzi. Prendi un paio che ti piace. Sentirai i loro passi, a volte. È normale.»"],
+ "scelte":[
+  {"t":"Comprare un paio di stivali buoni","se":{"rubli":1500},"esito":{"testo":"Scegli un paio di stivali militari, la suola consumata più a destra che a sinistra. Ti calzano come se ti aspettassero. La prima notte sogni un sentiero che non conosci, e una voce che dice gira a sinistra. La mattina dopo, al primo bivio, giri a sinistra senza pensarci.","rubli":-1500,"tr":{"fatica":-1},"oggetto":{"n":"Stivali di un morto","nota":"Militari, buoni. La suola è consumata a destra. A volte sanno la strada."}}},
+  {"t":"Chiedere di chi era lo stivale rosso","tiro":"empatia+persuasione","ok":{"testo":"Il venditore si fa serio. «Di nessuno. L'ho trovato a Pripjat', in un asilo, nel 2007. Era pulito. Nuovo. Lo metto qui ogni giorno perché qualcuno prima o poi lo venga a prendere.» Fa una pausa. «Non viene mai nessuno. Ma lo metto.»","tr":{"nervi":1},"pe":1},
+   "ko":{"testo":"«Non è in vendita,» dice, e la gentilezza della voce resta, ma non arriva più agli occhi."}},
+  {"t":"Passare oltre","esito":{"testo":"Ti guardi gli stivali che porti. Ti chiedi chi li porterà dopo di te. Poi smetti."}}]},
+
+{"id":"luo-auto-1986","titolo":"L'automobile che ricorda","tono":"calmo","peso":7,"ripeti":120,
+ "se":{"luogo":"Discarica"},
+ "testo":["Tra le carcasse dei mezzi della liquidazione, una Moskvič azzurra, intatta, le gomme gonfie, il vetro pulito. Nessuno sa come ci sia arrivata. Dentro, la radio è accesa. Trasmette musica leggera, un notiziario sulla festa del Primo Maggio, la previsione del tempo per Kiev. È il 1986. Sempre il 1986. Il sedile del guidatore è caldo."],
+ "scelte":[
+  {"t":"Sederti al posto di guida","tiro":"sf","ok":{"testo":"Ti siedi. La radio annuncia che domani sarà bel tempo. Il volante vibra un poco, come se il motore fosse acceso. Per un minuto, solo uno, hai l'impressione di poter girare la chiave e tornare a una mattina in cui niente di tutto questo era ancora successo. Poi scendi. Fuori il cielo è grigio come sempre. Dentro di te, qualcosa resta azzurro.","tr":{"nervi":-2},"pe":1},
+   "ko":{"testo":"Ti siedi e la portiera si chiude da sola. La radio dice il tuo nome, poi dice una data che non è il 1986, e che non è ancora venuta. Esci dal finestrino senza sapere come. Le mani ti tremano per un'ora.","tr":{"nervi":3}}},
+  {"t":"Smontare la radio per venderla","tiro":"intelletto+tecnica","ok":{"testo":"La radio si stacca facilmente. Smette di suonare appena la stacchi, e da quel momento è una radio qualunque, sovietica, rotta. La vendi per poco. Quando ripassi dalla Discarica, la Moskvič ha di nuovo la radio. E suona.","rubli":600},
+   "ko":{"testo":"Ti scotti le dita sul retro, che è bollente come un ferro da stiro. La radio continua a suonare, offesa.","tr":{"ferite":1}}},
+  {"t":"Ascoltare il notiziario e andartene","esito":{"testo":"Il conduttore parla di raccolti record. Ha una voce felice. Lo lasci lì, a essere felice per sempre.","tempo":15}}]},
+
+{"id":"luo-fabbrica-respira","titolo":"La fabbrica che respira","tono":"guaio","peso":7,"ripeti":96,
+ "se":{"luogo":"Valle Oscura","ore":[16,8]},
+ "testo":["Il capannone della vecchia fabbrica di trattori si gonfia. Lentamente. Le lamiere del tetto si alzano di qualche centimetro, cigolando, e poi si abbassano, e dalle finestre rotte esce un soffio d'aria tiepida che sa di olio e di terra smossa. Inspira. Espira. I banditi della Valle non ci entrano. Dicono che chi ci dorme dentro si sveglia con un'altra età."],
+ "scelte":[
+  {"t":"Entrare a cercare roba","tiro":"intelletto+ricognizione","ok":{"testo":"Dentro, i macchinari sono coperti di una polvere fine e calda, regolare, come pelle. Trovi un armadietto chiuso con dentro cose che qualcuno ha lasciato nel 2006: munizioni, un kit, una lettera a una certa Galja. Esci quando il capannone inspira, prima che espiri.","oggetto":[{"n":"Kit medico AI-2"},{"n":"5,45 PS","qta":1}],"pe":1},
+   "ko":{"testo":"Entri quando il capannone espira. L'aria tiepida ti avvolge e ti senti, per un istante, infinitamente stanco, come dopo una vita intera di turni. Esci barcollando. Lo specchietto del binocolo ti mostra qualche capello bianco che stamattina non c'era.","tr":{"fatica":3,"nervi":1}}},
+  {"t":"Accostare l'orecchio al muro","esito":{"testo":"Dentro, oltre il respiro, senti il rumore di una catena di montaggio. Pezzi che si incastrano. Una sirena di fine turno. Ottantacinque operai che chiacchierano mentre escono. Poi niente. Poi di nuovo il respiro.","tr":{"nervi":1},"pe":1}},
+  {"t":"Girare al largo","esito":{"testo":"Fai il giro largo. Per un buon tratto senti il capannone respirare dietro di te, come un animale che dorme. Non ti segue. Non ancora.","tempo":20}}]},
+
+{"id":"luo-bar-scommessa","titolo":"La scommessa del Bar","tono":"calmo","peso":8,"ripeti":72,
+ "se":{"luogo":"Bar e Rostok","ore":[19,2]},
+ "testo":["Al Bar si scommette su tutto: sull'ora della prossima Emissione, su quale novellino torna, su quanti bicchieri regge il cecchino del Dovere. Stasera la scommessa è diversa. Uno stalker con la barba rossa ha messo sul bancone una scatola di piombo chiusa. «Dentro c'è un artefatto,» annuncia. «Chi indovina cos'è se lo prende. Chi sbaglia paga mille. Si può tenere la scatola in mano per dieci secondi. Non di più.»"],
+ "scelte":[
+  {"t":"Tenere la scatola e indovinare","se":{"rubli":1000},"tiro":"intelletto+ricognizione","ok":{"testo":"Dieci secondi. La scatola è più pesante da una parte, poi dall'altra. È tiepida. Ti sembra che, dentro, qualcosa si sposti verso la tua mano. «Medusa,» dici. Il barbuto ti guarda a lungo. Poi apre la scatola. Il Bar applaude. È tua.","oggetto":{"n":"Artefatto: Medusa","nota":"Vinta al Bar, alla scommessa della scatola di piombo."},"nome":1},
+   "ko":{"testo":"Dici un nome. Sbagliato. Paghi mille tra le risate. Quando la scatola si apre, dentro c'è un sasso qualunque. Il barbuto ti fa l'occhiolino. Il Bar paga sempre, alla fine. Ma non a te.","rubli":-1000}},
+  {"t":"Studiare il barbuto, non la scatola","tiro":"empatia+pronto","ok":{"testo":"Lo guardi mentre gli altri tengono la scatola. Lui non guarda mai la scatola: guarda i soldi. Dentro non c'è nessun artefatto, ci scommetti la testa. Glielo sussurri all'orecchio. Lui ti versa da bere e ti allunga cinquecento sotto il bancone. «Per il silenzio, amico.»","rubli":500,"pe":1},
+   "ko":{"testo":"Non capisci niente. Il barbuto è o un truffatore molto bravo o un uomo molto onesto, e non sai quale delle due cose sia più rara."}},
+  {"t":"Guardare e basta","esito":{"testo":"Sei perdono mille ciascuno. Al settimo, il barbuto apre la scatola, dice «peccato», e la richiude senza farla vedere. Il Bar ride. Ridi anche tu.","tr":{"nervi":-1}}}]},
+
+{"id":"luo-bar-cantante","titolo":"La canzone del Dovere","tono":"calmo","peso":6,"ripeti":96,
+ "se":{"luogo":"Bar e Rostok","ore":[20,1],"rapporto":{"Dovere":0}},
+ "testo":["Un sergente del Dovere, ubriaco quanto basta per essere sincero e non quanto basta per essere pericoloso, si alza in piedi e canta. Una canzone di caserma, all'inizio. Poi la voce cambia, e la canzone diventa un'altra: una ninna nanna ucraina. Il Bar tace. Il sergente canta fino alla fine, a occhi chiusi, poi si siede come se niente fosse. I suoi uomini guardano il bicchiere."],
+ "scelte":[
+  {"t":"Offrirgli da bere","se":{"rubli":300},"esito":{"testo":"Accetta. Non parla della canzone. Parla del reattore, della disciplina, dei mutanti che vanno bruciati. Poi, al terzo bicchiere: «Mia madre la cantava. È morta nel '91. Credo per la nube. Nessuno l'ha mai detto.» Ti stringe la mano forte, da soldato. «Se hai bisogno del Dovere, chiedi di Kirill.»","rubli":-300,"rap":{"Dovere":1},"png":{"nome":"Sergente Kirill","fazione":"Dovere","nota":"Sergente del Dovere. Canta ninne nanne da ubriaco. Sua madre è morta nel '91.","fiducia":1}}},
+  {"t":"Applaudire","esito":{"testo":"Sei l'unico ad applaudire. Il silenzio intorno si fa pesante. Il sergente apre gli occhi, ti fissa. Poi, lentamente, annuisce. Qualcuno del Dovere ti batte una mano sulla spalla uscendo. Non sai se è un grazie o un avvertimento.","rap":{"Dovere":1}}},
+  {"t":"Restare in silenzio come gli altri","esito":{"testo":"Resti in silenzio. È la cosa giusta. Il Bar riprende a parlare dopo un minuto buono, come una macchina che riparte in salita.","tr":{"nervi":-1}}}]},
+
+{"id":"luo-yantar-occhi","titolo":"Lo scienziato che non dorme","tono":"calmo","peso":7,"ripeti":96,
+ "se":{"luogo":"Yantar","ore":[20,5]},
+ "testo":["Nel bunker degli scienziati c'è sempre una luce accesa. È quella del dottor Aronov, che non dorme da undici giorni. Te lo dice lui, con orgoglio e terrore insieme. «Il Bagliore di Yantar,» spiega, indicando gli schermi. «Quando dormo lo sento. Mi chiama per nome. Mi spiega le equazioni. Le equazioni sono giuste, capisce? Sono giuste. Ma quando mi sveglio ho scritto il mio indirizzo di casa trecento volte.»"],
+ "scelte":[
+  {"t":"Convincerlo a dormire, con la guardia","tiro":"empatia+comando","spec":"Pastore","ok":{"testo":"Lo fai sdraiare su una branda, gli prometti di svegliarlo se comincia a scrivere. Dorme per sei ore. Non scrive niente. Quando si sveglia piange, poi ride, poi ti paga più di quanto dovrebbe. «Non sognavo niente,» dice, incredulo. «Niente. Avevo dimenticato com'è.»","rubli":2500,"rap":{"Scienziati":1},"png":{"nome":"Dottor Aronov","fazione":"scienziato","nota":"Scienziato di Yantar. Il Bagliore lo chiama nei sogni. L'hai fatto dormire.","fiducia":2},"tempo":360},
+   "ko":{"testo":"Si addormenta. Dopo un'ora prende la matita. Non riesci a fermarlo senza fargli male. Al mattino, sul muro, c'è un'equazione lunga tre metri, e sotto, piccolissimo, il tuo nome.","tr":{"nervi":2},"pe":1,"tempo":360}},
+  {"t":"Chiedergli delle equazioni","tiro":"intelletto+tecnica","ok":{"testo":"Te ne mostra una. Non capisci quasi niente, ma capisci una cosa: non descrive una forza. Descrive un'intenzione. Lui vede che l'hai capito, e ti guarda con un sollievo enorme. «Allora non sono pazzo,» dice. «O almeno, non da solo.»","pe":2,"rap":{"Scienziati":1}},
+   "ko":{"testo":"Parla per un'ora. Tu annuisci. Alla fine lui dice: «Vede? È semplice.» Non era semplice."}},
+  {"t":"Dargli qualcosa per dormire","se":{"oggetto":"Fenazepam"},"esito":{"testo":"Gli dai il fenazepam. Lo prende con gratitudine, come un'ostia. Dorme dodici ore. Lascia per te, sul tavolo, una scatola di antirad e un biglietto: Grazie. Non mi ha chiamato.","togli":"Fenazepam","oggetto":{"n":"Antirad","qta":2},"rap":{"Scienziati":1}}}]},
+
+{"id":"luo-magazzini-funerale","titolo":"Il funerale della Libertà","tono":"calmo","peso":7,"ripeti":120,
+ "se":{"luogo":"Magazzini dell'esercito","ore":[15,22]},
+ "testo":["Quelli della Libertà seppelliscono uno dei loro. Non c'è prete, non ci sono discorsi. C'è una chitarra, una canna che passa di mano in mano, e una fossa scavata sotto il pino più storto dei Magazzini. Il morto si chiamava Jarik. Era un tipo che diceva sempre che la Zona è libera perché non ha padroni. Adesso ne ha uno in meno. Ti fanno cenno di avvicinarti: chi passa, a un funerale della Libertà, butta qualcosa nella fossa."],
+ "scelte":[
+  {"t":"Buttare una cartuccia","esito":{"testo":"Butti una cartuccia. Rimbalza sulla cassa di legno. Qualcuno annuisce. Uno della Libertà con le treccine ti dà una pacca sulla schiena e ti dice che Jarik ti sarebbe piaciuto. Probabilmente è vero.","rap":{"Libertà":1}}},
+  {"t":"Buttare qualcosa che ti è caro","tiro":"sf","ok":{"testo":"Ti togli dal collo una cosa che porti da anni, e la butti. Non sai perché. La Libertà ti guarda in silenzio. Poi, uno dopo l'altro, fanno lo stesso: una medaglietta, un accendino, una lettera. Alla fine la fossa sembra un tesoro. Uno ti dice: «Sei dei nostri, anche se non lo sai.»","rap":{"Libertà":2},"nome":1,"tr":{"nervi":-2}},
+   "ko":{"testo":"La mano si ferma a metà. Non riesci. La Libertà non dice niente: non è un posto dove si giudica. Ma te ne vai con la sensazione di aver tenuto qualcosa che pesava più del dovuto.","tr":{"nervi":1}}},
+  {"t":"Restare in disparte","esito":{"testo":"Guardi da lontano. Suonano una canzone di Kino, stonata. Il pino storto sembra inchinarsi nel vento, ma è solo il vento."}}]},
+
+{"id":"luo-foresta-voltano","titolo":"Gli alberi che si voltano","tono":"guaio","peso":7,"ripeti":72,
+ "se":{"luogo":"Foresta Rossa"},
+ "testo":["I pini della Foresta Rossa hanno il colore della ruggine dal 1986, e non sono mai caduti. Non marciscono. Stanno. Oggi c'è qualcosa di diverso, e ci metti un po' a capire cosa: i rami. Ieri puntavano a est, verso il vento. Oggi puntano verso di te. Tutti. Fai un passo a sinistra, e con un fruscio lungo un chilometro, la Foresta si aggiusta."],
+ "scelte":[
+  {"t":"Camminare più in fretta possibile","tiro":"agilita+mobilita","ok":{"testo":"Corri, piegato, con la testa bassa. Il fruscio ti insegue come una folla che bisbiglia. Quando esci dal bosco, ti volti: i rami sono tornati verso est. Come se niente fosse. Come se non ti avessero mai visto.","tr":{"fatica":1}},
+   "ko":{"testo":"Inciampi in una radice. Non c'era. Cadi, e per qualche secondo il fruscio si ferma, tutto intorno, in attesa. Ti rialzi lentamente. Il fruscio riprende. Ti accompagna, paziente, fino al limite del bosco.","tr":{"nervi":2,"fatica":1},"colpo":{"D":1,"P":0}}},
+  {"t":"Fermarti e lasciare che ti guardino","tiro":"sf","ok":{"testo":"Ti fermi. Respiri. I rami si sporgono verso di te, vicinissimi, e nell'odore di resina c'è qualcosa di vecchio e di stanco, come in una stanza dove qualcuno è morto da poco. Poi si ritirano. Ti hanno visto. Ora possono smettere. È una cosa strana da pensare, ma ti sembra di aver fatto una gentilezza.","pe":2,"tr":{"nervi":1}},
+   "ko":{"testo":"Resti fermo. I rami si avvicinano. Non resisti. Scappi. Il bosco ti lascia andare, ma ti senti osservato fino a sera.","tr":{"nervi":3}}},
+  {"t":"Accendere un fuoco per tenerli lontani","se":{"oggetto":"Kit per il fuoco"},"esito":{"testo":"Accendi un piccolo fuoco. La Foresta si ritrae, con un suono che somiglia moltissimo a un lamento. Ti vergogni senza sapere perché. Spegni il fuoco e te ne vai.","allerta":1,"tr":{"nervi":1}}}]},
+
+{"id":"luo-radar-lettera","titolo":"La lettera nel bunker","tono":"calmo","peso":7,"ripeti":"mai",
+ "se":{"luogo":"Radar"},
+ "testo":["In un bunker di servizio sotto le antenne, sotto un dito di polvere, una scrivania. Sulla scrivania, una lettera mai spedita, battuta a macchina, datata 26 aprile 1986, ore 01:40. Un tecnico scrive alla moglie. Le parla del lavoro, delle antenne, di un dolore alla schiena. Le dice che stanotte il cielo sopra la centrale ha un colore strano, come di lampone. Promette di tornare per la festa. Non firma."],
+ "scelte":[
+  {"t":"Prendere la lettera","esito":{"testo":"La pieghi con cura e la metti nella tasca interna. Pesa niente. Per tutto il giorno la senti contro il petto, come una seconda piastra, più fragile e più pesante.","oggetto":{"n":"Lettera del tecnico del Radar","nota":"26 aprile 1986, 01:40. Mai spedita. Mai firmata."},"tr":{"nervi":1},"pe":1}},
+  {"t":"Firmarla tu, e lasciarla","tiro":"empatia+sopravvivenza","ok":{"testo":"Scrivi sotto, a matita: Spedita. Non sai perché lo fai. Uscendo dal bunker, per la prima volta da quando sei al nord, il ronzio nelle orecchie si abbassa. Forse è solo una coincidenza. Forse è stata spedita davvero.","tr":{"nervi":-3},"pe":1},
+   "ko":{"testo":"La matita si spezza. Ci riprovi: si spezza di nuovo. La lettera non vuole una firma che non sia quella giusta. La lasci com'è.","tr":{"nervi":1}}},
+  {"t":"Lasciarla dov'è","esito":{"testo":"La rimetti esattamente nella polvere, nell'impronta che aveva lasciato. Qualcuno deve pur restare ad aspettare."}}]},
+
+{"id":"luo-janiv-treno","titolo":"Il treno fermo a Janiv","tono":"calmo","peso":7,"ripeti":120,
+ "se":{"luogo":"Janiv e Jupiter"},
+ "testo":["Alla stazione di Janiv c'è un treno passeggeri fermo dal 1986. I vagoni sono verdi, le tendine ancora tirate. Gli stalker ci dormono dentro, a volte. Dicono che di notte il treno si muove. Non molto: qualche centimetro. Come se stesse per partire e cambiasse idea ogni volta. Uno stalker seduto sul predellino ti dice: «Io ci ho dormito tre notti. La terza ho sentito il controllore chiedermi il biglietto.»"],
+ "scelte":[
+  {"t":"Dormire sul treno stanotte","esito":{"testo":"Ti sistemi in uno scompartimento. Le tendine odorano di naftalina. Dormi profondamente, come da bambino nei viaggi lunghi. Verso l'alba ti svegli: il treno si sta muovendo. Ti affacci. La stazione scorre lentamente. Poi si ferma, nello stesso identico punto di prima. Nessuno ti ha chiesto il biglietto. Questa volta.","tr":{"fatica":-2,"nervi":-1},"tempo":480,"flag":"treno-janiv"}},
+  {"t":"Perquisire i vagoni","tiro":"intelletto+ricognizione","ok":{"testo":"Nell'ultimo vagone, sotto un sedile, trovi una valigia di cartone. Dentro: vestiti da bambino, una bambola di legno, un barattolo di marmellata sigillato e, cucite nella fodera, banconote che valevano molto. Le lasci. Prendi solo la marmellata. Nella Zona il cibo vero è il tesoro più raro.","scorte":{"cibo":2},"pe":1},
+   "ko":{"testo":"Trovi poco: bottiglie vuote, giornali del '86, un pettine. E in uno scompartimento chiuso, le tendine che si muovono. Senza vento.","tr":{"nervi":1}}},
+  {"t":"Chiedere allo stalker se ha pagato il biglietto","tiro":"empatia+persuasione","ok":{"testo":"Ride. Poi smette. «Gli ho dato un artefatto,» dice. «Una Pietra di sangue. Mi ha bucato il biglietto e se n'è andato. Da quel giorno non sento più male alle ginocchia.» Ti mostra le ginocchia, come prova.","pe":1},
+   "ko":{"testo":"«Certo che no,» dice. «Ho saltato dal finestrino.» Ti guarda. Non capisci se scherza."}}]},
+
+{"id":"luo-zaton-chiatta","titolo":"La chiatta di Zaton","tono":"guaio","peso":7,"ripeti":96,
+ "se":{"luogo":"Zaton"},
+ "testo":["Nella palude di Zaton le navi si sono arenate quando il fiume è morto. Una chiatta, la «Kirov», ha la cabina illuminata. Di notte e di giorno. Ogni tanto la sirena suona tre volte, come per chiamare il porto. Gli stalker di Zaton dicono che il capitano è ancora a bordo. Dicono anche che paga bene, se gli porti quello che chiede. Stamattina, sulla passerella, qualcuno ha lasciato un biglietto: Servono tre bulloni nuovi, mai lanciati. Pago in rotta."],
+ "scelte":[
+  {"t":"Portargli tre bulloni nuovi","se":{"oggetto":"Bulloni"},"esito":{"testo":"Lasci tre bulloni sulla passerella. La sirena suona una volta. Al mattino, al posto dei bulloni, c'è una carta nautica disegnata a mano: le paludi di Zaton, con i passaggi sicuri tra le anomalie segnati in rosso. È la mappa più precisa che tu abbia mai visto. È datata domani.","oggetto":{"n":"Carta della Kirov","nota":"Le paludi di Zaton con i passaggi sicuri segnati in rosso. Datata il giorno dopo averla ricevuta."},"pe":2}},
+  {"t":"Salire a bordo","tiro":"sf","ok":{"testo":"La cabina è vuota. Il timone è lucido di mani. Sul tavolo, un diario di bordo: Giorno 7.412. Il fiume non torna. L'equipaggio è sceso. Resto. Ultima annotazione: oggi. Calligrafia ferma. Scendi senza toccare niente. La sirena suona tre volte, come per salutarti.","pe":2,"tr":{"nervi":2}},
+   "ko":{"testo":"Sulla passerella ti senti girare la testa, come in mare grosso. Non c'è acqua sotto. Ti aggrappi al corrimano finché passa. Scendi. Sei pallido. Gli stalker ridono: «Il capitano non ti voleva.»","tr":{"nervi":1,"fatica":1}}},
+  {"t":"Lasciar perdere","esito":{"testo":"La sirena suona mentre te ne vai. Tre volte. Poi una quarta, più lunga, che non avevi mai sentito."}}]},
+
+{"id":"luo-pripjat-ruota","titolo":"La ruota panoramica","tono":"calmo","peso":7,"ripeti":96,
+ "se":{"luogo":"Pripjat'"},
+ "testo":["Il luna park doveva aprire il primo maggio 1986. Non ha mai aperto. La ruota panoramica è gialla, ruggine e gialla, con le cabine che dondolano piano anche senza vento. Il contatore impazzisce vicino agli autoscontri. Una cabina, in alto, si muove diversamente dalle altre. Dentro c'è qualcosa che brilla, debolmente, di un bianco lattiginoso, come la luna dietro le nuvole."],
+ "scelte":[
+  {"t":"Arrampicarti fino alla cabina","tiro":"agilita+mobilita","ok":{"testo":"La struttura geme, ma regge. Arrivi alla cabina. Il verde è un artefatto, appoggiato sul sedile come un passeggero educato. Lo prendi. In quel momento la ruota fa un giro completo, lentissimo, con te attaccato. Dall'alto vedi tutta Pripjat'. Nessuno l'ha mai vista da qui. Era il punto.","oggetto":{"n":"Artefatto: Luce di luna","nota":"Trovato in una cabina della ruota panoramica di Pripjat'."},"pe":2,"tr":{"rad":1}},
+   "ko":{"testo":"A metà salita un bullone cede. Resti appeso per un braccio, a dieci metri da terra, e la ruota sceglie quel momento per muoversi. Scendi in qualche modo. Le mani sono a pezzi.","colpo":{"D":2,"P":0},"tr":{"rad":1}}},
+  {"t":"Guardare la ruota dall'erba","esito":{"testo":"Ti siedi nell'erba alta davanti alla ruota. Per un po' immagini la festa che non c'è stata: le famiglie, lo zucchero filato, le radioline. Poi la ruota cigola, e ti alzi, e te ne vai, e non hai preso niente. Ma qualcosa sì.","tr":{"nervi":-1,"rad":1}}},
+  {"t":"Prenderne una foto col PDA","esito":{"testo":"La foto viene buia. In mezzo, piccolissima, una cabina illuminata. Ci sono due persone dentro. Ingrandisci: niente, pixel. Non la cancelli.","pe":1}}]},
+
+{"id":"luo-centrale-turno","titolo":"Il turno di notte","tono":"guaio","peso":6,"ripeti":120,
+ "se":{"luogo":"La centrale","ore":[0,4]},
+ "testo":["Nel corridoio dei servizi del terzo blocco, una porta si apre su una stanza illuminata a neon. Dentro, un uomo in camice bianco legge un manuale tecnico a una scrivania, beve tè da un bicchiere con la portabicchieri di metallo. Alza gli occhi. «Sei del turno di cambio? Sei in ritardo.» Guarda l'orologio. «Sono le una e ventidue. Siediti. Tra un'ora facciamo il test.»"],
+ "scelte":[
+  {"t":"Dirgli che non ci sarà nessun test","tiro":"empatia+persuasione","ok":{"testo":"Glielo dici, lentamente. Che non c'è più il turno di cambio, che non c'è più il test, che è tutto finito da ventisei anni. Lui ti ascolta con educazione. Poi beve un sorso di tè. «Lo so,» dice. «Ma qualcuno deve fare il turno. Altrimenti chi lo ferma, la prossima volta?» La luce si spegne. La stanza è vuota da sempre.","pe":2,"tr":{"nervi":2}},
+   "ko":{"testo":"Ti guarda come si guarda un pazzo. Chiama qualcuno al telefono. Il telefono non ha filo. Qualcuno risponde. Tu scappi. Dietro di te senti l'altoparlante dire il tuo nome e un numero di matricola.","tr":{"nervi":3},"allerta":1}},
+  {"t":"Sederti e bere il tè","tiro":"sf","ok":{"testo":"Ti siedi. Il tè è caldo e dolcissimo. Lui ti spiega il manuale, pagina dopo pagina, con una passione da insegnante. Alle due e mezza dice: «Bene. Adesso vai. Tu non sei del turno, e lo sai. Ma grazie della compagnia.» Quando esci, il tè ce l'hai ancora in bocca.","tr":{"nervi":-1,"fatica":-1},"pe":2},
+   "ko":{"testo":"Il tè sa di metallo. Lo sputi. L'uomo non c'è più. Sul tavolo, il bicchiere è pieno di polvere grigia.","tr":{"rad":2,"nervi":2}}},
+  {"t":"Chiudere la porta","esito":{"testo":"Chiudi la porta. Dall'altra parte, una voce dice: «Peccato.» Poi niente."}}]},
+
+{"id":"luo-sotto-condotto","titolo":"La voce nel condotto","tono":"guaio","peso":6,"ripeti":96,
+ "se":{"luogo":"Sotterranei e laboratori"},
+ "testo":["Dal condotto d'aerazione viene una voce. Un uomo che conta in russo, da uno a dieci, e ricomincia. Da uno a dieci. Ha una voce stanca, gentile. Quando smetti di camminare, smette anche lui. «Ci sei?» chiede. «Finalmente. Sono qui da tanto. Mi hanno detto che qualcuno sarebbe venuto. Puoi aprire la grata numero sette? Non vedo più i numeri.»"],
+ "scelte":[
+  {"t":"Aprire la grata numero sette","tiro":"intelletto+ricognizione","ok":{"testo":"Conti le grate. Alla settima ti fermi, guardi meglio: dietro non c'è un condotto. C'è una stanza piena di vasche di vetro, vuote, rotte. Nessun uomo. Sul pavimento un registratore a bobina che gira a vuoto. Lo spegni. Il silenzio è la cosa più gentile che tu abbia fatto oggi. Accanto, un kit dimenticato.","oggetto":"Kit medico scientifico","pe":2,"tr":{"nervi":1}},
+   "ko":{"testo":"Apri una grata. Non è la settima. Dentro, qualcosa respira e si muove verso la luce. Richiudi con un calcio, ti volti, corri. La voce, dietro, ricomincia a contare.","tr":{"nervi":3},"allerta":2}},
+  {"t":"Parlare con lui","tiro":"empatia+persuasione","ok":{"testo":"Gli chiedi chi è. Si chiama Lev, dice. Era nel progetto. Non dice quale. Ti chiede che anno è. Glielo dici. Resta zitto a lungo. Poi: «Allora non devo più contare.» E smette. Per sempre, almeno finché sei lì.","tr":{"nervi":1},"pe":1},
+   "ko":{"testo":"Gli chiedi chi è. Lui ricomincia a contare, da uno a dieci. Più in fretta. Poi più in fretta ancora.","tr":{"nervi":2}}},
+  {"t":"Andare via senza rispondere","esito":{"testo":"Te ne vai. La voce ti segue lungo il condotto, grata dopo grata, chiedendo della numero sette, sempre più piano.","tr":{"nervi":1}}}]},
+
+{"id":"luo-agroprom-silos","titolo":"Il silos del grano","tono":"guaio","peso":7,"ripeti":96,
+ "se":{"luogo":"Agroprom"},
+ "testo":["Il grano dei silos di Agroprom non è mai stato portato via. Ventisei anni dopo è ancora lì, migliaia di tonnellate, nero e asciutto. Gli stalker dicono che è pieno di cose: armi, zaini, uomini caduti dentro e mai più trovati. Dicono anche che il grano scorre come sabbia mobile, verso il basso, e che a volte, dal fondo, risale qualcosa. Dalla finestrella in alto vedi una cinghia di zaino che spunta dalla superficie."],
+ "scelte":[
+  {"t":"Calarti con una corda","tiro":"forza+resistenza","ok":{"testo":"Ti cali. Il grano ti sale fino alle ginocchia, poi alla vita, poi si ferma. Tiri la cinghia: viene su uno zaino militare, intatto, pieno. Risali con le braccia che bruciano. Dentro: munizioni, una borraccia, una foto di due uomini abbracciati sul Dnipro. Lo zaino era di uno dei due.","oggetto":[{"n":"7,62×39 PS","qta":1},{"n":"Antidolorifici"}],"rubli":800,"pe":1},
+   "ko":{"testo":"Il grano ti prende alla vita e tira. Piano, con insistenza. La corda ti salva, ma ti costa tutta la forza che hai. Esci a mani vuote, e per giorni trovi chicchi neri nelle tasche, nelle scarpe, nella bocca.","tr":{"fatica":3,"nervi":1}}},
+  {"t":"Pescare lo zaino con un gancio","tiro":"intelletto+tecnica","ok":{"testo":"Improvvisi un gancio con del filo di ferro e una cinghia. Al quarto tentativo lo zaino viene su. Il grano, sotto, si richiude come acqua.","oggetto":{"n":"7,62×39 PS","qta":1},"rubli":800,"tempo":40},
+   "ko":{"testo":"Il gancio si impiglia, il filo si spezza, lo zaino sprofonda lentamente. Ti sembra che qualcosa, sotto, l'abbia tirato.","tempo":40,"tr":{"nervi":1}}},
+  {"t":"Lasciar perdere","esito":{"testo":"Te ne vai. Il grano, dentro, fruscia. Come se qualcuno si stesse rigirando nel sonno."}}]},
+
+{"id":"luo-cordone-cimitero","titolo":"Il cimitero dei mezzi","tono":"calmo","peso":6,"ripeti":120,
+ "se":{"luogo":["Cordone","Discarica"],"ore":[10,17],"meteo":["sereno","nuvol"]},
+ "testo":["Elicotteri, camion, ruspe, autobus: il cimitero dei mezzi della liquidazione si stende fino all'orizzonte, ordinato come un esercito che aspetta un ordine. Un vecchio stalker, seduto sulla cabina di un Mi-8, ti fa segno di salire. Da lassù si vede tutto. «Io guidavo questo,» dice, battendo la mano sulla lamiera. «Ottantasei. Abbiamo buttato piombo sul reattore per tre settimane. Poi l'hanno parcheggiato qui. Me, invece, mi hanno mandato a casa.» Ride. «L'elicottero si è preso la dose più grossa. Io sono solo venuto a trovarlo.»"],
+ "scelte":[
+  {"t":"Salire e ascoltarlo","esito":{"testo":"Ti racconta tutto: le maschere che non servivano, la vodka che si diceva servisse, il rumore del rotore sopra la bocca del reattore. Racconta senza rabbia. Alla fine ti regala la sua vecchia mostrina da pilota. «Tienila tu. A me non serve più ricordare. L'elicottero ricorda per tutti e due.»","tempo":60,"pe":1,"tr":{"rad":1,"nervi":-1},"oggetto":{"n":"Mostrina da pilota del 1986","nota":"Regalata da un vecchio liquidatore sul suo elicottero, nel cimitero dei mezzi."}}},
+  {"t":"Chiedergli se ha mai pensato di riportarlo in volo","tiro":"empatia+persuasione","ok":{"testo":"I suoi occhi si accendono. «Ogni giorno,» dice. «Il motore è a posto. Sono le pale che sono storte.» Poi ti guarda di traverso. «Un giorno lo faccio. Vengo qui, lo accendo, e volo sopra la centrale. Una volta sola. Per vedere se il buco si è chiuso.» Non sai se ridere.","pe":1},
+   "ko":{"testo":"«Riportarlo dove?» ti chiede. E non hai una risposta."}},
+  {"t":"Ringraziare e andare","esito":{"testo":"Gli fai un cenno. Lui ti saluta militarmente. Lo vedi ancora, ore dopo, piccolo sulla cabina del suo elicottero, come una sentinella."}}]}
+]}

@@ -1,7 +1,7 @@
 /* ===== Motore delle storie: eventi a condizioni, regista, seguiti ===== */
-const EVP=["eventi/cordone.json","eventi/strada.json","eventi/sud.json","eventi/centro.json","eventi/nord.json"];
+const EVP=["eventi/cordone.json","eventi/strada.json","eventi/sud.json","eventi/centro.json","eventi/nord.json","eventi/vagabondi.json","eventi/luoghi.json","eventi/notti.json"];
 const EVD={list:[],byId:{},ok:false};
-async function evLoad(){try{const r=await fetch("eventi/trama.txt");if(r.ok){const t=(await r.text()).trim().split("").reverse().join("");const j=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))));(j.eventi||[]).forEach(e=>{e.trama=true;e._pack="trama";EVD.list.push(e);EVD.byId[e.id]=e;});EVD.atti=j.atti||[];}}catch(_){}
+async function evLoad(){if(!window.__BUNDLE)try{const r=await fetch("eventi/trama.txt");if(r.ok){const t=(await r.text()).trim().split("").reverse().join("");const j=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0))));(j.eventi||[]).forEach(e=>{e.trama=true;e._pack="trama";EVD.list.push(e);EVD.byId[e.id]=e;});EVD.atti=j.atti||[];}}catch(_){}
   for(const p of EVP){try{const r=await fetch(p);if(!r.ok)continue;const a=await r.json();(a.eventi||a).forEach(e=>{e._pack=p;EVD.list.push(e);EVD.byId[e.id]=e;});}catch(_){}}EVD.ok=true;try{render();}catch(_){}}
 evLoad();
 const evS=()=>{S.ev=S.ev||{};S.ev.flag=S.ev.flag||{};S.ev.visti=S.ev.visti||{};S.ev.coda=S.ev.coda||[];if(!S.ev.auto)S.ev.auto="normale";return S.ev;};
@@ -30,7 +30,7 @@ function evCond(c,ctx){if(!c)return true;const E=evS();
   if(c.traccia){for(const k in c.traccia){const v=+S.tr[k]||0,[a,b]=c.traccia[k];if(v<a||v>b)return false;}}
   return true;}
 function evOk(e,ctx){const E=evS();const v=E.visti[e.id];if(v){if(e.ripeti==="mai"||e.ripeti==null&&e.unico)return false;const cd=(e.ripeti&&+e.ripeti)||24;if(-minTo(v.last)<cd*60)return false;}return evCond(e.se,ctx);}
-const tramaOn=()=>{const o=(S.opz||{}).trama;return o!=null?!!o:/sokolov/i.test(S.pg.sopr||"");};
+const tramaOn=()=>{if(!(EVD.atti&&EVD.atti.length))return false;const o=(S.opz||{}).trama;return o!=null?!!o:/sokolov/i.test(S.pg.sopr||"");};
 function evTrama(ctx={}){if(!tramaOn()||S.ev&&S.ev.fine)return null;return EVD.list.filter(e=>e.trama&&!e.solo_seguito&&!evS().visti[e.id]&&evCond(e.se,ctx)).sort((a,b)=>(a.ordine||0)-(b.ordine||0))[0]||null;}
 function evPick(ctx={}){const tr=evTrama(ctx);if(tr)return tr;const t=+S.tensione||5;const cand=EVD.list.filter(e=>!e.trama&&!e.solo_seguito&&evOk(e,ctx));if(!cand.length)return null;
   const w=e=>(e.peso||10)*(e.tono==="guaio"?(t>=7?1.6:t<=3?.6:1):e.tono==="calmo"?(t>=7?.5:t<=3?1.5:1):1);

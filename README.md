@@ -7,6 +7,9 @@ Il palmare dello stalker per una campagna in solitario nella Zona di esclusione 
 - **Col GM (Claude):** si gioca anche nel PDA dentro claude.ai; si passa da una parte all'altra col file di salvataggio.
 - **Dialoghi liberi coi PNG (facoltativo):** linguetta *Sistema* → modello Claude, GPT o Gemini con la tua chiave API. La chiave resta solo nel browser.
 
+## Sandbox
+Questa versione (PC e telefono) è una **sandbox**: non contiene la trama in tre atti né niente della campagna di Sokolov. Ogni personaggio vive la Zona libera, solo con storie casuali e personaggi che tornano. La campagna con la trama si gioca nel PDA dentro claude.ai.
+
 ## Le storie
 Gli eventi sono in `eventi/*.json`: condizioni (`se`), testo, scelte con tiri a gradini, esiti. Il formato è descritto in `eventi/FORMATO.md`.
 

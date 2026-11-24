@@ -8,13 +8,17 @@ const rapCon=M=>Math.max(...[].concat(M.f).map(f=>+((S.rap||{})[f])||0));
 const inverno=()=>STAG(month())==="inverno"||(month()===11&&+String(S.clock.data).slice(8,10)>=15);
 const INVR=/^Cibo|^Acqua|^Scatolett|^Pane|^Salame|^Tè|^Combustibile|Sacco a pelo|termic|invernal|Guanti|Berretto di lana|^Kit per il fuoco|^Vodka/i;
 function prezzo(x){const M=mercQui();let p=x.p;if(M&&M.ric)p*=M.ric;if(inverno()&&(x.sc==="cibo"||x.sc==="acqua"||x.sc==="comb"||INVR.test(x.n)))p*=1.5;return p===x.p?x.p:Math.round(p/10)*10;}
+/* accordo speciale col Mercante: S.accordo={fino:"AAAA-MM-GG HH:MM",luogo,nota} — finché dura, dove vale si compra tutto tranne i molto rari, senza tetti di P e classe */
+const accordoOn=()=>{const a=S.accordo;if(!a||!a.fino)return false;return `${S.clock.data} ${S.clock.ora}`<a.fino&&S.clock.luogo===(a.luogo||"Cordone");};
 function vendeQui(x){const M=mercQui();if(!M)return {ok:false,why:"qui non c'è un mercante"};const r=rapCon(M);
+  if(accordoOn())return x.r==="MR"?{ok:false,why:"molto raro: neanche con l'accordo"}:{ok:true};
   if(x.r==="MR")return {ok:false,why:"non si compra: bottino o favori"};if(x.r==="R"&&!(r>=8||M.nord))return {ok:false,why:"raro: Rapporto 8 o un mercante del nord"};if(x.r==="NC"&&r<3)return {ok:false,why:`non comune: Rapporto 3 (ora ${r})`};
   const P=+(((x.s||"").match(/\bP(\d)\b/)||[])[1]||0);if(x.c==="munizioni"&&P>M.P)return {ok:false,why:`qui al massimo P${M.P}`};
   const cl=x.c==="armature"?classeOf(x.n):0;if(cl>M.cl)return {ok:false,why:`qui al massimo classe ${M.cl}`};return {ok:true};}
 function cassa(){const z=S.clock.luogo;S.mcassa=S.mcassa||{};const c=S.mcassa[z];if(!c||c.d!==S.clock.data)S.mcassa[z]={d:S.clock.data,n:MCASH[z]||0};return S.mcassa[z];}
 function mercHead(){const M=mercQui();if(!M)return `<p class="small warn" style="margin:4px 0 10px">Qui non c'è un mercante: puoi guardare il listino, ma comprare e vendere si fa dove c'è qualcuno (Cordone, Bar, Yantar, Magazzini, Janiv, Zaton, Valle Oscura).</p>`;
-  return `<p class="small muted" style="margin:4px 0 10px">Qui compri da ${esc(MERC[S.clock.luogo]||"un mercante")}: munizioni fino a P${M.P}, armature fino alla classe ${M.cl}, Rapporto ${rapCon(M)}${M.nord?" (mercante del nord: anche roba rara)":""}${M.ric?", prezzi +20%":""}${inverno()?" · inverno: cibo e roba invernale +50%":""} · oggi ha in cassa ${fmtR(cassa().n)} per comprare da te.</p>`;}
+  const acc=accordoOn()?`<p class="small" style="margin:4px 0 6px;padding:6px 8px;border:1px solid currentColor;border-radius:6px"><b>Accordo col Mercante</b> fino al ${esc(S.accordo.fino)}: ${esc(S.accordo.nota||"")} Niente tetti di P e classe, anche roba non comune e rara (non la molto rara). La merce arriva al bunker il 24 all'alba.</p>`:"";
+  return acc+`<p class="small muted" style="margin:4px 0 10px">Qui compri da ${esc(MERC[S.clock.luogo]||"un mercante")}: munizioni fino a P${M.P}, armature fino alla classe ${M.cl}, Rapporto ${rapCon(M)}${M.nord?" (mercante del nord: anche roba rara)":""}${M.ric?", prezzi +20%":""}${inverno()?" · inverno: cibo e roba invernale +50%":""} · oggi ha in cassa ${fmtR(cassa().n)} per comprare da te.</p>`;}
 
 /* ---------- pulire e riparare ---------- */
 const kitOf=re=>L.inv.find(x=>re.test(x.nome||"")&&mine(x)&&x.dove!=="deposito");
@@ -69,7 +73,7 @@ function vPartita(){const st=S.stat||{};const E=typeof evS==="function"?evS():{}
 Object.assign(XA,{wclean:b=>wClean(b.dataset.k),wfix:b=>wFix(b.dataset.k),stampa:()=>setTimeout(()=>window.print(),50),
   amb:()=>{AMB.on=!AMB.on;LS.set("pda.amb",AMB.on);if(AMB.on){actx();ambLoop();toast("Suoni d'ambiente accesi.");}}});
 window.addEventListener("load",()=>{
-  if(typeof adv==="function"&&!adv._v){const _adv=adv;adv=function(min){const d0=S.clock.data,e0=+S.emiss||0,c0=(S.corpo||[]).filter(w=>w.crit).length;_adv(min);try{if(S.clock.data!==d0)meteoGiorno(d0);if((+S.emiss||0)>=6&&e0<6)stat("emissioni");}catch(e){console.error(e);}};adv._v=1;}
+  if(typeof adv==="function"&&!adv._v){const _adv=adv;adv=function(min){const d0=S.clock.data,e0=+S.emiss||0,c0=(S.corpo||[]).filter(w=>w.crit).length;_adv(min);try{if(S.clock.data!==d0)meteoGiorno(d0);if((+S.emiss||0)>=6&&e0<6){stat("emissioni");try{evS().flag["emissione-passata"]=clk();}catch(_){}}}catch(e){console.error(e);}};adv._v=1;}
   if(typeof hitApply==="function"&&!hitApply._v){const _h=hitApply;hitApply=function(h){const c0=(S.corpo||[]).filter(w=>w.crit).length;const r=_h(h);try{if((S.corpo||[]).filter(w=>w.crit).length>c0)stat("critiche");}catch(_){}return r;};hitApply._v=1;}
   if(typeof vgLeg==="function"&&!vgLeg._v){const _l=vgLeg;vgLeg=function(){const V=S.viaggio;const i0=V&&V.i;const a=V&&V.p[V.i],z=V&&V.p[V.i+1];const k=1+METEOMOD()*.5;_l();try{const V2=S.viaggio;if(a&&z&&(!V2||V2.i!==i0)){const e=edge(a,z);stat("km",e[2]);stat("tratti");if(k>1){adv(Math.round(e[3]*(k-1)*60));(V2||{log:[]}).log&&V2&&V2.log.unshift(`Col tempo (${S.clock.meteo}) ci mettete di più.`);}}}catch(_){}};vgLeg._v=1;}
   if(typeof scStart==="function"&&!scStart._v){const _s=scStart;scStart=function(...a){_s(...a);stat("scontri");};scStart._v=1;}

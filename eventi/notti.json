@@ -1,0 +1,144 @@
+{"pacchetto":"Notti, tempo e voci","eventi":[
+
+{"id":"not-fuoco-parla","titolo":"Il fuoco che parla","tono":"calmo","peso":8,"ripeti":96,
+ "se":{"luogo":"*","ore":[21,4]},
+ "testo":["Il fuoco è basso, le braci arancioni come occhi socchiusi. A un certo punto, tra uno scoppiettio e l'altro, ti sembra di sentire una parola. Poi un'altra. Non è il vento. Il fuoco sta raccontando qualcosa, nella lingua dei legni che bruciano: una storia di inverni, di mani che si scaldavano, di gente che non c'è più. È una sciocchezza. Lo sai. Ma il fuoco aspetta che tu risponda."],
+ "scelte":[
+  {"t":"Raccontargli qualcosa tu","tiro":"empatia+pronto","ok":{"testo":"Gli racconti di casa. Di un cortile, di un cane, di un odore di pane che non sentirai più. Le fiamme si alzano un poco, come per ascoltare meglio. Quando finisci, il fuoco è più caldo di prima, e tu sei più leggero. Nessuno vi ha visti. Nessuno lo saprà mai.","tr":{"nervi":-2,"freddo":-1}},
+   "ko":{"testo":"Non ti viene niente. Le braci si abbassano, deluse. Ti sembra di essere stato maleducato con un ospite. Aggiungi legna per scusarti.","scorte":{"comb":-1}}},
+  {"t":"Ascoltare fino alla fine","tiro":"sf","ok":{"testo":"La storia è lunga. Parla di un villaggio che bruciò nel '43 e di uno che non bruciò nell'86 ma si svuotò lo stesso. Parla di un vecchio che metteva sempre un ciocco in più per i morti. Ti addormenti prima della fine. Ti svegli col fuoco ancora acceso, senza che nessuno l'abbia alimentato.","tr":{"nervi":-1,"fatica":-1},"pe":1},
+   "ko":{"testo":"A metà, il fuoco dice il tuo nome. Lo spegni con la terra. Non dormi più.","tr":{"nervi":2,"fatica":1,"freddo":1}}},
+  {"t":"Spegnere il fuoco e dormire al buio","esito":{"testo":"Lo copri. Il buio è freddo e onesto. Almeno lui non parla.","tr":{"freddo":1}}}]},
+
+{"id":"not-sangue-freddo","titolo":"La voce del Sangue freddo","tono":"calmo","peso":9,"ripeti":72,
+ "se":{"luogo":"*","traccia":{"nervi":[4,6]}},
+ "testo":["Le mani tremano. Il cuore va troppo forte per un uomo che sta seduto. E poi, da qualche parte dietro lo sterno, parla una voce. È la tua. Non quella con cui parli agli altri: quella vecchia, quella che hai usato la prima volta che hai visto un morto e non hai vomitato. «Ascoltami,» dice il Sangue freddo. «Non stai morendo. Stai solo facendo troppo rumore dentro. Respira con me. Uno.»"],
+ "scelte":[
+  {"t":"Respirare con lui","tiro":"sf","ok":{"testo":"Uno. Due. Al quattro il cuore rallenta. Al sei le mani smettono. Al dieci la voce dice: «Bravo. Adesso pulisci l'arma. Le mani hanno bisogno di qualcosa da fare.» Lo fai. È la cosa più calma che tu abbia fatto in settimane.","tr":{"nervi":-3}},
+   "ko":{"testo":"Uno. Due. Al tre ti sfugge una risata che non è tua. La voce sospira. «Va bene. Allora tremiamo insieme. Ma tremiamo seduti, almeno.» Non va meglio. Ma non va peggio.","tr":{"nervi":-1}}},
+  {"t":"Chiedergli perché sei venuto nella Zona","tiro":"intelletto+pronto","ok":{"testo":"Il Sangue freddo tace a lungo. Poi: «Non per i soldi. Per i soldi saresti andato in Polonia a raccogliere fragole. Sei venuto perché qui le cose sono vere. Il pericolo è vero. La fame è vera. Tu, qui, sei vero. Fuori eri un'ipotesi.» Non ti piace la risposta. Ma la riconosci.","pe":2,"tr":{"nervi":-1}},
+   "ko":{"testo":"«Questa non è la domanda giusta per stanotte,» dice. «Chiedimela quando le mani sono ferme.»"}},
+  {"t":"Zittirlo con la vodka","se":{"oggetto":"Vodka"},"esito":{"testo":"La voce si fa lontana, poi smette. Il silenzio dentro è peggio del rumore, ma è un peggio che conosci. Dormi male, e al mattino il Sangue freddo non ti saluta.","togli":"Vodka","tr":{"nervi":-2,"rad":-1,"fatica":1}}}]},
+
+{"id":"not-fame-festa","titolo":"Il banchetto","tono":"calmo","peso":9,"ripeti":48,
+ "se":{"luogo":"*","traccia":{"fame":[3,6]}},
+ "testo":["Lo senti prima di vederlo: odore di aneto, di patate al burro, di salò affumicato. Dietro una casa crollata c'è una tavola apparecchiata. Tovaglia ricamata, piatti di ceramica, una bottiglia di samogon con un cetriolo dentro. Le sedie sono spostate indietro, come se i commensali si fossero alzati un minuto fa. Il cibo fuma. Lo stomaco ti si stringe come un pugno."],
+ "scelte":[
+  {"t":"Sederti e mangiare","tiro":"intelletto+sopravvivenza","ok":{"testo":"Prima di sederti, guardi meglio. I piatti non hanno ombra. Il fumo sale dritto, perfettamente dritto, anche se c'è vento. Ti allontani lentamente, senza voltare le spalle alla tavola. Quando sei a cento metri, ti volti. Non c'è nessuna casa. Hai ancora fame. Ma hai ancora anche tutto il resto.","pe":2,"tr":{"nervi":1}},
+   "ko":{"testo":"Mangi. È buonissimo. È il pasto più buono della tua vita. Ti svegli ore dopo con la bocca piena di terra e di foglie marce, e uno stomaco che non smette di contorcersi.","tr":{"fame":-1,"fatica":2,"rad":2,"nervi":2},"tempo":180}},
+  {"t":"Prendere solo il cetriolo dalla bottiglia","esito":{"testo":"Infili la mano nel collo della bottiglia. Il cetriolo è vero: freddo, croccante, salatissimo. Te lo mangi camminando. La tavola, dietro di te, si sbriciola senza un suono, come cenere vecchia. Il cetriolo resta vero. Non sai cosa pensare.","tr":{"fame":-1,"nervi":1}}},
+  {"t":"Tirare dritto","tiro":"sf","ok":{"testo":"Passi oltre. L'odore ti segue per un chilometro, poi si stacca come una zecca sazia.","tr":{"nervi":-1}},
+   "ko":{"testo":"Passi oltre, ma l'odore ti resta addosso per ore. Ti fa male anche pensare.","tr":{"nervi":1,"fame":1}}}]},
+
+{"id":"not-stelle-sbagliate","titolo":"Le stelle sbagliate","tono":"calmo","peso":7,"ripeti":96,
+ "se":{"luogo":["Yantar","Radar","Foresta Rossa","Pripjat'","La centrale","Janiv e Jupiter","Zaton"],"ore":[22,4],"meteo":["sereno"]},
+ "testo":["Il cielo è limpido per la prima volta da giorni. Ti sdrai sulla schiena, il fucile sul petto. Cerchi l'Orsa Maggiore, per abitudine, per sentirti a casa. C'è. Ma ha una stella in più. Una piccola, rossa, vicino alla coda. Non c'era ieri. Non c'è mai stata. E sta pulsando, lentamente, al ritmo di un cuore che riposa."],
+ "scelte":[
+  {"t":"Osservarla col binocolo","se":{"oggetto":"Binocolo"},"tiro":"intelletto+ricognizione","ok":{"testo":"Nel binocolo la stella non è un punto. È un disegno: un cerchio, e dentro un cerchio più piccolo, e dentro un altro. Come un bersaglio. Come un occhio. Abbassi il binocolo. Quando lo rialzi, l'Orsa Maggiore ha le sue sette stelle, come sempre. Scrivi la data nel PDA. Non sai perché.","pe":2,"tr":{"nervi":1}},
+   "ko":{"testo":"Le lenti si appannano. Quando le pulisci, la stella è sparita, e con lei un'ora di tempo che non ricordi.","tempo":60,"tr":{"nervi":1}}},
+  {"t":"Esprimere un desiderio","esito":{"testo":"Lo fai, come un bambino. Non lo dici neanche a te stesso. La stella pulsa una volta più forte, poi si spegne. Forse ti ha sentito. Forse era solo un satellite. Dormi bene.","tr":{"nervi":-2,"fatica":-1}}},
+  {"t":"Voltarti su un fianco","esito":{"testo":"Ti giri. Non è affar tuo cosa fa il cielo. Ma per tutta la notte senti la stella sulla nuca, come uno sguardo."}}]},
+
+{"id":"not-nebbia","titolo":"Voci nella nebbia","tono":"guaio","peso":10,"ripeti":48,
+ "se":{"luogo":"*","meteo":["nebbia"]},
+ "testo":["La nebbia è così fitta che vedi la canna del fucile, ma non il mirino. I suoni arrivano da tutte le parti e da nessuna. Poi, a sinistra, una voce che conosci. Un amico. Uno che è morto. Ti chiama piano, con il suo modo di dire il tuo nome, con quella erre sbagliata. «Di qua. Di qua, è sicuro. Vieni.»"],
+ "scelte":[
+  {"t":"Seguire la voce","tiro":"sf","ok":{"testo":"Fai tre passi, poi ti fermi. Il tuo amico non avrebbe mai detto «è sicuro». Diceva sempre «non è peggio». Torni indietro sulle tue impronte. La voce, dietro, ripete: «Di qua.» Poi, piano, con un'altra voce: «Peccato.»","pe":2,"tr":{"nervi":2}},
+   "ko":{"testo":"La segui. Dieci passi, venti. La voce è sempre davanti. Al trentesimo passo il terreno sotto di te smette di esserci. Ti afferri a una radice. Sotto, la nebbia ribolle. Risali. La voce ride, con la risata del tuo amico, e questo è il peggio di tutto.","colpo":{"D":2,"P":0},"tr":{"nervi":3}}},
+  {"t":"Rispondergli","tiro":"empatia+pronto","ok":{"testo":"Gli dici che ti manca. Che ti dispiace. Che non lo seguirai. La nebbia tace. Poi, piano, la voce dice: «Lo so. Era una prova. Vai a destra.» Vai a destra. La nebbia si apre su un sentiero pulito. Non sai cosa fosse. Sai che non era cattivo. Non del tutto.","pe":2,"tr":{"nervi":-1}},
+   "ko":{"testo":"Gli parli, e la voce ti risponde con le tue stesse parole, una frazione di secondo prima che tu le dica. Smetti. Lei continua.","tr":{"nervi":2}}},
+  {"t":"Tapparti le orecchie e aspettare","esito":{"testo":"Ti siedi, le mani sulle orecchie, e conti. Al duecento la nebbia si alza. Sei a un metro dal bordo di un fosso pieno di qualcosa che bolle.","tempo":60,"tr":{"nervi":1}}}]},
+
+{"id":"not-pioggia-aghi","titolo":"La pioggia d'argento","tono":"guaio","peso":9,"ripeti":48,
+ "se":{"luogo":"*","meteo":["pioggia","temporale"]},
+ "testo":["La pioggia cambia. Non più grigia: argento. Le gocce cadono più lente di quanto dovrebbero, e dove toccano le foglie lasciano piccoli segni lucidi, come di stagno fuso. Il contatore, se ce l'hai, comincia a ticchettare come un orologio impazzito. Il riparo più vicino è una fermata dell'autobus col tetto di lamiera bucato."],
+ "scelte":[
+  {"t":"Correre sotto la pensilina","tiro":"agilita+mobilita","ok":{"testo":"Arrivi asciutto, o quasi. Sotto la pensilina, per terra, i fori nel tetto disegnano sul cemento una costellazione di puntini d'argento. Aspetti. Dopo mezz'ora la pioggia torna grigia, normale, quasi affettuosa.","tempo":30,"tr":{"rad":1}},
+   "ko":{"testo":"Scivoli nel fango. Ti rialzi con il colletto pieno d'argento. Brucia. Non molto. Abbastanza.","tr":{"rad":2,"ferite":1},"tempo":30}},
+  {"t":"Coprirti con la mantella e continuare","se":{"oggetto":"Mantella"},"esito":{"testo":"Continui sotto la mantella. La pioggia ci batte sopra con un suono di monetine. Quando la togli, la stoffa è costellata di macchie lucide. Ma tu sei a posto. Quasi.","tr":{"rad":1}}},
+  {"t":"Raccogliere un po' di gocce in una boccetta","tiro":"intelletto+tecnica","ok":{"testo":"Ne raccogli un dito, in una fiala. Agli scienziati di Yantar interesserà. Quando la pioggia finisce, la fiala è ancora piena, e ancora lucida, e pesa più di quanto dovrebbe.","tr":{"rad":1},"oggetto":{"n":"Fiala di pioggia d'argento","nota":"Raccolta durante una pioggia anomala. Agli scienziati interessa."},"pe":1},
+   "ko":{"testo":"La fiala si scalda in mano e si incrina. La butti appena in tempo.","tr":{"rad":2}}}]},
+
+{"id":"not-neve-anomalie","titolo":"La neve che non cade","tono":"calmo","peso":9,"ripeti":72,
+ "se":{"luogo":"*","meteo":["neve","nevicata"]},
+ "testo":["Nevica, finalmente: neve vera, grossa, morbida, che copre la ruggine e le ossa e i crateri. La Zona sembra quasi bella. Poi vedi il cerchio. Un cerchio di quattro metri dove la neve non cade. Si ferma a mezz'aria, sospesa, i fiocchi immobili come in una fotografia. Dentro, sull'erba asciutta, c'è qualcosa di lucido."],
+ "scelte":[
+  {"t":"Entrare nel cerchio","tiro":"intelletto+ricognizione","spec":"Mano del bullone","ok":{"testo":"Lanci un bullone: attraversa i fiocchi sospesi lasciando un tunnel perfetto. Ci passi dentro, piegato. L'aria è ferma e calda come un abbraccio. Raccogli la cosa lucida. Uscendo, i fiocchi che hai toccato riprendono a cadere, uno per uno, come se li avessi svegliati.","oggetto":{"n":"Artefatto: Fiocco di neve","nota":"Trovato in un cerchio dove la neve non cadeva."},"pe":1},
+   "ko":{"testo":"Fai un passo dentro e il tempo si ferma anche per te. Un secondo. Un minuto. Un'ora? Quando esci, sei coperto di neve fino alle spalle, e il cerchio è sparito.","tr":{"freddo":2,"fatica":1},"tempo":120}},
+  {"t":"Guardare la neve sospesa","esito":{"testo":"Resti a guardarla. I fiocchi sospesi hanno forme che non hai mai visto: stelle a sette punte, spirali, uno che sembra una lettera dell'alfabeto cirillico. Ti si ghiacciano i piedi. Ne vale la pena.","tr":{"nervi":-2,"freddo":1}}},
+  {"t":"Tirare dritto, prima che faccia buio","esito":{"testo":"Ti volti a guardarlo un'ultima volta, da lontano. Il cerchio è una moneta d'erba verde in mezzo al bianco. Tra un'ora sarà sepolto. O forse no."}}]},
+
+{"id":"not-dopo-emissione","titolo":"Il cielo dopo l'Emissione","tono":"calmo","peso":12,"ripeti":48,
+ "se":{"luogo":"*","emiss":[0,1],"flag":"emissione-passata"},
+ "testo":["Dopo l'Emissione la Zona è nuova. L'aria sa di ozono e di ferro. Gli uccelli non cantano, poi cominciano tutti insieme. Gli stalker escono dai rifugi strizzando gli occhi, come gente che esce da un cinema. Qualcuno ride per niente. Le anomalie si sono spostate. Gli artefatti sono nati. È l'ora in cui tutti sono più ricchi e più stupidi."],
+ "scelte":[
+  {"t":"Uscire subito a cercare","tiro":"intelletto+ricognizione","ok":{"testo":"Sei il primo. A duecento metri dal rifugio, dove ieri c'era un prato, c'è un cratere che brilla debolmente. Dentro, un artefatto appena nato, ancora tiepido come un uovo.","oggetto":{"n":"Artefatto: Batteria","nota":"Nato dopo l'Emissione, raccolto quando era ancora tiepido."},"noflag":"emissione-passata"},
+   "ko":{"testo":"Sei il primo, ed è un errore. Le anomalie nuove non le conosce nessuno. Una ti morde la caviglia con un dolore bianco e senza suono. Torni zoppicando. Gli altri escono dopo di te, con calma.","colpo":{"D":1,"P":0},"noflag":"emissione-passata"}},
+  {"t":"Aspettare che escano gli altri","esito":{"testo":"Li guardi andare. Ne torneranno meno di quanti ne sono usciti. Lo sai tu, lo sanno loro. Tu intanto fumi e guardi il cielo, che ha un colore di pesca che non vedrai da nessun'altra parte.","tr":{"nervi":-1},"noflag":"emissione-passata"}}]},
+
+{"id":"not-nome-precede","titolo":"Il tuo nome ti precede","tono":"calmo","peso":8,"ripeti":96,
+ "se":{"luogo":["Cordone","Bar e Rostok","Yantar","Magazzini dell'esercito","Discarica"],"nome":5},
+ "testo":["Due novellini, al fuoco, stanno raccontando una storia. Ci metti un po' a capire che parlano di te. È una storia che conosci, ma non così: nella loro versione eri da solo, non c'era nebbia, hai sparato tre colpi e non dodici, e alla fine hai detto una frase che non hai mai detto. È una bella frase. Molto meglio di quello che hai detto davvero."],
+ "scelte":[
+  {"t":"Correggerli","tiro":"empatia+persuasione","ok":{"testo":"Li correggi. Racconti come è andata: la paura, gli errori, la fortuna. Si guardano delusi. Poi uno dice: «Quindi anche tu avevi paura?» E nei suoi occhi vedi qualcosa di più utile dell'ammirazione: il permesso di averne anche lui.","nome":1,"pe":1},
+   "ko":{"testo":"Li correggi, ma non ti credono. «Sì, sì,» dice uno. «Anche il vero {io} direbbe così. È modesto.» Ti arrendi. La leggenda ha vinto.","nome":1}},
+  {"t":"Lasciarli fare","esito":{"testo":"Ti siedi in disparte e ascolti la tua storia, la tua storia migliorata, la tua storia di un uomo che non sei. Ti piacerebbe conoscerlo, quell'uomo.","tr":{"nervi":-1}}},
+  {"t":"Farti riconoscere","esito":{"testo":"Ti avvicini al fuoco. Ci mettono un attimo. Poi uno si alza in piedi, l'altro rovescia il tè. Per tutta la sera ti offrono da bere e ti fanno domande. Ti senti un truffatore. Ma bevi.","nome":1,"tr":{"nervi":-1,"fame":-1}}}]},
+
+{"id":"not-ricco","titolo":"Chi conta i tuoi soldi","tono":"guaio","peso":7,"ripeti":96,
+ "se":{"luogo":["Cordone","Discarica","Valle Oscura","Agroprom"],"rubli":20000},
+ "testo":["Un uomo magro con un cappotto troppo largo ti si affianca sul sentiero, cammina con te come un vecchio amico. «{io}, giusto? Al Bar dicono che sei carico. Dicono che dormi con lo zaino sotto la testa.» Sorride. Ha dei denti d'oro. «Non è una minaccia. È un consiglio. Ci sono tre uomini dietro la collina che non sono così educati. Per duemila ti dico da che parte arrivano.»"],
+ "scelte":[
+  {"t":"Pagare il consiglio","se":{"rubli":2000},"esito":{"testo":"Paghi. Ti indica un sentiero. Lo prendi. Dalla collina, più tardi, vedi tre uomini seduti ad aspettare dall'altra parte. Il magro, accanto a loro, ti saluta con la mano. Era una tassa, non un consiglio. Ma era una tassa onesta.","rubli":-2000,"tr":{"nervi":1}}},
+  {"t":"Capire se mente","tiro":"empatia+pronto","ok":{"testo":"Gli guardi le mani, le scarpe, la direzione in cui non guarda mai. Gli dici: «Non ci sono tre uomini. Ci sei tu, e ti piacerebbe che ci fossero.» Ride, sinceramente divertito. Ti stringe la mano e sparisce tra gli alberi. Per due giorni nessuno ti segue. Poi ti viene il dubbio.","pe":1},
+   "ko":{"testo":"Non riesci a capire. Ti fidi del tuo istinto, che oggi è stanco. Più avanti, sulla collina, un colpo fischia sopra la testa. Erano due, non tre. Il magro aveva arrotondato.","allerta":2,"tr":{"nervi":2}}},
+  {"t":"Mostrare l'arma","tiro":"sf","ok":{"testo":"Gli fai vedere la canna, senza puntarla. Lui la guarda come si guarda un argomento ben costruito. «D'accordo,» dice. «Allora non ci siamo mai visti.» Se ne va. Dietro la collina, nessuno.","nome":1},
+   "ko":{"testo":"Lui sorride più largo e fischia. Dalla collina, qualcuno risponde col fischio. Ti butti a terra.","allerta":3,"tr":{"nervi":2}}}]},
+
+{"id":"not-ferito-buio","titolo":"Il medico che non c'è","tono":"calmo","peso":10,"ripeti":48,
+ "se":{"luogo":"*","traccia":{"ferite":[3,6]},"ore":[20,6]},
+ "testo":["La ferita pulsa con un suo ritmo, che non è quello del cuore. Hai la febbre. Al confine della luce del fuoco, seduto su un ceppo, c'è un uomo con un camice da medico di campagna, gli occhiali tondi, una borsa di cuoio. Fuma. «Non sono qui,» dice. «Lo sai. Sono la parte di te che ha fatto il corso di primo soccorso nell'esercito e si ricorda tutto. Mi ascolti, stavolta?»"],
+ "scelte":[
+  {"t":"Ascoltare il medico","tiro":"intelletto+sopravvivenza","ok":{"testo":"Ti dice cosa fare, passo per passo: pulire, stringere, tenere la gamba più alta del cuore, bere, non dormire per un'altra ora. Lo fai. All'alba la febbre è scesa. Il ceppo è vuoto. C'è un mozzicone di sigaretta per terra. Non fumi quella marca.","tr":{"ferite":-1,"fatica":1},"pe":1},
+   "ko":{"testo":"Ti dice cose che non capisci. Parole latine. Poi si spazientisce e se ne va. Passi la notte a lottare con la febbre, da solo, come si fa.","tr":{"fatica":2,"nervi":1}}},
+  {"t":"Chiedergli se morirai","esito":{"testo":"Aspira il fumo. «Non stanotte,» dice. «Non di questo. Ma un giorno sì, e allora io non verrò. Verrà qualcun altro. Più gentile di me, spero.» Poi sparisce, e stranamente ti senti meglio.","tr":{"nervi":-1}}},
+  {"t":"Dirgli di andarsene","esito":{"testo":"Alza le spalle. «Come vuoi. Sei tu il paziente.» Quando si alza, il ceppo cigola, e questo è strano, per uno che non c'è.","tr":{"nervi":1}}}]},
+
+{"id":"not-morto-ora","titolo":"Il morto che chiede l'ora","tono":"guaio","peso":6,"ripeti":96,
+ "se":{"luogo":["Discarica","Agroprom","Valle Oscura","Yantar","Foresta Rossa","Pripjat'","Zaton","Janiv e Jupiter"],"ore":[23,5]},
+ "testo":["Uno stalker si avvicina al tuo bivacco dall'oscurità. Cammina normalmente. Ha la tuta strappata, la faccia grigia, e nel petto, all'altezza del cuore, un buco pulito che lascia vedere il fuoco dall'altra parte. Si ferma a tre metri. Ti chiede, con molta educazione: «Scusa. Che ore sono? Devo essere al Bar per mezzanotte. Mi aspettano.»"],
+ "scelte":[
+  {"t":"Dirgli l'ora","esito":{"testo":"Gli dici l'ora. Lui annuisce, preoccupato. «Ah. È tardi. È molto tardi.» Ti ringrazia, si volta e cammina verso nord. Lo guardi finché il buio non se lo riprende. Al Bar, giorni dopo, chiedi di uno stalker con la tuta così e così. Il Barman ti versa da bere senza farti pagare. «Era l'anno scorso,» dice. «Lo aspettavamo a mezzanotte.»","tr":{"nervi":2},"pe":1}},
+  {"t":"Dirgli che è morto","tiro":"empatia+persuasione","ok":{"testo":"Glielo dici, con tutta la gentilezza che hai. Lui si guarda il petto. Sembra notare il buco per la prima volta. «Oh,» dice. Poi: «Allora non devo più correre.» Si siede accanto al tuo fuoco, si scalda le mani che non sentono più niente, e quando ti svegli non c'è più. Ha lasciato un pacchetto di sigarette, per ringraziare.","oggetto":"Sigarette","tr":{"nervi":-1},"pe":2},
+   "ko":{"testo":"Glielo dici. Lui non capisce. Si arrabbia. Ti dice che sei un bugiardo, che tutti gli stalker sono bugiardi, e se ne va urlando nella notte. Lo senti urlare per molto tempo.","tr":{"nervi":3}}},
+  {"t":"Puntargli l'arma","tiro":"sf","ok":{"testo":"Lui guarda l'arma senza paura. «Non serve,» dice. «Davvero. Ma va bene. Capisco.» Se ne va con le mani alzate, come un uomo vivo.","tr":{"nervi":1}},
+   "ko":{"testo":"Il dito si contrae da solo. Il colpo passa nel buco del suo petto senza toccarlo. Lui ti guarda deluso. Tutta la Zona ha sentito lo sparo.","allerta":2,"tr":{"nervi":2}}}]},
+
+{"id":"not-alba-cordone","titolo":"L'alba sul villaggio","tono":"calmo","peso":7,"ripeti":72,
+ "se":{"luogo":"Cordone","ore":[5,8]},
+ "testo":["L'alba arriva lenta sul villaggio degli stalker. Qualcuno ha già acceso il fuoco. Un vecchio fa la barba guardandosi in un pezzo di specchio appeso a un chiodo. Due ragazzi giocano a carte su una cassa di munizioni, svegli dalla sera prima. Da una cantina sale l'odore del tè col timo. Per un momento, solo per un momento, sembra un villaggio vero, di quelli dove la gente nasce e muore nel suo letto."],
+ "scelte":[
+  {"t":"Unirti alla partita a carte","tiro":"intelletto+persuasione","ok":{"testo":"Giocate a durak finché il sole è alto. Vinci. I ragazzi pagano senza protestare e ti raccontano tutte le voci della settimana: chi è morto, chi ha trovato cosa, dove si spara.","rubli":400,"pe":1,"tempo":90},
+   "ko":{"testo":"Perdi. Il durak sei tu. Ti mettono le carte sulle spalle come spalline, ridendo. È la prima volta che ridi da giorni.","rubli":-300,"tr":{"nervi":-2},"tempo":90}},
+  {"t":"Bere il tè col vecchio","esito":{"testo":"Il vecchio finisce la barba, si asciuga e ti versa il tè senza chiedere. Non parlate. Il tè è bollente, amaro, buono. Quando hai finito, lui dice soltanto: «Torna.» Non è un saluto. È una richiesta.","tr":{"nervi":-2,"freddo":-1},"tempo":30}},
+  {"t":"Partire subito","esito":{"testo":"Parti col sole basso alle spalle. La tua ombra è lunghissima davanti a te, come una persona che conosce già la strada."}}]},
+
+{"id":"not-radio-notte","titolo":"La radio di mezzanotte","tono":"calmo","peso":7,"ripeti":72,
+ "se":{"luogo":"*","ore":[23,2],"oggetto":"Ricevitore radio"},
+ "testo":["Giri la manopola tra le frequenze. Fruscio, i militari che si annoiano, un bandito che canta. Poi, su una frequenza dove non c'è mai niente, una voce calma, maschile, da annunciatore d'altri tempi, legge l'elenco delle previsioni marittime. Mare del Nord, Baltico, Mar Nero. Venti, onde, visibilità. Nessuno dovrebbe trasmettere questo, qui, a mezzanotte. È la cosa più rassicurante che tu abbia sentito da mesi."],
+ "scelte":[
+  {"t":"Ascoltare fino alla fine","esito":{"testo":"Ascolti tutto. Le previsioni finiscono con il Mare d'Azov: calmo, visibilità buona. Poi un segnale orario, e silenzio. Ti addormenti cullato da un mare che non vedrai mai.","tr":{"nervi":-2,"fatica":-1}}},
+  {"t":"Cercare di triangolare il segnale","tiro":"intelletto+tecnica","ok":{"testo":"Muovi l'antenna. Il segnale è più forte verso nord. Verso la centrale. La voce, per un istante, si interrompe a metà di una parola, come se si fosse accorta che qualcuno ascoltava. Poi riprende, un po' più veloce.","pe":2,"tr":{"nervi":1}},
+   "ko":{"testo":"Il segnale sfugge. Quando torni sulla frequenza c'è solo fruscio. Ma nel fruscio, ogni tanto, ti sembra di sentire il mare.","tr":{"nervi":-1}}},
+  {"t":"Spegnere","esito":{"testo":"Spegni per risparmiare le pile. Il silenzio dopo è più vuoto di prima."}}]},
+
+{"id":"not-tormenta","titolo":"Ospiti della tormenta","tono":"guaio","peso":10,"ripeti":48,
+ "se":{"luogo":"*","meteo":["tormenta"]},
+ "testo":["La tormenta ti spinge dentro una cascina con mezzo tetto. Non sei solo. Dentro ci sono tre uomini attorno a una stufetta: un mercenario con la tuta grigia, un ragazzo del Dovere, uno della Libertà con le treccine incrostate di ghiaccio. In qualunque altro posto si sparerebbero. Qui si guardano come fratelli che si odiano a un funerale. C'è posto per uno, vicino alla stufa."],
+ "scelte":[
+  {"t":"Sederti e proporre una tregua fino all'alba","tiro":"empatia+comando","ok":{"testo":"Parli piano, come si parla a dei cani nervosi. La tregua regge. A mezzanotte il mercenario tira fuori una bottiglia. All'una il Dovere e la Libertà discutono di filosofia. Alle due ridono. All'alba si separano senza salutarsi, ma ognuno, uscendo, ti fa un cenno. Hai fatto una cosa rara: una notte di pace.","rap":{"Dovere":1,"Libertà":1,"Mercenari":1},"nome":1,"tr":{"freddo":-2},"tempo":360},
+   "ko":{"testo":"Parli, ma nessuno ascolta. All'una scoppia una lite. Il mercenario esce nella tormenta piuttosto che restare. Il Dovere e la Libertà passano la notte con la mano sulla pistola. Tu anche. Non dorme nessuno.","tr":{"fatica":2,"nervi":2,"freddo":-1},"tempo":360}},
+  {"t":"Sederti in silenzio","tiro":"sf","ok":{"testo":"Non dici niente. Nessuno dice niente. È il silenzio più carico che tu abbia mai sentito, e ci dormi dentro come in un sacco a pelo. All'alba sono andati tutti. Sulla stufa, qualcuno ti ha lasciato una scatoletta.","scorte":{"cibo":1},"tr":{"freddo":-2,"fatica":-1},"tempo":360},
+   "ko":{"testo":"Ti siedi, ma non riesci a chiudere gli occhi. Alla fine del turno di veglia che nessuno ha organizzato, sei più stanco di quando sei entrato.","tr":{"freddo":-1,"fatica":1},"tempo":360}},
+  {"t":"Tornare fuori nella tormenta","esito":{"testo":"Preferisci il vento agli uomini. Il vento, almeno, non ha fazioni. Trovi riparo in un fosso. Sarà una notte lunga.","tr":{"freddo":2,"fatica":1}}}]}
+]}
