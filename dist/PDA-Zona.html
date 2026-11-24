@@ -983,7 +983,7 @@ function xSistemaPane(){const o=xOpz();return `<section class="pane"><h2>Diffico
   <div class="lbl">Economia</div><div class="chips">${[["facile","Facile (−15%)"],["normale","Normale"],["dura","Dura (+25%)"]].map(([k,n])=>`<button class="chip" data-x="xeco" data-k="${k}" aria-pressed="${o.eco===k}">${n}</button>`).join("")}</div>
   <div class="lbl">Morte</div><div class="chips">${[["normale","Come da regole"],["clemente","Clemente: un colpo mortale diventa «morente»"]].map(([k,n])=>`<button class="chip" data-x="xmorte" data-k="${k}" aria-pressed="${o.morte===k}">${n}</button>`).join("")}</div>
   ${(EVD.atti&&EVD.atti.length)?`<div class="lbl">Trama in tre atti</div><div class="chips"><button class="chip" data-x="xtrama" data-k="1" aria-pressed="${tramaOn()}">Accesa</button><button class="chip" data-x="xtrama" data-k="0" aria-pressed="${!tramaOn()}">Spenta: solo storie casuali</button></div><p class="small muted" style="margin:2px 0 6px">La trama è scritta per Sokolov: con un altro personaggio resta spenta, così non ti rovini la storia.</p>`:`<div class="lbl">Zona libera</div><p class="small muted" style="margin:2px 0 6px">Questa è la versione sandbox: nessuna trama, solo la Zona che vive da sola. Storie casuali e personaggi che tornano.</p>`}
-  <div class="lbl">Schermo</div><div class="chips"><button class="chip" data-crt="0" aria-pressed="${!document.documentElement.classList.contains("crt")}">Normale</button><button class="chip" data-crt="1" aria-pressed="${document.documentElement.classList.contains("crt")}">Catodico</button></div><div class="lbl">Colori</div><div class="chips">${[["","Oliva (originale)"],["ambra","Ambra"],["carta","Carta e ruggine"],["grigio","Grigio militare"],["rosso","Visione notturna"],["ghiaccio","Ghiaccio"],["monolite","Monolite"]].map(([k,n])=>`<button class="chip" data-x="xpal" data-k="${k}" aria-pressed="${(LS.get("pda.pal")||"")===k}">${n}</button>`).join("")}</div>
+  ${typeof volHtml==="function"?volHtml():""}<div class="lbl">Schermo</div><div class="chips"><button class="chip" data-crt="0" aria-pressed="${!document.documentElement.classList.contains("crt")}">Normale</button><button class="chip" data-crt="1" aria-pressed="${document.documentElement.classList.contains("crt")}">Catodico</button></div><div class="lbl">Colori</div><div class="chips">${[["","Oliva (originale)"],["ambra","Ambra"],["carta","Carta e ruggine"],["grigio","Grigio militare"],["rosso","Visione notturna"],["ghiaccio","Ghiaccio"],["monolite","Monolite"]].map(([k,n])=>`<button class="chip" data-x="xpal" data-k="${k}" aria-pressed="${(LS.get("pda.pal")||"")===k}">${n}</button>`).join("")}</div>
   <div class="lbl">Schermo</div><div class="chips">${[["","Automatico (come il telefono)"],["light","Giorno"],["dark","Notte"]].map(([k,n])=>`<button class="chip" data-x="xtema" data-k="${k}" aria-pressed="${(LS.get("pda.theme")||"")===k}">${n}</button>`).join("")}</div>
   <p class="small muted">Quante storie escono si regola in Storie («Il regista»). Caratteri più grandi: il bottone A+ in alto.</p></section>`;}
 
@@ -4001,7 +4001,7 @@ SFX.accendi=()=>{noise(.35,{f:1800,q:.4,vol:.06});tone(15000,.6,{type:"sine",vol
 (function hk(){if(typeof render!=="function"||typeof evShow!=="function"){setTimeout(hk,300);return;}if(render._crt)return;
   let last=null;const _r=render;render=function(){const k=(ui.tab||"")+"/"+(ui.pdaTab||"")+"/"+(ui.dsub||"");if(last!==null&&k!==last&&crtOn())sfx("tv");last=k;return _r.apply(this,arguments);};render._crt=1;
   const _e=evShow;evShow=function(e,f){const r=_e.apply(this,arguments);if(r!==false&&crtOn())sfx("tv");return r;};for(const k in _e)evShow[k]=_e[k];
-  (function amb(){setTimeout(()=>{if(crtOn()&&!document.hidden)sfx("crack");amb();},25000+Math.random()*50000);})();})();
+  (function amb(){setTimeout(()=>{if(crtOn()&&!document.hidden&&(typeof AMBF!=="number"||AMBF>0))sfx("crack");amb();},25000+Math.random()*50000);})();})();
 document.addEventListener("click",e=>{const b=e.target.closest('[data-crt="1"]');if(b)setTimeout(()=>sfx("accendi"),50);});
 /* suoni più forti e più veri, e rumori d'ambiente del PDA */
 Object.assign(SFX,{
@@ -4016,8 +4016,16 @@ Object.assign(SFX,{
   /* il PDA perde e ritrova la rete */
   riconn:()=>{noise(.25,{f:900,q:.6,vol:.07});tone(1200,.05,{vol:.05,at:.3});tone(2100,.05,{vol:.05,at:.36});tone(1200,.05,{vol:.05,at:.42});tone(2400,.08,{vol:.045,at:.5});
     for(let i=0;i<6;i++)tone(1400+Math.random()*1400,.025,{vol:.03,at:.62+i*.035});noise(.015,{ft:"highpass",f:4000,vol:.1,at:.9});tone(1760,.06,{type:"sine",vol:.05,at:.95});}});
-(function amb(){setTimeout(()=>{try{if(SND.on&&!document.hidden&&!ui.ev){const r=Math.random();const per=+perOf(S.clock.luogo)||1;
-  if(r<.55)sfx("tick",1+Math.floor(Math.random()*(per+1)));else if(r<.75)sfx("riconn");else if(crtOn())sfx("crack");}}catch(_){}amb();},20000+Math.random()*40000);})();
+(function amb(){setTimeout(()=>{try{if(SND.on&&AMBF>0&&!document.hidden&&!ui.ev){const r=Math.random();const per=+perOf(S.clock.luogo)||1;
+  if(r<.55)sfx("tick",1+Math.floor(Math.random()*(per+1)));else if(r<.75)sfx("riconn");else if(crtOn())sfx("crack");}}catch(_){}amb();},(20000+Math.random()*40000)/Math.max(.5,typeof AMBF==="number"?AMBF:1));})();
+/* volume generale e frequenza dei rumori di fondo */
+var VOL=1,AMBF=1;try{VOL=+(localStorage.getItem("pda.vol")??1);AMBF=+(localStorage.getItem("pda.amb")??1);}catch(_){}
+(function(){const _t=tone,_n=noise;tone=function(f,d,o={}){if(VOL<=0)return;return _t(f,d,{...o,vol:Math.max(.0002,(o.vol||.05)*VOL)});};noise=function(d,o={}){if(VOL<=0)return;return _n(d,{...o,vol:Math.max(.0002,(o.vol||.08)*VOL)});};})();
+function volHtml(){return `<div class="lbl">Volume <b class="num">${Math.round(VOL*100)}%</b></div><input type="range" min="0" max="200" step="10" value="${Math.round(VOL*100)}" data-vol="1" style="width:100%">
+<div class="lbl">Rumori di fondo (Geiger, rete, schermo)</div><div class="chips">${[[0,"Spenti"],[.5,"Rari"],[1,"Normali"],[2,"Spessi"]].map(([v,n])=>`<button class="chip" data-amb="${v}" aria-pressed="${AMBF===v}">${n}</button>`).join("")}</div>`;}
+document.addEventListener("input",e=>{const r=e.target.closest("[data-vol]");if(!r)return;VOL=+r.value/100;try{localStorage.setItem("pda.vol",VOL);}catch(_){}const l=r.previousElementSibling&&r.previousElementSibling.querySelector("b");if(l)l.textContent=Math.round(VOL*100)+"%";});
+document.addEventListener("change",e=>{if(e.target.closest("[data-vol]"))sfx("beep");});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-amb]");if(!b)return;e.stopImmediatePropagation();AMBF=+b.dataset.amb;try{localStorage.setItem("pda.amb",AMBF);}catch(_){}if(AMBF>0)sfx("tick",3);render();},true);
 </script>
 </body>
 </html>
