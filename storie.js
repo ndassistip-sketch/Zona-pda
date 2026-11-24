@@ -19,3 +19,6 @@ function stHtml(){const E=evS();const rows=Object.keys(ST_F).filter(f=>E.flag[f]
 document.addEventListener("click",e=>{const b=e.target.closest('[data-a="archj"],[data-a="archv"]');if(!b)return;e.stopImmediatePropagation();e.preventDefault();
   if(b.dataset.a==="archv"){ui.arch=!ui.arch;render();return;}
   const j=L.pda.find(x=>x.id===b.dataset.k||String(x.id)===b.dataset.k);if(!j)return;j.arch=!j.arch;upd("pda",j.id,{arch:j.arch});toast(j.arch?"Lavoro archiviato.":"Lavoro ripristinato.");render();},true);
+/* mappa: i nomi non coprono i punti da toccare */
+(function(){const st=document.createElement("style");st.textContent=`.m2d-in .al{z-index:2}.m2d-in .al i{z-index:2}.m2d-in .al b{z-index:1;opacity:.9}
+.m2d.zz .m2d-in>span{pointer-events:none!important;opacity:.45}.m2d.zz2 .m2d-in>span:not(.mk){display:none}.m2d.zz .m2d-in>span.mk{opacity:.6}`;document.head.appendChild(st);})();
