@@ -1,3 +1,15 @@
+/* ===== prestazioni: salvataggi e ridisegni raggruppati (molte modifiche in un colpo = un solo ridisegno) ===== */
+let PF_T=null,PF_LS=new Set(),PF_LT=null;
+const pfRender=()=>{if(PF_T)return;PF_T=setTimeout(()=>{PF_T=null;try{render();}catch(e){console.error(e);}},16);};
+const pfLS=c=>{PF_LS.add(c);if(PF_LT)return;PF_LT=setTimeout(()=>{PF_LT=null;PF_LS.forEach(k=>{try{LS.set("pda."+k,L[k]);}catch(_){}});PF_LS.clear();},120);};
+(function(){try{
+  save=function(){dirty=true;clearTimeout(saveT);saveT=setTimeout(async()=>{const snap=clone(S);if(db){try{await db.doc("stato/main").set(snap);}catch(e){toast("Non salvato: riprovo alla prossima modifica.");}}else LS.set("pda.stato",snap);dirty=false;},450);pfRender();};
+  const _add=add,_upd=upd,_del=del;
+  add=function(c,data){if(db)return _add(c,data);const id=uid();L[c].push({id,...data,ts:Date.now()});pfLS(c);pfRender();return Promise.resolve(id);};
+  upd=function(c,id,data){if(db)return _upd(c,id,data);const x=L[c].find(y=>y.id===id);if(x)Object.assign(x,data);pfLS(c);pfRender();return Promise.resolve();};
+  del=function(c,id){if(db)return _del(c,id);L[c]=L[c].filter(y=>y.id!==id);pfLS(c);pfRender();return Promise.resolve();};
+  addEventListener("pagehide",()=>{PF_LS.forEach(k=>{try{LS.set("pda."+k,L[k]);}catch(_){}});});
+}catch(e){console.error(e);}})();
 /* ===== A-Life: punti d'interesse, fazioni che si muovono, controllo dei luoghi ===== */
 const AL_F={s:"Stalker liberi",d:"Dovere",l:"Libertà",b:"Banditi",m:"Mercenari",e:"Esercito",c:"Scienziati",o:"Monolite",x:"Mutanti"};
 const AL_COL={"Stalker liberi":"#d9c27a","Dovere":"#d0493b","Libertà":"#5fbf5a","Banditi":"#9a7b5a","Mercenari":"#5f87c9","Esercito":"#8a9a6a","Scienziati":"#e8e8e8","Monolite":"#b06ad8","Mutanti":"#e07b2a"};

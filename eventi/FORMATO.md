@@ -56,3 +56,12 @@ Ogni file in `eventi/` è `{"pacchetto":"Nome","eventi":[ … ]}`. Per caricare 
 - Dialoghi coi modelli: sanno dove sei, chi tiene il punto, chi c'è nel gruppo, mezzo, base e voci recenti.
 - 4 storie personali nuove (trattoria, orologio del padre, l'inseguito, i quadri della Zona); il passato della recluta suggerisce la sua storia nel 65% dei casi.
 - Equilibrio A-Life: rinforzi da fuori per le fazioni ridotte a pochi punti; l'Esercito resta nelle sue zone; banditi e scienziati più resistenti. Tempi di calcolo ridotti di circa 8 volte (memoria dei percorsi).
+
+## Persone vive, rete viva, dialoghi offline (anime.js, rete2.js, dialoghi.js)
+- Ogni persona (`stato/main.an.p[id]`) ha due tratti di carattere (`AN_CAR`, 16), un bisogno (`AN_BIS`), un segreto (`AN_SEG`, `sv`: 0 ignoto, 1 voce, 2 saputo), opinioni sugli altri (`op`, da −3 a +3), ricordi di te (`mem`), umore, ricchezza. In sandbox nasce un cast di 40 stalker sparsi per la Zona (`png.cast`); arrivano novellini quando scendono sotto 36.
+- Vita quotidiana: amicizie, liti tra nemici (a volte mortali, con segreti che nascono), morti nella Zona, artefatti, chi esce, chi sparisce (si può trovare andando nel punto giusto), chi cambia bandiera, debiti restituiti o no. Ogni fatto va in `an.fatti` e sulla rete.
+- Passaparola: quello che fai a uno lo sanno i suoi amici e i suoi nemici; storie, contratti e Scontri cambiano fiducia e ricordi.
+- Rete (`stato/main.rt`): Rete → Canale. Discussioni con autori veri e risposte nelle ore seguenti; lutti, voci (vere o false), mappa, aiuto, mercato, fazioni, domande, discorsi su di te. Il carattere cambia il modo di scrivere. Tu puoi pubblicare, vantarti, chiedere notizie, insultare una fazione, rispondere (gentile, ironico, duro). Taglie su di te (agguati) e su altri (cacciatori, o la vendetta di chi sopravvive).
+- Dialoghi offline: «Parla» nella linguetta Zona (chi è nel punto), nel Gruppo e in Rete → Persone («Scrivigli» a distanza). Argomenti: come sta, voci, opinioni sugli altri, chi è, segreti (Empatia + Persuasione), aiuto per il suo bisogno (prestito, consegna, vendetta o farla finita, ricerca), ricatto o silenzio, ingaggio, regolamento di conti (Scontro).
+- Drammi nel gruppo, ogni tanto la notte: liti, richieste di paga, nostalgia di casa, soldi spariti, notti buone.
+- Prestazioni: nella versione offline salvataggi e ridisegni sono raggruppati (un giorno di gioco su un telefono lento: da 2,7 s a 0,13 s).
