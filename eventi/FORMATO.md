@@ -33,3 +33,16 @@ Ogni file in `eventi/` è `{"pacchetto":"Nome","eventi":[ … ]}`. Per caricare 
 - Nei rifugi, nelle basi e dai mercanti amici (Stalker liberi o fazioni con Rapporto 1+) ogni giorno possono cercare lavoro 0–2 reclute, valide 3 giorni. Linguetta Gruppo → «Reclute». Si ingaggiano sul posto: ingaggio = 3 giorni di paga.
 - Ogni recluta ha provenienza, passato, due tratti (`RC_TR`), dado, Morale, slot e paga. Ruoli: scorta, esploratore (ogni giorno scopre un punto e porta una voce), meccanico (toglie un segno d'usura), medico (−1 Ferite), cuoco (−1 Fatica, −1 Nervi), guardia (resta nel punto). Col tratto adatto o con la dote l'effetto raddoppia.
 - Storia personale: uno dei 16 schemi di `RQ`, tre tappe in tre punti della mappa scelti all'ingaggio. La prima tappa si apre con fiducia 1+ o dopo 3 giorni. Le tappe diventano storie del motore (`rq-<id>-<n>`), con la recluta nel gruppo. Alla fine: fiducia +2 e una dote (`png.dote`). Se la storia resta ferma 10 giorni, la fiducia cala; a −2 la recluta se ne va. Stato in `png.rq` {q, p: [punti], x, st, last}.
+
+## La base (base.js)
+- Un rifugio, bunker, fattoria, accampamento o deposito vuoto diventa la base con 5.000 ₽ e 4 ore (Zona → «La base»). Sulla mappa è della fazione «La tua gente», ostile a banditi, Monolite e mutanti, e a chi ha Rapporto −2 o peggio con te.
+- Stanze (`BS_ST`): brande e stufa, officina, infermeria, deposito (nascondiglio sicuro), radio (contratti in più, avvisi degli attacchi), orto, serra, sacchi di sabbia, mitragliatrice fissa, campo minato. Un cantiere alla volta: 1 giorno di lavoro al giorno, +½ per guardia (+1 con Mani d'oro), +1 se ci sei.
+- Presidio = 1 + 2 per guardia + difese + 3 e il gruppo se ci sei + BRDM parcheggiato. Le guardie mangiano 1 cibo al giorno dalle scorte della base; d'inverno la stufa brucia 1 combustibile. Senza, la fiducia cala.
+- Se l'A-Life prende la base, una stanza va distrutta e le guardie muoiono o scappano. Si riprende con lo Scontro, «L'ho ripulito» e «Riprendi la base». Stato in `stato/main.al.base`.
+- Condizione nuova nelle storie: `base` (true = sei alla base; o il nome di una stanza che deve esserci). Esito: `basesc` {cibo, comb}.
+
+## Armi pesanti, mezzi, elicotteri (mezzi.js)
+- Listino: PKP «Pečeneg», RPG-7, razzi PG-7V e OG-7V, tanica di benzina. Gruppo «Armi pesanti» in Armeria; nello Scontro si tirano con Forza + Armi pesanti.
+- Mezzi (`MZ_V`): Niva, UAZ-469, ZIL-131, BRDM-2 (+ KPVT ai Magazzini). Si comprano al Bar, ai Magazzini (Libertà 1+), allo Skadovsk, al Cordone (Mercante 2+). Col mezzo «con te», il viaggio («Arrivato» o a tappe) dura la metà se il percorso evita Foresta Rossa, Pripjat' e centrale (il BRDM passa nella Foresta); consuma combustibile (ogni 2 ore il consumo del mezzo), Allerta +2 (+3 ZIL e BRDM), può guastarsi. Incustodito può essere rubato: garage (300 ₽/giorno) o officina della base. Stato in `stato/main.al.mz`.
+- Elicotteri: l'Esercito manda ogni tanto un Mi-24 (pattuglia) o un Mi-8 (sbarca una squadra). Se è nella tua zona e sei fuori dalla base con Allerta alta o col mezzo, parte la storia. Con l'RPG si abbattono (Rapporto Esercito −3).
+- Condizioni nuove: `heli` (true, "Mi-24", "Mi-8"), `mezzo`. Esiti: `abbatti`, `viaheli`, `mezzoseg`. Storie in `eventi/mezzi.json` (10).

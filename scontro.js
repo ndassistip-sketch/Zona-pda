@@ -110,7 +110,7 @@ function pgShoot(){const C=S.scontro;const W=inHand();const tg=scE(ui.scT)&&scE(
   if(!fire){toast("Con quest'arma: corpo a corpo.");return;}
   const rng=+(((w.s||"").match(/(\d+) m/)||[])[1]||100);if(DMAX[C.dist]>rng*2&&C.dist!=="corta"){toast(`Troppo lontano per ${W.nome} (${rng} m).`);return;}
   const testa=!!ui.scTesta;const steps=DM[C.dist]+(C.mira?1:0)-(tg.cop||0)-(testa?2:0)-(tg.mut?(MUT[tg.k].inv||0):0);const maxR=+(((w.s||"").match(/raffica (\d)/)||[])[1]||0);const m=Math.min(maxR,+ui.scRaff||0);
-  const R=qRoll("agilita","tiro",steps,W.id,m);if(!R)return;C.azL=1;C.mira=0;const pd=ammoPD(W.mun||"");const noise=(w.g==="pistola"?1:2)+(m?1:0);if(!/Silenziatore|silenziat/i.test((W.acc||[]).join(" "))){S.allerta=Math.min(6,(+S.allerta||0)+noise);}
+  const R=qRoll(...((typeof mzSk==="function")?mzSk(W):["agilita","tiro"]),steps,W.id,m);if(!R)return;C.azL=1;C.mira=0;const pd=ammoPD(W.mun||"");const noise=(w.g==="pistola"?1:2)+(m?1:0);if(!/Silenziatore|silenziat/i.test((W.acc||[]).join(" "))){S.allerta=Math.min(6,(+S.allerta||0)+noise);}
   if(!R.base){sgLog(C.log,`Spari a ${tg.n} (${R.dv}, passi ${steps>=0?"+":""}${steps}): mancato.`);if(R.jam)sgLog(C.log,"L'arma si inceppa: serve un'azione lenta.");return;}
   hitNpc(tg,pd.D+(R.base-1)+(C.dist==="corta"&&/pallettoni/.test(W.mun||"")?1:0),pd.P,`Spari a ${tg.n} (${R.dv})`,testa?"testa":null);
   for(let h=0;h<R.hits;h++){const t2=tg.stato==="ok"?tg:alive("loro")[0];if(!t2)break;hitNpc(t2,pd.D,pd.P,`Raffica, colpo in più su ${t2.n}`);}

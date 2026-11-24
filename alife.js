@@ -67,7 +67,7 @@ function alHour(){const A=alS();
   // le basi richiamano gente
   if(Math.random()<.25){const bs=AL_P.filter(p=>(p.t==="B"||p.t==="P"||p.t==="M"||p.t==="T")&&alCtl(p.id)[0]);if(bs.length){const c=A.c[alRand(bs).id];if(c[1]<10)c[1]++;}}
   // presidi che si consumano
-  if(Math.random()<.15){const occ=AL_P.filter(p=>alCtl(p.id)[1]>0&&p.t!=="B");if(occ.length){const p=alRand(occ);const c=A.c[p.id];c[1]--;if(c[1]<=0){const f=c[0];A.c[p.id]=["",0];alLog(p,`${p.n} (${p.z}) è rimasto vuoto: ${f==="Mutanti"?"i mutanti se ne sono andati":"quelli di "+f+" se ne sono andati"}.`);}}}}
+  if(Math.random()<.15){const occ=AL_P.filter(p=>alCtl(p.id)[1]>0&&p.t!=="B"&&alCtl(p.id)[0]!=="La tua gente");if(occ.length){const p=alRand(occ);const c=A.c[p.id];c[1]--;if(c[1]<=0){const f=c[0];A.c[p.id]=["",0];alLog(p,`${p.n} (${p.z}) è rimasto vuoto: ${f==="Mutanti"?"i mutanti se ne sono andati":"quelli di "+f+" se ne sono andati"}.`);}}}}
 function alTarget(f,h){const pref=AL_PREF[f]||[];const cand=[];for(const p of AL_P){if(p.id===h.id)continue;const hh=alZoneH(h.z,p.z);if(hh>(f==="Mutanti"?2:9))continue;const [g,n]=alCtl(p.id);let w=0;
     if(!g)w=3;else if(g===f)w=n<4?1.5:0;else if(alEne(f,g)){if(f==="Mutanti"&&n>3)continue;w=(g==="Mutanti"?1.6:1)*(n<=3?4:n<=6?1.5:.4);}else continue;
     if(f==="Scienziati")continue;if(f!=="Mutanti"&&pref.length)w*=pref.includes(p.z)?3:.25;if(p.main)w*=1.4;if(p.t==="A")w*=.4;w/=(1+hh/3);if(w>0)cand.push([p,w]);}
